@@ -1,33 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
-
 
 public class PlayerManager : HeroManager
 {
-    const float zeroZposition = -1.5f;      // позиция героя на ристалище 
-    const float zeroYrotation = 0f;         // вращение героя на ристалище   
-    const float startRotation = 270f;       // начальное вращение героя  
-    const float stockXposition = 2.2f;      // начальная позиция героя (позиция склада)
-
     // UI-элементы
-    [SerializeField]
-    private GameObject weaponSetButtonsObject;
-    [SerializeField]
-    private Button swordSwordButton;
-    [SerializeField]
-    private Button swordShieldButton;
-    [SerializeField]
-    private Button twoHandedSwordButton;
-
     public GameObject restartButtonObject;
-    public Slider tacticSlider;             // ссылка на слайдер тактики 
-    public Canvas m_PlayersControlsCanvas;  // компонент Canvas холста, содержащего в себе кнопки управления игрока
-    // отключаем именно компонент холста Canvas, чтобы не помечать сам объект-подканвас (элемент родительского канваса) как dirty с перестройкой род. канваса
+    public GameObject weaponSetButtonsObject;
+    public Button swordSwordButton;
+    public Button swordShieldButton;
+    public Button twoHandedSwordButton;
+    public Slider tacticSlider;                             // ссылка на слайдер тактики                
 
-    protected override void Awake()
+    public override void Awake()
     {
+        // получаем ссылки на объекты-оружия
+        m_Hero2HandedSword = GameObject.FindGameObjectWithTag("twohandedsword");
+        m_HeroSword = GameObject.FindGameObjectWithTag("sword");
+        m_HeroSword_2 = GameObject.FindGameObjectWithTag("sword_2");
+        m_HeroShield = GameObject.FindGameObjectWithTag("shield");
+
         // определимся со ссылками на слоты инвентория
         for (int i = 0; i < Inventory.numItemSlots; i++)
         {
@@ -35,35 +27,21 @@ public class PlayerManager : HeroManager
         }
 
         base.Awake();                                               // запустить базовую Awake из класса-родителя
-
-        inventory.CloseItemDescription();                           // Cкрыть описание инвентаря 
     }
 
-    protected override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)
+    public override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)
     {
         weaponSetButtonsObject.SetActive(false);                    // этот UI пока в пассив (кнопки сетов оружия)
-        m_PlayersControlsCanvas.enabled = false;                    // да и весь подканвас тоже
 
-        inventory.CloseItemDescription();                           // скрыть описание инвентаря (если он был выигран в предыдущем раунде)
+        zeroZposition = -1.5f;
+        zeroYrotation = 0f;
+        stockXposition = 2.2f;
 
-        // Установить начальное положение героя, задать исходное на ристалище 
-        m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
-
+        transform.rotation = Quaternion.Euler(0f, 270f, 0f);        // установить начальное вращение
         base.OnEnable();                                            // запустить бозовую OnEnable из класса-родителя
     }
 
-    private void Start()
-    {
-        m_PlayersControlsCanvas.enabled = false;                    // Заблокировать кнопки управления игроку в начале игры
-    }
-
-    protected override void OnExchange2()
-    {
-        m_PlayersControlsCanvas.enabled = false;
-        base.OnExchange2();
-    }
-
-    public void AttackPressed()                    
+    public void AttackPressed()                       // по нажатию кнопки атаки
     {
         decision = Decision.Attack;
         weaponSetButtonsObject.SetActive(false);         // убираем кнопки сетов оружия, если вдруг до "атака" игрок нажимал "смену оружия"
@@ -83,7 +61,7 @@ public class PlayerManager : HeroManager
         SceneManager.LoadScene(0);                          // на перезагрузку сцены
     }
 
-    public override void SetSwordSword()                     // по нажатию кнопки, например, меч-меч.
+    public override void SetSwordSword()                     // по нажатию кнопки, например, меч-меч. Не override, так как в классе-родителе не virtual (обязателен к переопределению)
     {
         base.SetSwordSword();
         decision = Decision.ChangeSwordSword;
@@ -97,8 +75,8 @@ public class PlayerManager : HeroManager
     {
         base.SetSwordShield();
         decision = Decision.ChangeSwordShield;
-        weaponSetButtonsObject.SetActive(false);            
-        swordShieldButton.enabled = true;                  
+        weaponSetButtonsObject.SetActive(false);            // убираем кнопки сетов
+        swordShieldButton.enabled = true;                   // но делаем все их доступными для следующей смены
         swordSwordButton.enabled = true;
         twoHandedSwordButton.enabled = true;
     }
@@ -107,8 +85,8 @@ public class PlayerManager : HeroManager
     {
         base.SetTwoHandedSword();
         decision = Decision.ChangeTwoHandedSword;
-        weaponSetButtonsObject.SetActive(false);            
-        swordShieldButton.enabled = true;                   
+        weaponSetButtonsObject.SetActive(false);    // убираем кнопки сетов
+        swordShieldButton.enabled = true;           // но делаем все их доступными для следующей смены
         swordSwordButton.enabled = true;
         twoHandedSwordButton.enabled = true;
     }

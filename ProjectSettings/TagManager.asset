@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - sword
+  - twohandedsword
+  - shield
+  - sword_2
+  - twohandedsword_enemy
+  - sword_enemy
+  - sword_2_enemy
+  - shield_enemy
+  - itemSlot_player
+  - itemSlot_enemy
+  - ItemDescription
+  - Enemy
   layers:
   - Default
   - TransparentFX
