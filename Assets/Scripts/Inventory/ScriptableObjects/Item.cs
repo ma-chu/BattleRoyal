@@ -1,38 +1,82 @@
 ﻿using UnityEngine;
+#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе
 
 // This simple script represents Items that can be picked
 // up in the game.  The inventory system is done using
 // this script instead of just sprites to ensure that items
 // are extensible.
 
-[CreateAssetMenu]                       // позволяет добавлять себя себя через меню редактора Assets|Create
-public class Item : ScriptableObject    // наследование от ScriptableObject означает, что мы можем сохранить этот скрипт как asset (и создавать его instance-ы)
+[CreateAssetMenu]                                   // позволяет добавлять себя себя через меню редактора Assets|Create
+public class Item : ScriptableObject                // наследование от ScriptableObject означает, что мы можем сохранить этот скрипт как asset (и создавать его instance-ы)
 {
-    public Sprite sprite;               // картинка
-    public string description;          // описание
+    [SerializeField]
+    private Sprite sprite;                          // картинка
+    [SerializeField]
+    private string description;                     // описание
 
     // модификаторы предмета
-    public int damageModifier;          // модификатор значения урона, %
-    public bool damageModMulAdd;        // true - мультипликативный, false - аддитивный
+    [SerializeField]
+    private int damageModifierAdd;                   // модификатор значения урона, аддитивный, абс.единицы
+    //public int damageModifierMul;                  // модификатор значения урона, мультипликативный, %
+    [SerializeField]
+    private int blockChanceModifier;                 // модификатор значения блока щитом, мультипликативный, %
+    [SerializeField]
+    private int evadeOnChangeChanceModifier;         // модификатор значения шанса уворота на смене, мультипликативный, %
+    [SerializeField]
+    private int coefSecondSwordModifier;             // модификатор значения силы удара вторым мечом относительно базового первого, мультипликативный, %
+    [SerializeField]
+    private int coef2HandSwordModifier;              // модификатор значения силы удара двурой, мультипликативный, %
+    [SerializeField]
+    private int startHealthModifierMul;              // модификатор значения начального здоровья, мультипликативный, %
+    [SerializeField]
+    private int startHealthModifierAdd;              // модификатор значения начального здоровья, аддитивный, абс.ед.
+    [SerializeField]
+    private int part2HandedThroughShieldModifier;    // модификатор значения доля урона двурой, что проходит сквозь щит, мультипликативный, %
+    [SerializeField]
+    private int parringChanceModifier;               // модификатор значения шанса парирования, АДДИТИВНЫЙ, %
 
-    public int blockChanceModifier;     // модификатор значения блока щитом, %
-    public bool blockChanceModMulAdd;   // true - мультипликативный, false - аддитивный
-
-    public int evadeOnChangeChanceModifier;   // модификатор значения шанса уворота на смене, %
-    public bool evadeOnChangeChanceModMulAdd; // true - мультипликативный, false - аддитивный
-
-    public int koefSecondSwordModifier;  // модификатор значения силы второго удара относительно первого, %
-    public bool koefSecondSwordModMulAdd;// true - мультипликативный, false - аддитивный
-
-    public int koef2HandSwordModifier;  // модификатор значения силы удара двурой, %
-    public bool koef2HandSwordModMulAdd;// true - мультипликативный, false - аддитивный
-
-    public int startHealthModifier;     // модификатор значения начального здоровья, %
-    public bool startHealthModMulAdd;   // true - мультипликативный, false - аддитивный
-
-    public int part2HandedThroughShieldModifier;  // модификатор значения доля урона двурой, что проходит сквозь щит, %
-    public bool part2HandedThroughShieldModMulAdd;// true - мультипликативный, false - аддитивный
-
-    public int parringChanceModifier;    // модификатор значения шанса парирования, %
-    public bool parringChanceModMulAdd;  // true - мультипликативный, false - аддитивный
+    public Sprite Sprite
+    {
+        get {return sprite;}
+    }
+    public string Description
+    {
+        get { return description; }
+    }
+    public int DamageModifierAdd
+    {
+        get { return damageModifierAdd; }
+    }
+    public int BlockChanceModifier
+    {
+        get { return blockChanceModifier; }
+    }
+    public int EvadeOnChangeChanceModifier
+    {
+        get { return evadeOnChangeChanceModifier; }
+    }
+    public int CoefSecondSwordModifier
+    {
+        get { return coefSecondSwordModifier; }
+    }
+    public int Coef2HandSwordModifier
+    {
+        get { return coef2HandSwordModifier; }
+    }
+    public int StartHealthModifierMul
+    {
+        get { return startHealthModifierMul; }
+    }
+    public int StartHealthModifierAdd
+    {
+        get { return startHealthModifierAdd; }
+    }
+    public int Part2HandedThroughShieldModifier
+    {
+        get { return part2HandedThroughShieldModifier; }
+    }
+    public int ParringChanceModifier
+    {
+        get { return parringChanceModifier; }
+    }
 }
