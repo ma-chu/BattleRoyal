@@ -21,7 +21,7 @@ public class PauseManager : MonoBehaviour {
 	
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))               //?? равно ли нажатию "назад" на телефоне?
+		if (Input.GetKeyDown(KeyCode.Escape))                // равно нажатию "назад" на телефоне
 		{
 			Pause();                                         // эта же функция вызывается по нажатию кнопки resume доп. меню при помощи UnityEvents
 		}
