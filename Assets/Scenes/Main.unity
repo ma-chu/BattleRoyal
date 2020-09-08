@@ -7859,11 +7859,7 @@ MonoBehaviour:
   m_audioClip_GameOver: {fileID: 8300000, guid: 5050947494b51c74a91ed3bfbe9370b2,
     type: 3}
   m_FireExplodePrefab: {fileID: 199484, guid: bf27844d805522447933dc21e304c99b, type: 3}
-  m_FireExplodeaudioClip1: {fileID: 8300000, guid: 972175ce9fa18aa46a16fa782fcd6dbc,
-    type: 3}
-  m_FireExplodeaudioClip2: {fileID: 8300000, guid: c3b3b49ee2fbc124fb7ce90e8fc3331b,
-    type: 3}
-  m_FireExplodeaudioClip3: {fileID: 8300000, guid: e42971ea166737148bfac95826870963,
+  m_FireExplodeaudioClip: {fileID: 8300000, guid: 972175ce9fa18aa46a16fa782fcd6dbc,
     type: 3}
   m_ExplodesInterval: 1
   stupitidyChangeDelay: 0

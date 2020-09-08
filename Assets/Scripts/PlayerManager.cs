@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
-
 
 public class PlayerManager : HeroManager
 {
@@ -34,27 +32,27 @@ public class PlayerManager : HeroManager
             itemSlots = GameObject.FindGameObjectsWithTag("itemSlot_player");
         }
 
-        base.Awake();                                               // запустить базовую Awake из класса-родителя
+        base.Awake();                                               
 
         inventory.CloseItemDescription();                           // Cкрыть описание инвентаря 
     }
 
     protected override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)
     {
-        weaponSetButtonsObject.SetActive(false);                    // этот UI пока в пассив (кнопки сетов оружия)
-        m_PlayersControlsCanvas.enabled = false;                    // да и весь подканвас тоже
+        weaponSetButtonsObject.SetActive(false);                    
+        m_PlayersControlsCanvas.enabled = false;                    
 
         inventory.CloseItemDescription();                           // скрыть описание инвентаря (если он был выигран в предыдущем раунде)
 
         // Установить начальное положение героя, задать исходное на ристалище 
         m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
 
-        base.OnEnable();                                            // запустить бозовую OnEnable из класса-родителя
+        base.OnEnable();                                            
     }
 
     private void Start()
     {
-        m_PlayersControlsCanvas.enabled = false;                    // Заблокировать кнопки управления игроку в начале игры
+        m_PlayersControlsCanvas.enabled = false;                  
     }
 
     protected override void OnExchange2()
@@ -69,9 +67,9 @@ public class PlayerManager : HeroManager
         weaponSetButtonsObject.SetActive(false);         // убираем кнопки сетов оружия, если вдруг до "атака" игрок нажимал "смену оружия"
     }
 
-    public void ChangeWeaponPressed()                       // по нажатию кнопки смены оружия
+    public void ChangeWeaponPressed()                      
     {
-        weaponSetButtonsObject.SetActive(true);         // вываливаем кнопки сетов оружия
+        weaponSetButtonsObject.SetActive(true);        
 
         if (weaponSet == WeaponSet.SwordShield) swordShieldButton.enabled = false;    // не даём выбрать тот же сет
         if (weaponSet == WeaponSet.SwordSword) swordSwordButton.enabled = false;
@@ -83,7 +81,7 @@ public class PlayerManager : HeroManager
         SceneManager.LoadScene(0);                          // на перезагрузку сцены
     }
 
-    public override void SetSwordSword()                     // по нажатию кнопки, например, меч-меч.
+    public override void SetSwordSword()                     
     {
         base.SetSwordSword();
         decision = Decision.ChangeSwordSword;

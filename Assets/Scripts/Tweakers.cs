@@ -10,9 +10,9 @@ public class Tweakers                                      // Настройки
     [SerializeField]
     private int damageBaseMax;                          // максимальный базовый урон
     [SerializeField]
-    private float coef2HandedSword;                     // увеличение урона при двуручнике
+    private float coef2HandedSword;                     // увеличение урона при двуручнике относительно базового
     [SerializeField]
-    private float coefSecondSword;                      // уменьшение при ударе вторым мечом
+    private float coefSecondSword;                      // уменьшение при ударе вторым мечом относительно базового
     [SerializeField]
     private float blockChance;                          // шанс блока шитом
     [SerializeField]
@@ -67,7 +67,7 @@ public class Tweakers                                      // Настройки
         get { return startingHealth; }
     }
 
-    public Tweakers()                                  // значения по-умолчанию
+    public Tweakers()                                          // значения по-умолчанию
     {
         damageBaseMin = 5;
         damageBaseMax = 15;

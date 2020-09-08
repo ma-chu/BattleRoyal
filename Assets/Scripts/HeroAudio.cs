@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 //  ОЗВУЧКА ГЕРОЯ
 public class HeroAudio : MonoBehaviour      
 {
@@ -54,25 +53,31 @@ public class HeroAudio : MonoBehaviour
 
     private void OnEnable()                 
     {
-        heroManager.GetHitEvent += OnHit;
-        heroManager.DeathEvent += OnDeath;
-        heroManager.ChangeEvent += OnChange;
-        heroManager.ToPositionEvent += OnToPosition;
-        heroManager.ParryEvent += OnParry;
-        heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-        heroManager.BlockEvent += OnBlock;
-        heroManager.EvadeEvent += OnEvade;
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent += OnHit;
+            heroManager.DeathEvent += OnDeath;
+            heroManager.ChangeEvent += OnChange;
+            heroManager.ToPositionEvent += OnToPosition;
+            heroManager.ParryEvent += OnParry;
+            heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+            heroManager.BlockEvent += OnBlock;
+            heroManager.EvadeEvent += OnEvade;
+        }
     }
     private void OnDisable()    
     {
-        heroManager.GetHitEvent -= OnHit;
-        heroManager.DeathEvent -= OnDeath;
-        heroManager.ChangeEvent -= OnChange;
-        heroManager.ToPositionEvent -= OnToPosition;
-        heroManager.ParryEvent -= OnParry;
-        heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-        heroManager.BlockEvent -= OnBlock;
-        heroManager.EvadeEvent -= OnEvade;
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent -= OnHit;
+            heroManager.DeathEvent -= OnDeath;
+            heroManager.ChangeEvent -= OnChange;
+            heroManager.ToPositionEvent -= OnToPosition;
+            heroManager.ParryEvent -= OnParry;
+            heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+            heroManager.BlockEvent -= OnBlock;
+            heroManager.EvadeEvent -= OnEvade;
+        }
     }
 
     private void OnHit(int strikeNumber)

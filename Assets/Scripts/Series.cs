@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 //  СЕРИИ ГЕРОЯ
 public class Series : MonoBehaviour
 {
-
     // ПАРАМЕТРЫ для рассчета бонусов за серии:
     public float strongStrikeMin = 14;               // минимальный урон для определения сильных ударов
     public int strongStrikeSeriesBeginning = 2;      // после какого удара начинаются бонусы за сильные удары    
@@ -42,9 +40,9 @@ public class Series : MonoBehaviour
     private Slider m_SeriesOfStrikesStarSlider;
     [SerializeField]
     private Image m_SeriesOfStrikesStarFillImage;
+    
     [SerializeField]
-    // аудио-сорс для звука достижения серии
-    private AudioSource SFXAudio;
+    private AudioSource SFXAudio;               // аудио-сорс для звука достижения серии
 
     [SerializeField]                            // может, как-то получить через GetComponent?
     private HeroManager heroManager;
@@ -118,11 +116,11 @@ public class Series : MonoBehaviour
     }
 
     // 2. Добавить к урону бонусы за серии ударов
-    public void AddSeriesDamage(ref float damage)       // параметр передаем по ссылке и изменяем
+    public float AddSeriesDamage()  
     {
-        // за серию ударов
-        damage += seriesOfStrikesNum > seriesStrikeBeginning ? ((seriesOfStrikesNum - seriesStrikeBeginning) * seriesStrikeStepValue) : 0;
-        // за кол-во сильных ударов
-        damage += strongStrikesNum > strongStrikeSeriesBeginning ? ((strongStrikesNum - strongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0; 
+        float damage;
+        damage = seriesOfStrikesNum > seriesStrikeBeginning ? ((seriesOfStrikesNum - seriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
+        damage += strongStrikesNum > strongStrikeSeriesBeginning ? ((strongStrikesNum - strongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
+        return damage;
     }
 }

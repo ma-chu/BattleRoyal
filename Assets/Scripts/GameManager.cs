@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;                                             // Events здесь
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
-
+using System;                                             // для Events
+// #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
+// nowarn:0649 - а можно просто сделать одну такую строку в файле Assets\csc.rsp 
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
 public enum Players : short { Player, Enemy, Nobody };                                                  // варианты победителей раундов и игры
 public enum Decision : short { Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword, No }; // варианты действий героя - импульс на 1 такт
 public enum ExchangeResult : short { Evade, Parry, BlockVs2Handed, Block, GetHit, No };                 // варианты исхода размена ударами для каждого противника
 
 public class GameManager : MonoBehaviour {
-
+    // Вообще, статические события лучше не юзать: подписываясь на них, мы создаем ссылки на HeroManager в объекте (статическом), который не будет уничтожен,
+    // пока существует класс GameManager, то есть пока не закончится работа программа. Но в данном случае все мои два HeroManager-а тоже вечны
     public static event Action ExchangeEvent1;             // удар1 состоялся
     public static event Action ExchangeEvent2;             // удар2 состоялся
-    public static event Action ExchangeEndedEvent;         // сход закончен
+    public static event Action ExchangeEndedEvent;         // весь сход закончен
 
     [SerializeField]
     private PlayerManager m_Player;                        // ссылка на менеджер игрока
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour {
 
     // Стафф конца игры
     [SerializeField]
-    private Animator m_gameOverAnimator;                    // компонент-аниматор канваса, появляющегося в конце игры
+    private Animator m_gameOverAnimator;                    
     [SerializeField]
     private AudioSource SFXAudio;                           // аудио-сорс общих звуковых эффектов игры: пока только звук конца игры
     // SFX и VFX победы
@@ -57,11 +58,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private GameObject m_FireExplodePrefab;                 // ссылка на объект-салют (префаб, состоящий из particle system и звука)
     [SerializeField]
-    private AudioClip m_FireExplodeaudioClip1;              // ссылки на клипы салюта
-    [SerializeField]
-    private AudioClip m_FireExplodeaudioClip2;
-    [SerializeField]
-    private AudioClip m_FireExplodeaudioClip3;
+    private AudioClip m_FireExplodeaudioClip;               // аудио-клип салюта
     private AudioSource m_FireExplodeAudio;                 // ссылки на компоненты конкретного инстанса префаба салюта
     private ParticleSystem m_FireExplodeParticles;
     [SerializeField]
@@ -94,11 +91,14 @@ public class GameManager : MonoBehaviour {
         m_gameWinner = GameWinner();
         if (m_gameWinner!=Players.Nobody)                                // победитель игры определен
         {
-            m_resultText.text = "GAME OVER! "+ m_gameWinner + " WIN";
+            m_resultText.text = "GAME OVER! "+ m_gameWinner.ToString() + " WIN";
             m_gameOverAnimator.SetTrigger("GameOver");                   // запуск анимации конца игры
             SFXAudio.clip = m_audioClip_GameOver;                        // звук конца игры
             SFXAudio.Play();
-            if (m_gameWinner == Players.Player) yield return StartCoroutine(Salute());
+            if (m_gameWinner == Players.Player)
+            {
+                yield return StartCoroutine(Salute());
+            }
             yield return m_EndWait;                                      // подождать 3.5 сек
             m_Player.restartButtonObject.SetActive(true);
         }
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator GameStarting()                  // начало игры
     {      
-        m_resultText.text = "Defeat " + m_NumRoundsToWin + " knights to win the Tournament!";
+        m_resultText.text = "Defeat " + m_NumRoundsToWin.ToString() + " knights to win the Tournament!";
 
         yield return m_StartWait;                        
     }
@@ -120,9 +120,10 @@ public class GameManager : MonoBehaviour {
         //1. Увеличить номер раунда.
         m_roundNumber++;
         //2. Сформировать и вывести информационное сообщение.
-        m_resultText.text="ROUND " + m_roundNumber;
+        m_resultText.text="ROUND " + m_roundNumber.ToString();
         //3. Установить стартовые параметры игроку и врагу: твикеры (с учетом инвентаря), здоровье, начальные позиции и пр. Заблокировать кнопки управления игроку.
         // в самом начале игры инвентарь не сработает
+        // ВОЗМОЖНО, тут лучше вызвать событие, и принять его не только HeroManager-ом, но и HP и пр.
         m_Player.enabled = true;
         m_Enemy.enabled = true;
         //4. Установить задержку на тупизну
@@ -162,7 +163,7 @@ public class GameManager : MonoBehaviour {
                 {
                     case WeaponSet.SwordShield:
                         m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin, m_Player.m_Tweakers.DamageBaseMax + 1);
-                        m_Player.series.AddSeriesDamage(ref m_Enemy.damage1);
+                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
                         m_Enemy.damage2 = 0f;
                         m_Player.block1 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.BlockChance);
                         m_Player.block2 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.BlockChance);
@@ -170,16 +171,16 @@ public class GameManager : MonoBehaviour {
                         break;
                     case WeaponSet.SwordSword:
                         m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin, m_Player.m_Tweakers.DamageBaseMax + 1);
-                        m_Player.series.AddSeriesDamage(ref m_Enemy.damage1);
+                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
                         m_Enemy.damage2 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin * m_Player.m_Tweakers.CoefSecondSword, m_Player.m_Tweakers.DamageBaseMax * m_Player.m_Tweakers.CoefSecondSword);
-                        m_Player.series.AddSeriesDamage(ref m_Enemy.damage2);
+                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
                         m_Player.block1 = false;
                         m_Player.block2 = false;
                         m_Player.blockVs2Handed = false;
                         break;
                     case WeaponSet.TwoHandedSword:
                         m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin * m_Player.m_Tweakers.Coef2HandedSword, m_Player.m_Tweakers.DamageBaseMax * m_Player.m_Tweakers.Coef2HandedSword);
-                        m_Player.series.AddSeriesDamage(ref m_Enemy.damage1);
+                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
                         m_Enemy.damage2 = 0f;
                         m_Player.block1 = false;
                         m_Player.block2 = false;
@@ -210,7 +211,7 @@ public class GameManager : MonoBehaviour {
                 {
                     case WeaponSet.SwordShield:
                         m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin, m_Enemy.m_Tweakers.DamageBaseMax + 1);
-                        m_Enemy.series.AddSeriesDamage(ref m_Player.damage1);
+                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
                         m_Player.damage2 = 0f;
                         m_Enemy.block1 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.BlockChance);
                         m_Enemy.block2 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.BlockChance);
@@ -218,16 +219,16 @@ public class GameManager : MonoBehaviour {
                         break;
                     case WeaponSet.SwordSword:
                         m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin, m_Enemy.m_Tweakers.DamageBaseMax + 1);
-                        m_Enemy.series.AddSeriesDamage(ref m_Player.damage1);
+                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
                         m_Player.damage2 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin * m_Enemy.m_Tweakers.CoefSecondSword, m_Enemy.m_Tweakers.DamageBaseMax * m_Enemy.m_Tweakers.CoefSecondSword);
-                        m_Enemy.series.AddSeriesDamage(ref m_Player.damage2);
+                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
                         m_Enemy.block1 = false;
                         m_Enemy.block2 = false;
                         m_Enemy.blockVs2Handed = false;
                         break;
                     case WeaponSet.TwoHandedSword:
-                        m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin * m_Enemy.m_Tweakers.Coef2HandedSword, m_Enemy.m_Tweakers.DamageBaseMax * m_Enemy.m_Tweakers.Coef2HandedSword);
-                        m_Enemy.series.AddSeriesDamage(ref m_Player.damage1);
+                        m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin * m_Enemy.m_Tweakers.Coef2HandedSword, m_Enemy.m_Tweakers.DamageBaseMax * m_Enemy.m_Tweakers.Coef2HandedSword);      
+                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
                         m_Player.damage2 = 0f;
                         m_Enemy.block1 = false;
                         m_Enemy.block2 = false;
@@ -258,7 +259,7 @@ public class GameManager : MonoBehaviour {
                     if (m_Enemy.parry1)                                                 // А. парирование
                     {
                         m_Enemy.exchangeResult1 = ExchangeResult.Parry;
-                        m_Enemy.series.seriesOfBlocksNum++;                             // Может, вот это должно уйти в SERIES по событию парирования... не, не получится
+                        m_Enemy.series.seriesOfBlocksNum++;                             // Может, вот это должно уйти в SERIES по событию парирования... нет, не получится
                     }                                                                   
                     else if (m_Enemy.blockVs2Handed)                                    // Б. пробитие щита двуручником
                     {
@@ -340,8 +341,8 @@ public class GameManager : MonoBehaviour {
                     m_Enemy.series.CheckAndSetSeriesOfStrikes();
                 }
 
-                // I. Удар1 состоялся  - запустить событие 
-                ExchangeEvent1?.Invoke();
+                // I. Удар1 состоялся  - запустить событие. 
+                ExchangeEvent1?.Invoke();       // эта запись равносильна такой: if (ExchangeEvent1 != null) ExchangeEvent1 ();
 
                 //f. Теперь определим, какой нанести урон, на основе предварительных коэффицентов и решения. Удар 2.
                 if ((m_Player.decision == Decision.Attack)&&(m_Enemy.damage2 != 0f))     
@@ -477,7 +478,7 @@ public class GameManager : MonoBehaviour {
         m_Enemy.enabled = false;
         yield return m_DeathWait;                           // используем m_DeathWait ( 2.5 сек), чтоб не плодить сущности
         //2. Вывести информационное сообщение.
-        m_resultText.text = "in ROUND " + m_roundNumber + " " + m_roundWinner + " wins";
+        m_resultText.text = "in ROUND " + m_roundNumber.ToString() + " " + m_roundWinner + " wins";
         //3. Выдать игроку пункт инвентаря за победу в раунде
         if (m_roundWinner == Players.Player)
         {
@@ -610,19 +611,17 @@ public class GameManager : MonoBehaviour {
         // первый выстрел
         m_FireExplodeParticles = Instantiate(m_FireExplodePrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба взрыва и берем компонент этого инстанса
         m_FireExplodeAudio = m_FireExplodeParticles.GetComponent<AudioSource>();                     // берём другой компонент (можно ссылаться на объект по его компоненту)   
-        m_FireExplodeAudio.clip = m_FireExplodeaudioClip1;
+        m_FireExplodeAudio.clip = m_FireExplodeaudioClip;
         m_FireExplodeParticles.transform.position = new Vector3(-1f, 2f, 2.35f);
-        m_FireExplodeParticles.Play();                                    // воспроизводим систему частиц
-        m_FireExplodeAudio.Play();                                        // воспроизводим аудио
-        yield return m_ExplodesWait;                                      // ждём
+        m_FireExplodeParticles.Play();                                    
+        m_FireExplodeAudio.Play();                                        
+        yield return m_ExplodesWait;                                      
         // второй выстрел
-        m_FireExplodeAudio.clip = m_FireExplodeaudioClip2;
         m_FireExplodeParticles.transform.position = new Vector3(-3f, 2.5f, 2.55f);
         m_FireExplodeParticles.Play();                                    
         m_FireExplodeAudio.Play();                                       
         yield return m_ExplodesWait;                                      
         // третий выстрел
-        m_FireExplodeAudio.clip = m_FireExplodeaudioClip3;
         m_FireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
         m_FireExplodeParticles.Play();                                    
         m_FireExplodeAudio.Play();                                        

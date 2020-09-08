@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 //  ЗДОРОВЬЕ ГЕРОЯ
 public class HP : MonoBehaviour
 {
@@ -16,13 +15,13 @@ public class HP : MonoBehaviour
     private Color m_ZeroHealthColor = Color.red;         // цвет для 0% здоровья
     [SerializeField]
     private float m_CurrentHealth;                       // текущее количество здоровья  
-    private float m_StartHealth = 100f;
+    private float m_StartHealth = 100f;                  // начальное количество здоровья 
 
     public void SetStartHealth(float startHealth)        // Установить начальное здоровье
     {
         m_StartHealth = startHealth;
-        m_CurrentHealth = startHealth;
-        SetHealthUI();                                   // двигаем слайдер (и корректируем его цвет)
+        m_CurrentHealth = m_StartHealth;
+        SetHealthUI();                                   
     }
     // ПРИНЯТЬ УДАР
     public bool TakeDamage(float amount)                // public, следовательно будет вызываться другим объектом - менеджером игры
@@ -34,7 +33,7 @@ public class HP : MonoBehaviour
         else return false;
     }
 
-    public void RegenHealth(float amount)        
+    public void RegenHealth(float amount)               // регенерация здоровья (за серию блоков). Вызывается Series-ом  
     {
         m_CurrentHealth += amount;                            
         SetHealthUI();                                             

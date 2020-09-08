@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;                   // Events здесь
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
 public class HeroManager : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class HeroManager : MonoBehaviour
 
     // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений
     public event Action DeathEvent;                     
-    private void InvokeDeathEvent()                          
+    private void InvokeDeathEvent()                         // Вызываем из HP           
     {
         m_dead = true;
         DeathEvent?.Invoke();
@@ -72,7 +71,7 @@ public class HeroManager : MonoBehaviour
     protected MeshRenderer shieldMeshRenderer;
     protected MeshRenderer twoHandedSwordMeshRenderer;
 
-    protected virtual void Awake()                             // вызывается (1 раз) перед start, даже если скрипт неактивен
+    protected virtual void Awake()                             
     {
         m_Tweakers = new Tweakers();
 
@@ -97,7 +96,7 @@ public class HeroManager : MonoBehaviour
         if (!m_HeroAnimation.enabled) m_HeroAnimation.enabled = true;   // переинициализируем движетеля героя
 
         m_Tweakers = new Tweakers();                                    // переинициализируем твикеры героя на дефолтные
-        m_Tweakers.AddInventoryTweakers(inventory);                     // учтём твикеры инвентаря
+        m_Tweakers.AddInventoryTweakers(inventory);                     
 
         _HP.SetStartHealth(m_Tweakers.StartingHealth);                  // здоровье на максимум
 
@@ -128,7 +127,7 @@ public class HeroManager : MonoBehaviour
         m_HeroAnimation.enabled = false;
     }
 
-    public virtual void SetSwordSword()                     // по нажатию кнопки, например, меч-меч 
+    public virtual void SetSwordSword()                                 // по нажатию кнопки, например, меч-меч 
     {
         weaponSet = WeaponSet.SwordSword;
     }
@@ -143,7 +142,7 @@ public class HeroManager : MonoBehaviour
         weaponSet = WeaponSet.TwoHandedSword;
     }
 
-    // Ф-ии запускатели событий, что подписываются на GameManager.ExchangeEvent1-2
+    // Функции-запускатели событий этого класса, что подписываются на GameManager.ExchangeEvent1-2
     private void OnExchange1()
     {
         if ((exchangeResult1 == ExchangeResult.GetHit) || (exchangeResult1 == ExchangeResult.BlockVs2Handed))
@@ -168,7 +167,7 @@ public class HeroManager : MonoBehaviour
 
         if ((exchangeResult2 == ExchangeResult.GetHit) && !m_dead)    // если не помер после первого удара
         {
-            GetHitEvent?.Invoke(2);                                   // то бьем второй
+            GetHitEvent?.Invoke(2);                                   // то принимаем второй
             if (_HP.TakeDamage(damage2)) InvokeDeathEvent();  
         }
 

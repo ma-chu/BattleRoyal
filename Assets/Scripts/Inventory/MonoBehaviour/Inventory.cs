@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    // Зачем вся эта басня с разными массивами? Почему не сделать один массив Item[]? Для производительности? Да нет, похоже, объект Sprite и компонент Image - разные вещи
     public Image[] itemImages = new Image[numItemSlots];    // The Image components that display the Items.
     public Item[] items = new Item[numItemSlots];           // The Items that are carried by the player. Cам тип Item (наследует от ScriptableObject) описан в одноименном файле
 
@@ -54,8 +53,8 @@ public class Inventory : MonoBehaviour
             if (items[i] == itemToRemove)
             {
                 // ... set the item slot to null and set the image component to display nothing.
-                items[i] = null;                            // сам item долой из массива
-                itemImages[i].sprite = null;                // картиночку - из массива картинок
+                items[i] = null;                            
+                itemImages[i].sprite = null;                
                 itemImages[i].enabled = false;              // чтобы при пустом слоте было пусто, а не белый фон
                 return;
             }
@@ -73,7 +72,7 @@ public class Inventory : MonoBehaviour
             itemDescription.text = items[index].Description;
             itemImage.sprite = items[index].Sprite;
             //itemDescriptionObject.SetActive(true); - так будет перебатчен родительский холст
-            itemDescriptionObject.GetComponent<Canvas>().enabled = true;
+            itemDescriptionObject.GetComponent<Canvas>().enabled = true; // так производительнее
 
         }
     }

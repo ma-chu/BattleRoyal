@@ -35,6 +35,6 @@ public class AllItems : ScriptableObject    // конструктор наход
             instance.items = Resources.LoadAll("Items", typeof(Item)).Cast<Item>().ToArray(); // загрузить всё из ресурсов и отобрать объекты класса Item
             return instance;
         }
-        set { instance = value; }                                 // есть set, => свойству Instance можно присваивать (не read-only)
+        set { instance = value; }                                 
     }
 }

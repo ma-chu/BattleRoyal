@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
 public class EnemyManager : HeroManager
 {
@@ -40,7 +39,7 @@ public class EnemyManager : HeroManager
             itemSlots = GameObject.FindGameObjectsWithTag("itemSlot_enemy");
         }
 
-        base.Awake();                                               // запустить базовую Awake из класса-родителя
+        base.Awake();                                              
 
     }
 
@@ -115,7 +114,7 @@ public class EnemyManager : HeroManager
                 break;
         }
 
-        base.OnEnable();                           // запустить бозовую OnEnable из класса-родителя
+        base.OnEnable();                           
 
         //2. Усложнить игру базовым уроном в зависимости от кол-ва выигранных раундов
         m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);

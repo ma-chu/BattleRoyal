@@ -1,36 +1,36 @@
-// Напишем собственный редактор для удобства показа Inventory в редакторе юнити
+п»ї// РќР°РїРёС€РµРј СЃРѕР±СЃС‚РІРµРЅРЅС‹Р№ СЂРµРґР°РєС‚РѕСЂ РґР»СЏ СѓРґРѕР±СЃС‚РІР° РїРѕРєР°Р·Р° Inventory РІ СЂРµРґР°РєС‚РѕСЂРµ СЋРЅРёС‚Рё
 using UnityEngine;
-using UnityEditor;                          // для работы с редактором юнити (классами, его описывающими)
-using System.Linq;                          // для метода Cast<Item>()        
+using UnityEditor;                          // РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ СЂРµРґР°РєС‚РѕСЂРѕРј СЋРЅРёС‚Рё (РєР»Р°СЃСЃР°РјРё, РµРіРѕ РѕРїРёСЃС‹РІР°СЋС‰РёРјРё)
+using System.Linq;                          // РґР»СЏ РјРµС‚РѕРґР° Cast<Item>()        
 
-[CustomEditor(typeof(Inventory))]           // целевой класс для редактора - Inventory. Если атрибута CustomEditor не указать, ничего не получится
+[CustomEditor(typeof(Inventory))]           // С†РµР»РµРІРѕР№ РєР»Р°СЃСЃ РґР»СЏ СЂРµРґР°РєС‚РѕСЂР° - Inventory
 public class InventoryEditor : Editor       
 {
-    private bool[] showItemSlots = new bool[Inventory.numItemSlots];    // показывать ли слоты Item-ов расширенно?// Whether the GUI for each Item slot is expanded.
-    private SerializedProperty itemImagesProperty;                      // свойство, которое будет описывать массив компонентов-Image для показа пунктов инвентаря (по сути, ссылка, которая отображается в редакторе, как ей скажут) // Represents the array of Image components to display the Items.
-    private SerializedProperty itemsProperty;                           // свойство, которое будет описывать сам массив пунктов инвентаря // Represents the array of Items.
-    // Информация о предмете при клике на него
+    private bool[] showItemSlots = new bool[Inventory.numItemSlots];    // РїРѕРєР°Р·С‹РІР°С‚СЊ Р»Рё СЃР»РѕС‚С‹ Item-РѕРІ СЂР°СЃС€РёСЂРµРЅРЅРѕ?// Whether the GUI for each Item slot is expanded.
+    private SerializedProperty itemImagesProperty;                      // СЃРІРѕР№СЃС‚РІРѕ, РєРѕС‚РѕСЂРѕРµ Р±СѓРґРµС‚ РѕРїРёСЃС‹РІР°С‚СЊ РјР°СЃСЃРёРІ РєРѕРјРїРѕРЅРµРЅС‚РѕРІ-Image РґР»СЏ РїРѕРєР°Р·Р° РїСѓРЅРєС‚РѕРІ РёРЅРІРµРЅС‚Р°СЂСЏ (РїРѕ СЃСѓС‚Рё, СЃСЃС‹Р»РєР°, РєРѕС‚РѕСЂР°СЏ РѕС‚РѕР±СЂР°Р¶Р°РµС‚СЃСЏ РІ СЂРµРґР°РєС‚РѕСЂРµ, РєР°Рє РµР№ СЃРєР°Р¶СѓС‚) // Represents the array of Image components to display the Items.
+    private SerializedProperty itemsProperty;                           // СЃРІРѕР№СЃС‚РІРѕ, РєРѕС‚РѕСЂРѕРµ Р±СѓРґРµС‚ РѕРїРёСЃС‹РІР°С‚СЊ СЃР°Рј РјР°СЃСЃРёРІ РїСѓРЅРєС‚РѕРІ РёРЅРІРµРЅС‚Р°СЂСЏ // Represents the array of Items.
+    // РРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїСЂРµРґРјРµС‚Рµ РїСЂРё РєР»РёРєРµ РЅР° РЅРµРіРѕ
     private SerializedProperty itemNameProperty;                    
     private SerializedProperty itemImageProperty;                   
     private SerializedProperty itemDescriptionProperty;             
     private SerializedProperty itemDescriptionObject;               
 
-    // Соглашение об именах подобных констант: inventory - это член такого класса, Prop - это свойство,  ItemImages - свойство, на кот. ссылаемся, Name - это строка
+    // РЎРѕРіР»Р°С€РµРЅРёРµ РѕР± РёРјРµРЅР°С… РїРѕРґРѕР±РЅС‹С… РєРѕРЅСЃС‚Р°РЅС‚: inventory - СЌС‚Рѕ С‡Р»РµРЅ С‚Р°РєРѕРіРѕ РєР»Р°СЃСЃР°, Prop - СЌС‚Рѕ СЃРІРѕР№СЃС‚РІРѕ,  ItemImages - СЃРІРѕР№СЃС‚РІРѕ, РЅР° РєРѕС‚. СЃСЃС‹Р»Р°РµРјСЃСЏ, Name - СЌС‚Рѕ СЃС‚СЂРѕРєР°
     private const string inventoryPropItemImagesName = "itemImages";    // The name of the field that is an array of Image components.
     private const string inventoryPropItemsName = "items";              // The name of the field that is an array of Items.
 
     private void OnEnable ()
     {
         // Cache the SerializedProperties.
-        itemImagesProperty = serializedObject.FindProperty (inventoryPropItemImagesName);   // serializedObject указывает на класс Inventory
+        itemImagesProperty = serializedObject.FindProperty (inventoryPropItemImagesName);   // serializedObject СѓРєР°Р·С‹РІР°РµС‚ РЅР° РєР»Р°СЃСЃ Inventory
         itemsProperty = serializedObject.FindProperty (inventoryPropItemsName);
     }
 
-    // в редакторе по-умолчанию этот метод вызывается по умалчанию, а в кастомном нет /вызывается каждый фрейм/
-    public override void OnInspectorGUI ()  // переопределим стандартное отношение редактора юнити к этому классу (InventoryEditor) /так как в классе Editor этод метод виртуальный/
+    // РІ СЂРµРґР°РєС‚РѕСЂРµ РїРѕ-СѓРјРѕР»С‡Р°РЅРёСЋ СЌС‚РѕС‚ РјРµС‚РѕРґ РІС‹Р·С‹РІР°РµС‚СЃСЏ РїРѕ СѓРјР°Р»С‡Р°РЅРёСЋ, Р° РІ РєР°СЃС‚РѕРјРЅРѕРј РЅРµС‚ /РІС‹Р·С‹РІР°РµС‚СЃСЏ РєР°Р¶РґС‹Р№ С„СЂРµР№Рј/
+    public override void OnInspectorGUI ()  // РїРµСЂРµРѕРїСЂРµРґРµР»РёРј СЃС‚Р°РЅРґР°СЂС‚РЅРѕРµ РѕС‚РЅРѕС€РµРЅРёРµ СЂРµРґР°РєС‚РѕСЂР° СЋРЅРёС‚Рё Рє СЌС‚РѕРјСѓ РєР»Р°СЃСЃСѓ (InventoryEditor) /С‚Р°Рє РєР°Рє РІ РєР»Р°СЃСЃРµ Editor СЌС‚РѕРґ РјРµС‚РѕРґ РІРёСЂС‚СѓР°Р»СЊРЅС‹Р№/
     {
         // Pull all the information from the target into the serializedObject.
-        serializedObject.Update ();         // актуализируем информацию в сериализированном объекте - почти всегда хорошо делать в начале
+        serializedObject.Update ();         // Р°РєС‚СѓР°Р»РёР·РёСЂСѓРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РІ СЃРµСЂРёР°Р»РёР·РёСЂРѕРІР°РЅРЅРѕРј РѕР±СЉРµРєС‚Рµ - РїРѕС‡С‚Рё РІСЃРµРіРґР° С…РѕСЂРѕС€Рѕ РґРµР»Р°С‚СЊ РІ РЅР°С‡Р°Р»Рµ
 
         // Display GUI for each Item slot.
         for (int i = 0; i < Inventory.numItemSlots; i++)
@@ -39,38 +39,38 @@ public class InventoryEditor : Editor
         }
 
         // Push all the information from the serializedObject back into the target.
-        serializedObject.ApplyModifiedProperties ();    // записать изменения в сериализованном объекте в исходный объект (runtime) - почти всегда хорошо делать в конце
+        serializedObject.ApplyModifiedProperties ();    // Р·Р°РїРёСЃР°С‚СЊ РёР·РјРµРЅРµРЅРёСЏ РІ СЃРµСЂРёР°Р»РёР·РѕРІР°РЅРЅРѕРј РѕР±СЉРµРєС‚Рµ РІ РёСЃС…РѕРґРЅС‹Р№ РѕР±СЉРµРєС‚ (runtime) - РїРѕС‡С‚Рё РІСЃРµРіРґР° С…РѕСЂРѕС€Рѕ РґРµР»Р°С‚СЊ РІ РєРѕРЅС†Рµ
     }
 
 
     private void ItemSlotGUI (int index)
     {
-        EditorGUILayout.BeginVertical (GUI.skin.box);   // упорядочивать объекты вертикально (и в коробочках): от сих
-        EditorGUI.indentLevel++;                        // отступ отсюда
+        EditorGUILayout.BeginVertical (GUI.skin.box);   // СѓРїРѕСЂСЏРґРѕС‡РёРІР°С‚СЊ РѕР±СЉРµРєС‚С‹ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ (Рё РІ РєРѕСЂРѕР±РѕС‡РєР°С…): РѕС‚ СЃРёС…
+        EditorGUI.indentLevel++;                        // РѕС‚СЃС‚СѓРї РѕС‚СЃСЋРґР°
 
-        // Foldout - рисуем выпадающий список (раскрытый/закрытый в зависимости от первого параметра showItemSlots[index] с названиями "Item slot 0..3"). Результат присваиваем опять переменной showItemSlots[index] - "скрыть/раскрыть", которая изменяется при клике на нее
+        // Foldout - СЂРёСЃСѓРµРј РІС‹РїР°РґР°СЋС‰РёР№ СЃРїРёСЃРѕРє (СЂР°СЃРєСЂС‹С‚С‹Р№/Р·Р°РєСЂС‹С‚С‹Р№ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїРµСЂРІРѕРіРѕ РїР°СЂР°РјРµС‚СЂР° showItemSlots[index] СЃ РЅР°Р·РІР°РЅРёСЏРјРё "Item slot 0..3"). Р РµР·СѓР»СЊС‚Р°С‚ РїСЂРёСЃРІР°РёРІР°РµРј РѕРїСЏС‚СЊ РїРµСЂРµРјРµРЅРЅРѕР№ showItemSlots[index] - "СЃРєСЂС‹С‚СЊ/СЂР°СЃРєСЂС‹С‚СЊ", РєРѕС‚РѕСЂР°СЏ РёР·РјРµРЅСЏРµС‚СЃСЏ РїСЂРё РєР»РёРєРµ РЅР° РЅРµРµ
         // Display a foldout to determine whether the GUI should be shown or not.
         showItemSlots[index] = EditorGUILayout.Foldout (showItemSlots[index], "Item slot " + index);
 
         // If the foldout is open then display default GUI for the specific elements in each array.
-        if (showItemSlots[index])                       // и если список раскрыт
+        if (showItemSlots[index])                       // Рё РµСЃР»Рё СЃРїРёСЃРѕРє СЂР°СЃРєСЂС‹С‚
         {
-            EditorGUILayout.PropertyField (itemImagesProperty.GetArrayElementAtIndex (index));  // показать свойство (но не весь массив, а один элемент)
-            EditorGUILayout.PropertyField (itemsProperty.GetArrayElementAtIndex (index));       // и еще одно
+            EditorGUILayout.PropertyField (itemImagesProperty.GetArrayElementAtIndex (index));  // РїРѕРєР°Р·Р°С‚СЊ СЃРІРѕР№СЃС‚РІРѕ (РЅРѕ РЅРµ РІРµСЃСЊ РјР°СЃСЃРёРІ, Р° РѕРґРёРЅ СЌР»РµРјРµРЅС‚)
+            EditorGUILayout.PropertyField (itemsProperty.GetArrayElementAtIndex (index));       // Рё РµС‰Рµ РѕРґРЅРѕ
         }
 
-        EditorGUI.indentLevel--;                        // и досюда 
-        EditorGUILayout.EndVertical ();                 // и до сих
+        EditorGUI.indentLevel--;                        // Рё РґРѕСЃСЋРґР° 
+        EditorGUILayout.EndVertical ();                 // Рё РґРѕ СЃРёС…
     }
 
-    // Конструктор AllItems ставим именно здесь, в классе-редакторе, который запускается только в Unity-editor-е:
-    // в рантайме на андроиде вывалит кучу ошибок про отсутствие MenuItem и AssetDatabase
-    // подгрузил в папку Resources айтемов, вызвал повторно конструктор - и готово
+    // РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ AllItems СЃС‚Р°РІРёРј РёРјРµРЅРЅРѕ Р·РґРµСЃСЊ, РІ РєР»Р°СЃСЃРµ-СЂРµРґР°РєС‚РѕСЂРµ, РєРѕС‚РѕСЂС‹Р№ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ С‚РѕР»СЊРєРѕ РІ Unity-editor-Рµ:
+    // РІ СЂР°РЅС‚Р°Р№РјРµ РЅР° Р°РЅРґСЂРѕРёРґРµ РІС‹РІР°Р»РёС‚ РєСѓС‡Сѓ РѕС€РёР±РѕРє РїСЂРѕ РѕС‚СЃСѓС‚СЃС‚РІРёРµ MenuItem Рё AssetDatabase
+    // РїРѕРґРіСЂСѓР·РёР» РІ РїР°РїРєСѓ Resources Р°Р№С‚РµРјРѕРІ, РІС‹Р·РІР°Р» РїРѕРІС‚РѕСЂРЅРѕ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ - Рё РіРѕС‚РѕРІРѕ
     private const string creationPath = "Assets/Resources/AllItems.asset";  // The path that the AllItems asset is created at.
     [MenuItem("Assets/Create/AllItems")]                                    // Call this function when the menu item is selected.
     public static void CreateAllItemsAsset()
     {
-        // Удалим старый (а потом создадим новый)
+        // РЈРґР°Р»РёРј СЃС‚Р°СЂС‹Р№ (Р° РїРѕС‚РѕРј СЃРѕР·РґР°РґРёРј РЅРѕРІС‹Р№)
         if (AllItems.Instance) AssetDatabase.DeleteAsset(creationPath);
 
         // Create an instance of the AllItems object and make an asset for it.
@@ -81,6 +81,6 @@ public class InventoryEditor : Editor
         AllItems.Instance = instance_;
 
         // Create an array of all existing Items.
-        AllItems.Instance.items = Resources.LoadAll("Items", typeof(Item)).Cast<Item>().ToArray(); // Загрузить всё из ресурсов и отобрать объекты класса Item
+        AllItems.Instance.items = Resources.LoadAll("Items", typeof(Item)).Cast<Item>().ToArray(); // Р—Р°РіСЂСѓР·РёС‚СЊ РІСЃС‘ РёР· СЂРµСЃСѓСЂСЃРѕРІ Рё РѕС‚РѕР±СЂР°С‚СЊ РѕР±СЉРµРєС‚С‹ РєР»Р°СЃСЃР° Item
     }
 }

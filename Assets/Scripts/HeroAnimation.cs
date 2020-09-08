@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 //  ДВИЖЕНИЕ И АНИМАЦИЯ ГЕРОЯ
 public class HeroAnimation : MonoBehaviour
 {
@@ -37,11 +36,14 @@ public class HeroAnimation : MonoBehaviour
 
     private void OnEnable()    
     {
-        heroManager.GetHitEvent += OnHit;
-        heroManager.DeathEvent += OnDeath;
-        heroManager.AttackEvent += OnAttack;
-        heroManager.ChangeEvent += OnChange;
-        heroManager.ToPositionEvent += OnToPosition;
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent += OnHit;
+            heroManager.DeathEvent += OnDeath;
+            heroManager.AttackEvent += OnAttack;
+            heroManager.ChangeEvent += OnChange;
+            heroManager.ToPositionEvent += OnToPosition;
+        }
 
         m_Anim.runtimeAnimatorController = m_ACSwordShield; // установим АС по умолчанию - щит-меч
         m_Anim.Rebind();                                    // перезапустить АС, чтоб перешел в исходное состояние
@@ -57,11 +59,14 @@ public class HeroAnimation : MonoBehaviour
 
     private void OnDisable()  
     {
-        heroManager.GetHitEvent -= OnHit;
-        heroManager.DeathEvent -= OnDeath;
-        heroManager.AttackEvent -= OnAttack;
-        heroManager.ChangeEvent -= OnChange;
-        heroManager.ToPositionEvent -= OnToPosition;
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent -= OnHit;
+            heroManager.DeathEvent -= OnDeath;
+            heroManager.AttackEvent -= OnAttack;
+            heroManager.ChangeEvent -= OnChange;
+            heroManager.ToPositionEvent -= OnToPosition;
+        }
     }
 
     // Установить начальное положение героя, задать исходное на ристалище 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 // Пока только тексты для вывода урона
 public class HeroUI : MonoBehaviour
 {
@@ -16,23 +15,28 @@ public class HeroUI : MonoBehaviour
     private void OnEnable()
     {
         GameManager.ExchangeEndedEvent += OnExchangeEnded;
-        heroManager.GetHitEvent += OnHit;
-        heroManager.ParryEvent += OnParry;
-        heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-        heroManager.BlockEvent += OnBlock;
-        heroManager.EvadeEvent += OnEvade;
-
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent += OnHit;
+            heroManager.ParryEvent += OnParry;
+            heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+            heroManager.BlockEvent += OnBlock;
+            heroManager.EvadeEvent += OnEvade;
+        }
         m_GetHit1Text.text = string.Empty;
         m_GetHit2Text.text = string.Empty;
     }
     private void OnDisable()
     {
         GameManager.ExchangeEndedEvent -= OnExchangeEnded;
-        heroManager.GetHitEvent -= OnHit;
-        heroManager.ParryEvent -= OnParry;
-        heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-        heroManager.BlockEvent -= OnBlock;
-        heroManager.EvadeEvent -= OnEvade;
+        if (heroManager != null)
+        {
+            heroManager.GetHitEvent -= OnHit;
+            heroManager.ParryEvent -= OnParry;
+            heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+            heroManager.BlockEvent -= OnBlock;
+            heroManager.EvadeEvent -= OnEvade;
+        }
     }
 
     private void OnExchangeEnded()
@@ -46,7 +50,7 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "-" + heroManager.damage1.ToString();
+                m_GetHit1Text.text = "-" + heroManager.damage1.ToString();  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
                 break;
             case 2:
                 m_GetHit2Text.text = "-" + heroManager.damage2.ToString();

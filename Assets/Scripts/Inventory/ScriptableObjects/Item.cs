@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-#pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе
 
-// This simple script represents Items that can be picked
-// up in the game.  The inventory system is done using
-// this script instead of just sprites to ensure that items
-// are extensible.
+// This simple script represents Items in the game. The inventory system is done using
+// this script instead of just sprites to ensure that items are extensible.
 
 [CreateAssetMenu]                                   // позволяет добавлять себя себя через меню редактора Assets|Create
 public class Item : ScriptableObject                // наследование от ScriptableObject означает, что мы можем сохранить этот скрипт как asset (и создавать его instance-ы)
@@ -37,7 +34,7 @@ public class Item : ScriptableObject                // наследование 
 
     public Sprite Sprite
     {
-        get {return sprite;}
+        get { return sprite; }
     }
     public string Description
     {
