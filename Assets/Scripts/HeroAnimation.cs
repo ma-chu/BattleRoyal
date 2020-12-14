@@ -14,7 +14,7 @@ public class HeroAnimation : MonoBehaviour
 
     private float zeroZposition;                         // координата Z позиции на ристалище 
     private float zeroYrotation;                         // вращение позиции на ристалище
-    private float stockXposition;                        // координата Z позиции склада оружия
+    private float stockXposition;                        // координата X позиции склада оружия
 
     [SerializeField]
     private Animator m_Anim;                             // ссылка на компонент-аниматор этого героя
@@ -72,7 +72,7 @@ public class HeroAnimation : MonoBehaviour
     // Установить начальное положение героя, задать исходное на ристалище 
     public void SetStartPositions(float zeroZposition, float zeroYrotation, float stockXposition, float startRotation)  
     {
-        this.zeroZposition = zeroZposition;
+        this.zeroZposition = zeroZposition;                                     // присваивание переменной zeroZposition этого инстанса класса
         this.zeroYrotation = zeroYrotation;
         this.stockXposition = stockXposition;
 
