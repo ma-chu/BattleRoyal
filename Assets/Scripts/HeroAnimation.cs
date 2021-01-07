@@ -4,6 +4,8 @@ using UnityEngine;
 //  ДВИЖЕНИЕ И АНИМАЦИЯ ГЕРОЯ
 public class HeroAnimation : MonoBehaviour
 {
+    private HeroManager heroManager;
+
     // СОСТОЯНИЯ
     [SerializeField]
     private bool m_change;
@@ -16,7 +18,6 @@ public class HeroAnimation : MonoBehaviour
     private float zeroYrotation;                         // вращение позиции на ристалище
     private float stockXposition;                        // координата X позиции склада оружия
 
-    [SerializeField]
     private Animator m_Anim;                             // ссылка на компонент-аниматор этого героя
     [SerializeField]
     private RuntimeAnimatorController m_ACSwordShield;   // ссылки на контроллеры анимации
@@ -25,13 +26,11 @@ public class HeroAnimation : MonoBehaviour
     [SerializeField]
     private AnimatorOverrideController m_ACSwordSword;
 
-    [SerializeField]                            // может, как-то получить через GetComponent?
-    private HeroManager heroManager;
 
-    private void _Awake()
+    private void Awake()
     {
-        // получаем ссылку на компонент-аниматор этого героя (на случай, если игру расширю и героя придется порождать в процессе игры)
-        //m_Anim = this.GetComponentInChildren<Animator>();  //ПОЧЕМУ не РАБОТАЕТ - было ж норм???
+        heroManager = GetComponent("HeroManager") as HeroManager;
+        m_Anim = GetComponentInChildren<Animator>() as Animator; 
     }
 
     private void OnEnable()    
@@ -169,7 +168,6 @@ public class HeroAnimation : MonoBehaviour
     // Разворот после смены оружия
     public void RotateToCenter()
     {
-        // a= transform.rotation.eulerAngles.y;             // для отладки  
         if (SmoothRotation(270f))
         {
             m_rotateToCenter = false;                       // сбросим триггер - вращение на центр

@@ -5269,7 +5269,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 889891607}
-  - component: {fileID: 889891608}
   m_Layer: 5
   m_Name: PlayerSeriesHUD
   m_TagString: Untagged
@@ -5299,36 +5298,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -280}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 1, y: 0.5}
---- !u!114 &889891608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 889891606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  strongStrikeMin: 14
-  strongStrikeSeriesBeginning: 2
-  seriesStrikeBeginning: 3
-  seriesBlockBeginning: 3
-  strongStrikeSeriesStepValue: 0.5
-  seriesStrikeStepValue: 0.5
-  seriesBlockStepValue: 1
-  strongStrikesNum: 0
-  seriesOfStrikesNum: 0
-  seriesOfBlocksNum: 0
-  m_StrengthStrikesStarSlider: {fileID: 969643363}
-  m_StrengthStrikesStarFillImage: {fileID: 1899394391}
-  m_SeriesOfBlocksStarSlider: {fileID: 1314367199}
-  m_SeriesOfBlocksStarFillImage: {fileID: 1731763948}
-  m_SeriesOfStrikesStarSlider: {fileID: 256784508}
-  m_SeriesOfStrikesStarFillImage: {fileID: 1175669554}
-  SFXAudio: {fileID: 2120866715}
-  heroManager: {fileID: 2120866711}
 --- !u!1 &911990546
 GameObject:
   m_ObjectHideFlags: 0
@@ -6835,12 +6804,6 @@ Transform:
   m_Father: {fileID: 364756827}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1150704086 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 95922273507661854, guid: c20397bf1592dc040b827e8716b0bd41,
-    type: 3}
-  m_PrefabInstance: {fileID: 1177934695}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1150993109
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8842,6 +8805,7 @@ GameObject:
   - component: {fileID: 1620955099}
   - component: {fileID: 1620955100}
   - component: {fileID: 1620955101}
+  - component: {fileID: 1620955102}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -8877,10 +8841,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfdeea697d7fa4349b1cffe5fad66d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: {fileID: 1620955098}
-  series: {fileID: 1633097692}
+  series: {fileID: 0}
   inventory: {fileID: 103960623}
-  m_HeroAnimation: {fileID: 1620955100}
   m_Tweakers:
     damageBaseMin: 5
     damageBaseMax: 15
@@ -8894,6 +8856,7 @@ MonoBehaviour:
     startingHealth: 100
   damage1: 0
   damage2: 0
+  gotDamage: 0
   evade1: 0
   evade2: 0
   block1: 0
@@ -9371,11 +9334,9 @@ MonoBehaviour:
   m_change: 0
   m_toPosition: 0
   m_rotateToCenter: 0
-  m_Anim: {fileID: 632425633}
   m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
   m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
   m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
-  heroManager: {fileID: 1620955093}
   line_speed: 1.2
   angle_speed: 180
 --- !u!114 &1620955101
@@ -9392,6 +9353,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GetHit1Text: {fileID: 468706620}
   m_GetHit2Text: {fileID: 2132725531}
+--- !u!114 &1620955102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620955091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HP: {fileID: 0}
+  strongStrikeMin: 14
+  strongStrikeSeriesBeginning: 2
+  seriesStrikeBeginning: 3
+  seriesBlockBeginning: 3
+  strongStrikeSeriesStepValue: 0.5
+  seriesStrikeStepValue: 0.5
+  seriesBlockStepValue: 1
+  strongStrikesNum: 0
+  seriesOfStrikesNum: 0
+  seriesOfBlocksNum: 0
+  m_StrengthStrikesStarSlider: {fileID: 1395736646}
+  m_StrengthStrikesStarFillImage: {fileID: 1701587420}
+  m_SeriesOfBlocksStarSlider: {fileID: 728703250}
+  m_SeriesOfBlocksStarFillImage: {fileID: 599530977}
+  m_SeriesOfStrikesStarSlider: {fileID: 830487290}
+  m_SeriesOfStrikesStarFillImage: {fileID: 721237644}
+  SFXAudio: {fileID: 1620955094}
   heroManager: {fileID: 1620955093}
 --- !u!1 &1633097690
 GameObject:
@@ -9402,7 +9393,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633097691}
-  - component: {fileID: 1633097692}
   m_Layer: 5
   m_Name: EnemySeriesHUD
   m_TagString: Untagged
@@ -9432,36 +9422,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 430}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0, y: 0.5}
---- !u!114 &1633097692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633097690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  strongStrikeMin: 14
-  strongStrikeSeriesBeginning: 2
-  seriesStrikeBeginning: 3
-  seriesBlockBeginning: 3
-  strongStrikeSeriesStepValue: 0.5
-  seriesStrikeStepValue: 0.5
-  seriesBlockStepValue: 1
-  strongStrikesNum: 0
-  seriesOfStrikesNum: 0
-  seriesOfBlocksNum: 0
-  m_StrengthStrikesStarSlider: {fileID: 1395736646}
-  m_StrengthStrikesStarFillImage: {fileID: 1701587420}
-  m_SeriesOfBlocksStarSlider: {fileID: 728703250}
-  m_SeriesOfBlocksStarFillImage: {fileID: 599530977}
-  m_SeriesOfStrikesStarSlider: {fileID: 830487290}
-  m_SeriesOfStrikesStarFillImage: {fileID: 721237644}
-  SFXAudio: {fileID: 1620955097}
-  heroManager: {fileID: 1620955093}
 --- !u!1 &1641129210
 GameObject:
   m_ObjectHideFlags: 0
@@ -11741,6 +11701,7 @@ GameObject:
   - component: {fileID: 2120866717}
   - component: {fileID: 2120866718}
   - component: {fileID: 2120866719}
+  - component: {fileID: 2120866720}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -11776,10 +11737,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aae0f091d09c1b45a34cf8aae891ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _HP: {fileID: 2120866716}
-  series: {fileID: 889891608}
+  series: {fileID: 0}
   inventory: {fileID: 458740784}
-  m_HeroAnimation: {fileID: 2120866718}
   m_Tweakers:
     damageBaseMin: 5
     damageBaseMax: 15
@@ -11793,6 +11752,7 @@ MonoBehaviour:
     startingHealth: 100
   damage1: 0
   damage2: 0
+  gotDamage: 0
   evade1: 0
   evade2: 0
   block1: 0
@@ -12264,11 +12224,9 @@ MonoBehaviour:
   m_change: 0
   m_toPosition: 0
   m_rotateToCenter: 0
-  m_Anim: {fileID: 1150704086}
   m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
   m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
   m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
-  heroManager: {fileID: 2120866711}
   line_speed: 1.2
   angle_speed: 180
 --- !u!114 &2120866719
@@ -12285,6 +12243,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GetHit1Text: {fileID: 2050560245}
   m_GetHit2Text: {fileID: 2002763508}
+--- !u!114 &2120866720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120866709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HP: {fileID: 0}
+  strongStrikeMin: 14
+  strongStrikeSeriesBeginning: 2
+  seriesStrikeBeginning: 3
+  seriesBlockBeginning: 3
+  strongStrikeSeriesStepValue: 0.5
+  seriesStrikeStepValue: 0.5
+  seriesBlockStepValue: 1
+  strongStrikesNum: 0
+  seriesOfStrikesNum: 0
+  seriesOfBlocksNum: 0
+  m_StrengthStrikesStarSlider: {fileID: 969643363}
+  m_StrengthStrikesStarFillImage: {fileID: 1899394391}
+  m_SeriesOfBlocksStarSlider: {fileID: 1314367199}
+  m_SeriesOfBlocksStarFillImage: {fileID: 1731763948}
+  m_SeriesOfStrikesStarSlider: {fileID: 256784508}
+  m_SeriesOfStrikesStarFillImage: {fileID: 1175669554}
+  SFXAudio: {fileID: 2120866712}
   heroManager: {fileID: 2120866711}
 --- !u!1 &2131448202
 GameObject:

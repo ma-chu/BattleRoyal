@@ -4,15 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;                                             // для Events
 // #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
-// nowarn:0649 - а можно просто сделать одну такую строку в файле Assets\csc.rsp 
+
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
 public enum Players : short { Player, Enemy, Nobody };                                                  // варианты победителей раундов и игры
 public enum Decision : short { Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword, No }; // варианты действий героя - импульс на 1 такт
 public enum ExchangeResult : short { Evade, Parry, BlockVs2Handed, Block, GetHit, No };                 // варианты исхода размена ударами для каждого противника
 
+[System.Serializable]
+public struct PreCoeffs
+{
+    public float damage;                                           // Возможный нанесенный урон
+    public bool evade;                                             // Уворот от удара на смене     
+    public bool block;                                             // Блок удара
+    public bool parry;                                             // Парирование удара   
+    public bool blockVs2Handed;                                    // Блок удара двуручником - половина урона
+    public ExchangeResult exchangeResult;                          // Результат удара
+}
+
 public class GameManager : MonoBehaviour {
     // Вообще, статические события лучше не юзать: подписываясь на них, мы создаем ссылки на HeroManager в объекте (статическом), который не будет уничтожен,
-    // пока существует класс GameManager, то есть пока не закончится работа программа. Но в данном случае все мои два HeroManager-а тоже вечны
+    // пока существует класс GameManager, то есть пока не закончится работа программы. Но в данном случае все мои два HeroManager-а тоже вечны
     public static event Action ExchangeEvent1;             // удар1 состоялся
     public static event Action ExchangeEvent2;             // удар2 состоялся
     public static event Action ExchangeEndedEvent;         // весь сход закончен
@@ -41,6 +52,7 @@ public class GameManager : MonoBehaviour {
     private float m_AttackDelay = 3f;                      // задержка на анимацию размена ударами
     [SerializeField]
     private float m_ChangeDelay = 7.5f;                    // задержка на анимацию смены оружия
+
     private WaitForSeconds m_DeathWait;                    // задержки понятного сопрограмме вида
     private WaitForSeconds m_StartWait;                    // переведение в него из секунд состоится в ф-ии Start()                 
     private WaitForSeconds m_EndWait;
@@ -133,11 +145,10 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator RoundPlaying()
-    {
-        //1.Очистить информационное сообщение
-        m_resultText.text = string.Empty;
-        //2.Играем раунд, пока кто-то не умрёт
-        while (!OneHeroLeft())                                  // играем раунд (пропускаем такты), пока кто-то не умрет
+    {        
+        m_resultText.text = string.Empty;                       // 1. Очистить информационное сообщение
+        
+        while (!OneHeroLeft())                                  // 2. Играем раунд (пропускаем такты), пока кто-то не умрет
         {
             //a. Разблокировать кнопки управления игроку        // А как-нибудь через событие??
             m_Player.m_PlayersControlsCanvas.enabled = true;
@@ -145,288 +156,129 @@ public class GameManager : MonoBehaviour {
             //b. Ожидать действие игрока: удара или смены оружия
             if (m_Player.decision == Decision.No)
             {
-                MakeEnemyDesition(HeroManager.player_countRoundsWon);
+                MakeEnemyDesition(HeroManager.player_countRoundsWon); 
                 yield return null;   // Решения еще нет - заканчиваем этот такт (и почему-то не переходим сразу к началу корутины, а проходим её тело до конца...)
                 //Debug.Log("Why am I displaying?");
             }
-            //c. Рассчитать урон. (Плюс посмотреть, не умер ли кто. Если умер - идем на конец раунда)
+            // иначе рассчитать урон. (Плюс посмотреть, не умер ли кто. Если умер - идем на конец раунда)
             else
             {
-                // c0. Тактика для обоих
-                m_Player.defencePart = m_Player.tacticSlider.value * m_Player.m_Tweakers.MaxDefencePart + m_Player.m_Tweakers.ParryChance;
-                m_Player.parry1 = (UnityEngine.Random.value <= m_Player.defencePart);
-                m_Player.parry2 = (UnityEngine.Random.value <= m_Player.defencePart);
-                m_Enemy.parry1 = (UnityEngine.Random.value <= m_Enemy.defencePart);
-                m_Enemy.parry2 = (UnityEngine.Random.value <= m_Enemy.defencePart);
-                // c1. Сперва рассчитаем предварительные коэффициенты  для игрока на основе текущего набора оружия
-                switch (m_Player.weaponSet)
-                {
-                    case WeaponSet.SwordShield:
-                        m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin, m_Player.m_Tweakers.DamageBaseMax + 1);
-                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
-                        m_Enemy.damage2 = 0f;
-                        m_Player.block1 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.BlockChance);
-                        m_Player.block2 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.BlockChance);
-                        m_Player.blockVs2Handed = m_Player.block1 && (m_Enemy.decision == Decision.Attack) && (m_Enemy.weaponSet==WeaponSet.TwoHandedSword);
-                        break;
-                    case WeaponSet.SwordSword:
-                        m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin, m_Player.m_Tweakers.DamageBaseMax + 1);
-                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
-                        m_Enemy.damage2 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin * m_Player.m_Tweakers.CoefSecondSword, m_Player.m_Tweakers.DamageBaseMax * m_Player.m_Tweakers.CoefSecondSword);
-                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
-                        m_Player.block1 = false;
-                        m_Player.block2 = false;
-                        m_Player.blockVs2Handed = false;
-                        break;
-                    case WeaponSet.TwoHandedSword:
-                        m_Enemy.damage1 = UnityEngine.Random.Range(m_Player.m_Tweakers.DamageBaseMin * m_Player.m_Tweakers.Coef2HandedSword, m_Player.m_Tweakers.DamageBaseMax * m_Player.m_Tweakers.Coef2HandedSword);
-                        m_Enemy.damage1 += m_Player.series.AddSeriesDamage();
-                        m_Enemy.damage2 = 0f;
-                        m_Player.block1 = false;
-                        m_Player.block2 = false;
-                        m_Player.blockVs2Handed = false;
-                        break;
-                }
-                // c2. А также предварительные коэффициенты  для игрока на основе его решения
-                switch (m_Player.decision)
-                {
-                    case Decision.Attack:
-                        m_Player.evade1 = false;
-                        m_Player.evade2 = false;
-                        break;
-                    default: // точно какая-то смена
-                        m_Player.evade1 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.EvadeOnChangeChance);
-                        m_Player.evade2 = (UnityEngine.Random.Range(0f, 1f) <= m_Player.m_Tweakers.EvadeOnChangeChance);
-                        m_Player.block1 = false;
-                        m_Player.block2 = false;
-                        m_Player.blockVs2Handed = false;
-                        m_Player.parry1 = false;
-                        m_Player.parry2 = false;
-                        break;
-                }
-
-                // и врага - знаю, что коряво, и нужен цикл
-                // c3. Предварительные коэффициенты на основе текущего набора оружия
-                switch (m_Enemy.weaponSet)
-                {
-                    case WeaponSet.SwordShield:
-                        m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin, m_Enemy.m_Tweakers.DamageBaseMax + 1);
-                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
-                        m_Player.damage2 = 0f;
-                        m_Enemy.block1 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.BlockChance);
-                        m_Enemy.block2 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.BlockChance);
-                        m_Enemy.blockVs2Handed = m_Enemy.block1 && (m_Player.decision == Decision.Attack) && (m_Player.weaponSet == WeaponSet.TwoHandedSword);
-                        break;
-                    case WeaponSet.SwordSword:
-                        m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin, m_Enemy.m_Tweakers.DamageBaseMax + 1);
-                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
-                        m_Player.damage2 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin * m_Enemy.m_Tweakers.CoefSecondSword, m_Enemy.m_Tweakers.DamageBaseMax * m_Enemy.m_Tweakers.CoefSecondSword);
-                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
-                        m_Enemy.block1 = false;
-                        m_Enemy.block2 = false;
-                        m_Enemy.blockVs2Handed = false;
-                        break;
-                    case WeaponSet.TwoHandedSword:
-                        m_Player.damage1 = UnityEngine.Random.Range(m_Enemy.m_Tweakers.DamageBaseMin * m_Enemy.m_Tweakers.Coef2HandedSword, m_Enemy.m_Tweakers.DamageBaseMax * m_Enemy.m_Tweakers.Coef2HandedSword);      
-                        m_Player.damage1 += m_Enemy.series.AddSeriesDamage();
-                        m_Player.damage2 = 0f;
-                        m_Enemy.block1 = false;
-                        m_Enemy.block2 = false;
-                        m_Enemy.blockVs2Handed = false;
-                        break;
-                }
-                // c4. Предварительные коэффициенты на основе решения
-                switch (m_Enemy.decision)
-                {
-                    case Decision.Attack:
-                        m_Enemy.evade1 = false;
-                        m_Enemy.evade2 = false;
-                        break;
-                    default: // точно какая-то смена
-                        m_Enemy.evade1 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.EvadeOnChangeChance);
-                        m_Enemy.evade2 = (UnityEngine.Random.Range(0f, 1f) <= m_Enemy.m_Tweakers.EvadeOnChangeChance);
-                        m_Enemy.block1 = false;
-                        m_Enemy.block2 = false;
-                        m_Enemy.blockVs2Handed = false;
-                        m_Enemy.parry1 = false;
-                        m_Enemy.parry2 = false;
-                        break;
-                }
+                // c. Сперва рассчитаем предварительные коэффициенты на основе текущего набора оружия и решения
+                m_Player.CalculatePreCoeffs();
+                m_Enemy.CalculatePreCoeffs();
+                m_Player.preCoeffs[0].blockVs2Handed = (m_Player.weaponSet == WeaponSet.SwordShield) && (m_Player.preCoeffs[0].block) && (m_Enemy.decision == Decision.Attack) && (m_Enemy.weaponSet == WeaponSet.TwoHandedSword);
+                m_Enemy.preCoeffs[0].blockVs2Handed = (m_Enemy.weaponSet == WeaponSet.SwordShield) && (m_Enemy.preCoeffs[0].block) && (m_Player.decision == Decision.Attack) && (m_Player.weaponSet == WeaponSet.TwoHandedSword);
 
                 //d. Теперь определим, какой нанести урон, на основе предварительных коэффицентов и решения. Удар 1.
                 if (m_Player.decision == Decision.Attack)
                 {
-                    if (m_Enemy.parry1)                                                 // А. парирование
+                    m_Enemy.preCoeffs[0].exchangeResult = m_Enemy.CalculateExchangeResult(1);
+
+
+                    if (m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed) 
                     {
-                        m_Enemy.exchangeResult1 = ExchangeResult.Parry;
-                        m_Enemy.series.seriesOfBlocksNum++;                             // Может, вот это должно уйти в SERIES по событию парирования... нет, не получится
-                    }                                                                   
-                    else if (m_Enemy.blockVs2Handed)                                    // Б. пробитие щита двуручником
-                    {
-                        m_Enemy.damage1 *= m_Player.m_Tweakers.Part2HandedThroughShield;
-                        m_Enemy.damage1 = Mathf.Round(m_Enemy.damage1 - m_Enemy.damage1 * m_Player.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Enemy.exchangeResult1 = ExchangeResult.BlockVs2Handed;
-                    }       
-                    else if (m_Enemy.block1)                                            // В. блок
-                    {
-                        m_Enemy.exchangeResult1 = ExchangeResult.Block;
-                        m_Enemy.series.seriesOfBlocksNum++;                                
+                        m_Player.preCoeffs[0].damage *= m_Player.m_Tweakers.Part2HandedThroughShield; 
                     }
-                    else if (m_Enemy.evade1)                                            // Г. уворот на смене
-                    {
-                        m_Enemy.exchangeResult1 = ExchangeResult.Evade;
-                    }
-                    else
-                    {                                                                   // Д. принять полный первый удар
-                        m_Enemy.damage1 = Mathf.Round(m_Enemy.damage1 - m_Enemy.damage1 * m_Player.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Enemy.exchangeResult1 = ExchangeResult.GetHit;
-                    }                   
+
+
                 }
+
+
                 if (m_Enemy.decision == Decision.Attack)
                 {
-                    if (m_Player.parry1)                                                 // А. парирование
+                    m_Player.preCoeffs[0].exchangeResult = m_Player.CalculateExchangeResult(1);
+
+
+                    if (m_Player.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed)
                     {
-                        m_Player.exchangeResult1 = ExchangeResult.Parry;
-                        m_Player.series.seriesOfBlocksNum++;                                       
+                        m_Enemy.preCoeffs[0].damage *= m_Enemy.m_Tweakers.Part2HandedThroughShield;
                     }
-                    else if (m_Player.blockVs2Handed)                                    // Б. пробитие щита двуручником
-                    {
-                        m_Player.damage1 *= m_Enemy.m_Tweakers.Part2HandedThroughShield;
-                        m_Player.damage1 = Mathf.Round(m_Player.damage1 - m_Player.damage1 * m_Enemy.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Player.exchangeResult1 = ExchangeResult.BlockVs2Handed;
-                    }
-                    else if (m_Player.block1)                                           // В. блок
-                    {
-                        m_Player.exchangeResult1 = ExchangeResult.Block;
-                        m_Player.series.seriesOfBlocksNum++;                                       
-                    }
-                    else if (m_Player.evade1)                                           // Г. уворот на смене
-                    {
-                        m_Player.exchangeResult1 = ExchangeResult.Evade;
-                    }
-                    else
-                    {                                                                   // Д. принять полный первый удар
-                        m_Player.damage1 = Mathf.Round(m_Player.damage1 - m_Player.damage1 * m_Enemy.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Player.exchangeResult1 = ExchangeResult.GetHit;
-                    }                   
+
+
                 }
+
+                m_Enemy.preCoeffs[0].damage = Mathf.Round(m_Enemy.preCoeffs[0].damage - m_Enemy.preCoeffs[0].damage * m_Enemy.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
+                m_Player.preCoeffs[0].damage = Mathf.Round(m_Player.preCoeffs[0].damage - m_Player.preCoeffs[0].damage * m_Player.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
+
+                m_Enemy.gotDamage = m_Player.preCoeffs[0].damage;
+                m_Player.gotDamage = m_Enemy.preCoeffs[0].damage;
 
                 // e. Определяем переменные для рассчета коэффициентов серий (серия блоков внутри предыдушего пункта). Удар 1.
                 // е1. коэфф. сильных ударов 
                 // игрок
-                if (((m_Enemy.exchangeResult1 == ExchangeResult.GetHit) || (m_Enemy.exchangeResult1 == ExchangeResult.BlockVs2Handed))
-                    && (m_Enemy.damage1 >= m_Player.series.strongStrikeMin))
-                {
-                    m_Player.series.strongStrikesNum++;
-                    m_Player.series.CheckAndSetStrongStrikesSeries();    // проверить, достигнута ли серия
-                }
+                if ((m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.GetHit) || (m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed))
+                    m_Player.AddStrongSeries(1);
                 // враг
-                if (((m_Player.exchangeResult1 == ExchangeResult.GetHit) || (m_Player.exchangeResult1 == ExchangeResult.BlockVs2Handed))
-                    && (m_Player.damage1 >= m_Enemy.series.strongStrikeMin))
-                {
-                    m_Enemy.series.strongStrikesNum++;
-                    m_Enemy.series.CheckAndSetStrongStrikesSeries();
-                }
+                if ((m_Player.preCoeffs[0].exchangeResult == ExchangeResult.GetHit) || (m_Player.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed))
+                    m_Enemy.AddStrongSeries(1);
+
                 // е2. коэффициент серии ударов
                 // игрок
-                if ((m_Enemy.exchangeResult1 == ExchangeResult.GetHit) || (m_Enemy.exchangeResult1 == ExchangeResult.BlockVs2Handed))
-                {
-                    m_Player.series.seriesOfStrikesNum++;
-                    m_Player.series.CheckAndSetSeriesOfStrikes();
-                }
+                if ((m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.GetHit) || (m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed))
+                    m_Player.AddStrikesSeries();    
                 // враг
-                if ((m_Player.exchangeResult1 == ExchangeResult.GetHit) || (m_Player.exchangeResult1 == ExchangeResult.BlockVs2Handed))
-                {
-                    m_Enemy.series.seriesOfStrikesNum++;
-                    m_Enemy.series.CheckAndSetSeriesOfStrikes();
-                }
+                if ((m_Player.preCoeffs[0].exchangeResult == ExchangeResult.GetHit) || (m_Player.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed))
+                    m_Enemy.AddStrikesSeries();
 
                 // I. Удар1 состоялся  - запустить событие. 
                 ExchangeEvent1?.Invoke();       // эта запись равносильна такой: if (ExchangeEvent1 != null) ExchangeEvent1 ();
 
-                //f. Теперь определим, какой нанести урон, на основе предварительных коэффицентов и решения. Удар 2.
-                if ((m_Player.decision == Decision.Attack)&&(m_Enemy.damage2 != 0f))     
+                //f. Урон. Удар 2.
+                if ((m_Player.decision == Decision.Attack)&&(m_Player.preCoeffs[1].damage != 0f))
                 {
-                    if (m_Enemy.parry2)
+                    m_Enemy.preCoeffs[1].exchangeResult = m_Enemy.CalculateExchangeResult(2);
+
+
+                    if (m_Enemy.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed)
                     {
-                        m_Enemy.exchangeResult2 = ExchangeResult.Parry;
-                        m_Enemy.series.seriesOfBlocksNum++;
+                        m_Player.preCoeffs[0].damage *= m_Player.m_Tweakers.Part2HandedThroughShield;
                     }
-                    else if (m_Enemy.block2)
-                    {
-                        m_Enemy.exchangeResult2 = ExchangeResult.Block;
-                        m_Enemy.series.seriesOfBlocksNum++;
-                    }
-                    else if (m_Enemy.evade2)
-                    {
-                        m_Enemy.exchangeResult2 = ExchangeResult.Evade;
-                    }
-                    else
-                    {
-                        m_Enemy.damage2 = Mathf.Round(m_Enemy.damage2 - m_Enemy.damage2 * m_Player.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Enemy.exchangeResult2 = ExchangeResult.GetHit;
-                    }
+
+
                 }
-                if ((m_Enemy.decision == Decision.Attack)&&(m_Player.damage2 != 0f))     
+
+                if ((m_Enemy.decision == Decision.Attack)&&(m_Enemy.preCoeffs[1].damage != 0f))
                 {
-                    if (m_Player.parry2)
+                    m_Player.preCoeffs[1].exchangeResult = m_Player.CalculateExchangeResult(2);
+
+
+                    if (m_Player.preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed)
                     {
-                        m_Player.exchangeResult2 = ExchangeResult.Parry;
-                        m_Player.series.seriesOfBlocksNum++;
+                        m_Enemy.preCoeffs[0].damage *= m_Enemy.m_Tweakers.Part2HandedThroughShield;
                     }
-                    else if (m_Player.block2)
-                    {
-                        m_Player.exchangeResult2 = ExchangeResult.Block;
-                        m_Player.series.seriesOfBlocksNum++;
-                    }
-                    else if (m_Player.evade2)
-                    {
-                        m_Player.exchangeResult2 = ExchangeResult.Evade;
-                    }
-                    else
-                    {
-                        m_Player.damage2 = Mathf.Round(m_Player.damage2 - m_Player.damage2 * m_Enemy.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
-                        m_Player.exchangeResult2 = ExchangeResult.GetHit;
-                    }
+
+
                 }
+
+                m_Enemy.preCoeffs[1].damage = Mathf.Round(m_Enemy.preCoeffs[1].damage - m_Enemy.preCoeffs[1].damage * m_Enemy.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
+                m_Player.preCoeffs[1].damage = Mathf.Round(m_Player.preCoeffs[1].damage - m_Player.preCoeffs[1].damage * m_Player.defencePart);    // уберём часть урона, потраченную на парирование, и округлим
+
+                m_Enemy.gotDamage = m_Player.preCoeffs[1].damage;
+                m_Player.gotDamage = m_Enemy.preCoeffs[1].damage;
 
                 // h. Определяем переменные для рассчета коэффициентов серий (серия блоков внутри предыдушего пункта)
                 // h1. коэфф. сильных ударов 
                 // игрок
-                if ((m_Enemy.exchangeResult2 == ExchangeResult.GetHit) && (m_Enemy.damage2 >= m_Player.series.strongStrikeMin))
-                {
-                    m_Player.series.strongStrikesNum++;
-                    m_Player.series.CheckAndSetStrongStrikesSeries();    
-                }
+                if (m_Enemy.preCoeffs[1].exchangeResult == ExchangeResult.GetHit)
+                    m_Player.AddStrongSeries(2);
                 // враг
-                if ((m_Player.exchangeResult2 == ExchangeResult.GetHit) && (m_Player.damage2 >= m_Enemy.series.strongStrikeMin))
-                {
-                    m_Enemy.series.strongStrikesNum++;
-                    m_Enemy.series.CheckAndSetStrongStrikesSeries();    
-                }
+                if (m_Player.preCoeffs[1].exchangeResult == ExchangeResult.GetHit)
+                    m_Enemy.AddStrongSeries(2);
+
                 // h2. коэффициент серии ударов
                 // игрок
-                if ((m_Enemy.exchangeResult1 != ExchangeResult.GetHit)&&(m_Enemy.exchangeResult2 != ExchangeResult.GetHit)&&(m_Enemy.exchangeResult1 != ExchangeResult.BlockVs2Handed))
-                {
-                    m_Player.series.ResetSeriesOfStrikes();
-                    m_Player.series.CheckAndSetSeriesOfStrikes();
-                }
-                if (m_Enemy.exchangeResult2 == ExchangeResult.GetHit)
-                {
-                    m_Player.series.seriesOfStrikesNum++;
-                    m_Player.series.CheckAndSetSeriesOfStrikes();
-                }
+                if ((m_Enemy.preCoeffs[0].exchangeResult != ExchangeResult.GetHit) && (m_Enemy.preCoeffs[1].exchangeResult != ExchangeResult.GetHit) && (m_Enemy.preCoeffs[0].exchangeResult != ExchangeResult.BlockVs2Handed))                    
+                    m_Player.ResetStrikesSeries();
+
+                if (m_Enemy.preCoeffs[1].exchangeResult == ExchangeResult.GetHit)
+                    m_Player.AddStrikesSeries();
+
                 // враг
-                if ((m_Player.exchangeResult1 != ExchangeResult.GetHit)&&(m_Player.exchangeResult2 != ExchangeResult.GetHit)&&(m_Player.exchangeResult1 != ExchangeResult.BlockVs2Handed))
-                {
-                    m_Enemy.series.ResetSeriesOfStrikes();
-                    m_Enemy.series.CheckAndSetSeriesOfStrikes();
-                }
-                if (m_Player.exchangeResult2 == ExchangeResult.GetHit)
-                {
-                    m_Enemy.series.seriesOfStrikesNum++;
-                    m_Enemy.series.CheckAndSetSeriesOfStrikes();
-                }
+                if ((m_Player.preCoeffs[0].exchangeResult != ExchangeResult.GetHit)&&(m_Player.preCoeffs[1].exchangeResult != ExchangeResult.GetHit)&&(m_Player.preCoeffs[0].exchangeResult != ExchangeResult.BlockVs2Handed))                    
+                    m_Enemy.ResetStrikesSeries();
+
+                if (m_Player.preCoeffs[1].exchangeResult == ExchangeResult.GetHit)
+                    m_Enemy.AddStrikesSeries();
 
                 //i. Смена оружия врага
                 if (m_Enemy.decision != Decision.Attack)
@@ -483,20 +335,16 @@ public class GameManager : MonoBehaviour {
         if (m_roundWinner == Players.Player)
         {
             yield return m_DeathWait;                       // ждём еще одну m_DeathWait
-            int a;
-            do a = m_Player.inventory.AddItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
-            while (a == -2);                                //добавить уникальный инвентарь
-            if (a != -1)                                    // и чтоб не был полный инвенторий (т.е. мы выиграли 4 раунд, т.е. игру)
-            {
-                m_resultText.text = "You've got a " + m_Player.inventory.items[a].name;
-                m_Player.inventory.ShowItemDescription(a);  // отобразить описание выданного инвентаря
-            }
+
+            string a = m_Player.GiveOutPrize();
+            if (a!=null) m_resultText.text = "You've got a " + a;
         }
         yield return m_EndWait;                      
 
         m_Player.m_dead = false;
         m_Enemy.m_dead = false;
     }
+
 
     private void MakeEnemyDesition (int nicety)                   // Определиться с действием бота. nicety - уровень интеллекта врага
     {
@@ -522,13 +370,13 @@ public class GameManager : MonoBehaviour {
         */
 
         // 1. Если у врага есть серия - продолжаем её (при любом nicety):
-        if (m_Enemy.series.seriesOfStrikesNum > m_Enemy.series.seriesStrikeBeginning)
+        if (/*m_Enemy.series.seriesOfStrikesNum > m_Enemy.series.SeriesStrikeBeginning*/m_Enemy.HasSeriesOfStrikes)
         {
             m_Enemy.decision = Decision.Attack;
             m_Enemy.defencePart = m_Enemy.m_Tweakers.ParryChance;
             return;
         }
-        if (m_Enemy.series.seriesOfBlocksNum > m_Enemy.series.seriesBlockBeginning)
+        if (/*m_Enemy.series.seriesOfBlocksNum > m_Enemy.series.SeriesBlockBeginning*/m_Enemy.HasSeriesOfBlocks)
         {
             m_Enemy.decision = Decision.Attack;
             m_Enemy.defencePart = m_Enemy.m_Tweakers.MaxDefencePart + m_Enemy.m_Tweakers.ParryChance;
@@ -538,14 +386,14 @@ public class GameManager : MonoBehaviour {
         // 2. Если у игрока есть серия - нейтрализуем её (при nicety > 1):
         if (nicety > 1)
         {
-            if (m_Player.series.seriesOfStrikesNum > m_Player.series.seriesStrikeBeginning)
+            if (/*m_Player.series.seriesOfStrikesNum > m_Player.series.SeriesStrikeBeginning*/m_Player.HasSeriesOfStrikes)
             {
                 if (m_Enemy.weaponSet != WeaponSet.SwordShield) m_Enemy.decision = Decision.ChangeSwordShield;
                 else m_Enemy.decision = Decision.Attack;
                 m_Enemy.defencePart = m_Enemy.m_Tweakers.MaxDefencePart + m_Enemy.m_Tweakers.ParryChance;
                 return;
             }
-            if (m_Player.series.seriesOfBlocksNum > m_Player.series.seriesBlockBeginning)
+            if (/*m_Player.series.seriesOfBlocksNum > m_Player.series.SeriesBlockBeginning*/m_Player.HasSeriesOfBlocks)
             {
                 if (m_Enemy.weaponSet != WeaponSet.TwoHandedSword) m_Enemy.decision = Decision.ChangeTwoHandedSword;
                 else m_Enemy.decision = Decision.Attack;
@@ -567,7 +415,7 @@ public class GameManager : MonoBehaviour {
         else m_Enemy.decision = Decision.Attack;
 
         // 4. Тактику при этом пока будем выбирать по рандому:
-        float tactic = UnityEngine.Random.value;                 // рандомное вещественное [0..1]
+        float tactic = UnityEngine.Random.value;                 
         if (tactic < 0.33f)
         {
             m_Enemy.defencePart = m_Enemy.m_Tweakers.MaxDefencePart + m_Enemy.m_Tweakers.ParryChance;

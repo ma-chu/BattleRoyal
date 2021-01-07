@@ -20,7 +20,8 @@ public class PlayerManager : HeroManager
     private Button twoHandedSwordButton;
 
     public GameObject restartButtonObject;
-    public Slider tacticSlider;             // ссылка на слайдер тактики 
+    [SerializeField]
+    private Slider tacticSlider;            // ссылка на слайдер тактики 
     public Canvas m_PlayersControlsCanvas;  // компонент Canvas холста, содержащего в себе кнопки управления игрока
     // отключаем именно компонент холста Canvas, чтобы не помечать сам объект-подканвас (элемент родительского канваса) как dirty с перестройкой род. канваса
 
@@ -109,5 +110,10 @@ public class PlayerManager : HeroManager
         swordShieldButton.enabled = true;                   
         swordSwordButton.enabled = true;
         twoHandedSwordButton.enabled = true;
+    }
+    public override void CalculatePreCoeffs()
+    {
+        defencePart = tacticSlider.value * m_Tweakers.MaxDefencePart + m_Tweakers.ParryChance;
+        base.CalculatePreCoeffs();
     }
 }

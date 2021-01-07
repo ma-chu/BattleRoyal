@@ -9,8 +9,14 @@ public class HeroUI : MonoBehaviour
     public Text m_GetHit1Text;
     public Text m_GetHit2Text;
 
-    [SerializeField]                            // может, как-то получить через GetComponent?
     private HeroManager heroManager;
+    private Series series;
+
+    private void Awake()
+    {
+        heroManager = GetComponent("HeroManager") as HeroManager;
+        series = GetComponent("Series") as Series;
+    }
 
     private void OnEnable()
     {
@@ -50,14 +56,13 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "-" + heroManager.damage1.ToString();  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
+                m_GetHit1Text.text = "-" + heroManager.gotDamage.ToString();  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
                 break;
             case 2:
-                m_GetHit2Text.text = "-" + heroManager.damage2.ToString();
+                m_GetHit2Text.text = "-" + heroManager.gotDamage.ToString();
                 break;
         }
-        heroManager.series.ResetSeriesOfBlocks();
-        heroManager.series.CheckAndSetSeriesOfBlocks();
+        series.ResetSeriesOfBlocks();
     }
 
     private void OnParry(int strikeNumber)
@@ -66,20 +71,19 @@ public class HeroUI : MonoBehaviour
         {
             case 1:
                 m_GetHit1Text.text = "parried";
-                heroManager.series.CheckAndSetSeriesOfBlocks(heroManager, m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
+                series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
                 m_GetHit2Text.text = "parried";
-                heroManager.series.CheckAndSetSeriesOfBlocks(heroManager, m_GetHit2Text);
+                series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
     }
 
     private void OnBlockVs2Handed()
     {
-        m_GetHit1Text.text = "shield: -" + heroManager.damage1.ToString();
-        heroManager.series.ResetSeriesOfBlocks();
-        heroManager.series.CheckAndSetSeriesOfBlocks();
+        m_GetHit1Text.text = "shield: -" + heroManager.gotDamage.ToString();
+        series.ResetSeriesOfBlocks();
     }
 
 
@@ -89,11 +93,11 @@ public class HeroUI : MonoBehaviour
         {
             case 1:
                 m_GetHit1Text.text = "blocked";
-                heroManager.series.CheckAndSetSeriesOfBlocks(heroManager, m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
+                series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
                 m_GetHit2Text.text = "blocked";
-                heroManager.series.CheckAndSetSeriesOfBlocks(heroManager, m_GetHit2Text);
+                series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
     }

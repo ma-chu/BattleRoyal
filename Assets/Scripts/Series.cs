@@ -5,11 +5,35 @@ using UnityEngine.UI;
 //  СЕРИИ ГЕРОЯ
 public class Series : MonoBehaviour
 {
+    [SerializeField]
+    private HP _HP;                                   // Ссылка на компонент-здоровье
+
     // ПАРАМЕТРЫ для рассчета бонусов за серии:
-    public float strongStrikeMin = 14;               // минимальный урон для определения сильных ударов
-    public int strongStrikeSeriesBeginning = 2;      // после какого удара начинаются бонусы за сильные удары    
-    public int seriesStrikeBeginning = 3;            // после какого удара начинаются бонусы за серию ударов    
-    public int seriesBlockBeginning = 3;             // после какого блока начинаются бонусы за серию блоков
+    [SerializeField]
+    private float strongStrikeMin = 14;               // минимальный урон для определения сильных ударов
+    [SerializeField]
+    private int strongStrikeSeriesBeginning = 2;      // после какого удара начинаются бонусы за сильные удары    
+    [SerializeField]
+    private int seriesStrikeBeginning = 3;            // после какого удара начинаются бонусы за серию ударов    
+    [SerializeField]
+    private int seriesBlockBeginning = 3;             // после какого блока начинаются бонусы за серию блоков
+    public float StrongStrikeMin
+    {
+        get { return strongStrikeMin; }
+    }
+    public int StrongStrikeSeriesBeginning
+    {
+        get { return strongStrikeSeriesBeginning; }
+    }
+    public int SeriesStrikeBeginning
+    {
+        get { return seriesStrikeBeginning; }
+    }
+    public int SeriesBlockBeginning
+    {
+        get { return seriesBlockBeginning; }
+    }
+
     [SerializeField]
     private float strongStrikeSeriesStepValue = 0.5f; // ценность каждого сильного удара после strongStrikeSeriesBeginning
     [SerializeField]
@@ -18,14 +42,29 @@ public class Series : MonoBehaviour
     private float seriesBlockStepValue = 1f;          // ценность каждого последующего блока в серии после seriesBlockBeginning
 
     // Бонус за кол-во сильных ударов: +0.5 к урону за каждый сильный удар (на strenghtStrikeMin) после strenghtStrikeBeginning (+0.5 к третьему, +1 к четвертому ...)
-    public int strongStrikesNum = 0;                    // Количество сильных ударов общее
-    private bool hasStrongStrikesSeries = false;         // уже набрано
+    private int strongStrikesNum = 0;                    // Количество сильных ударов общее
+    [SerializeField]
+    private bool hasStrongStrikesSeries = false;        // уже набрано
     // Бонус за серию ударов: +0.5 к урону за каждый удар подряд после seriesStrikeBeginning /при двух мечах должен пройти хоть один/ (+0.5 к четвертому, +1 к пятому ...)
-    public int seriesOfStrikesNum = 0;                  // Количество ударов в серии
-    private bool hasSeriesOfStrikes = false;             // серия ударов набрана
+    private int seriesOfStrikesNum = 0;                  // Количество ударов в серии
+    [SerializeField]
+    private bool hasSeriesOfStrikes = false;            // серия ударов набрана
     // Бонус за серию блоков: +1 к здоровью за каждый блок подряд после seriesBlockBeginning /при двух мечах должны быть заблокированы оба удара/ (+1 к четвертому, +2 к пятому ...)
-    public int seriesOfBlocksNum = 0;                   // Количество блоков в серии
+    private int seriesOfBlocksNum = 0;                   // Количество блоков в серии
+    [SerializeField]
     private bool hasSeriesOfBlocks = false;             // серия блоков набрана
+    public bool HasStrongStrikesSeries
+    {
+        get { return hasStrongStrikesSeries; }
+    }
+    public bool HasSeriesOfStrikes
+    {
+        get { return hasSeriesOfStrikes; }
+    }
+    public bool HasSeriesOfBlocks
+    {
+        get { return hasSeriesOfBlocks; }
+    }
 
     // Слайдеры-звезды для отображения серий
     [SerializeField]
@@ -49,63 +88,91 @@ public class Series : MonoBehaviour
 
     private void Awake()
     {
+        _HP = GetComponent("HP") as HP;
+
         // Установим максимальные значения слайдеров-подсказок серий
-        m_StrengthStrikesStarSlider.maxValue = strongStrikeSeriesBeginning;
-        m_SeriesOfBlocksStarSlider.maxValue = seriesBlockBeginning;
-        m_SeriesOfStrikesStarSlider.maxValue = seriesStrikeBeginning;
+        m_StrengthStrikesStarSlider.maxValue = StrongStrikeSeriesBeginning;
+        m_SeriesOfBlocksStarSlider.maxValue = SeriesBlockBeginning;
+        m_SeriesOfStrikesStarSlider.maxValue = SeriesStrikeBeginning;
     }
 
-    // 1. Set/Reset Series
-    public void CheckAndSetStrongStrikesSeries()        
+
+    public void AddStrongSeries(int strikeNumber)
     {
-        // подвинуть слайдер подсказки
-        m_StrengthStrikesStarSlider.value = strongStrikesNum;
-        m_StrengthStrikesStarFillImage.color = Color.Lerp(Color.magenta, Color.red, strongStrikesNum / strongStrikeSeriesBeginning);
+        switch (strikeNumber)
+        {
+            case 1:
+                if (heroManager.preCoeffs[0].damage >= StrongStrikeMin) { strongStrikesNum++; }
+                break;
+            case 2:
+                if (heroManager.preCoeffs[1].damage >= StrongStrikeMin) { strongStrikesNum++; }
+                break;
+        }
+
         // проверить, достигнута ли серия: сыграть звук достижения серии и выставить меркер
-        if (!hasStrongStrikesSeries && (strongStrikesNum == strongStrikeSeriesBeginning))
+        if (!hasStrongStrikesSeries && (strongStrikesNum == StrongStrikeSeriesBeginning))
         {
             SFXAudio.Play();
             hasStrongStrikesSeries = true;
         }
+
+        UpdateStrongStrikesSeries();    // обновить подсказку
     }
     public void ResetStrongStrikesSeries()
     {
         strongStrikesNum = 0;
         hasStrongStrikesSeries = false;
+
+        UpdateStrongStrikesSeries();    // обновить подсказку
+    }
+    public void UpdateStrongStrikesSeries()        
+    {
+        // подвинуть слайдер подсказки
+        m_StrengthStrikesStarSlider.value = strongStrikesNum;
+        m_StrengthStrikesStarFillImage.color = Color.Lerp(Color.magenta, Color.red, strongStrikesNum / StrongStrikeSeriesBeginning);
     }
 
-    public void CheckAndSetSeriesOfStrikes()
-    {
-        m_SeriesOfStrikesStarSlider.value = seriesOfStrikesNum;
-        m_SeriesOfStrikesStarFillImage.color = Color.Lerp(Color.blue, Color.cyan, seriesOfStrikesNum / seriesStrikeBeginning);
 
-        if (!hasSeriesOfStrikes && (seriesOfStrikesNum == seriesStrikeBeginning))
+    public void AddSeriesOfStrikes()
+    {
+        seriesOfStrikesNum++;
+
+        if (!hasSeriesOfStrikes && (seriesOfStrikesNum == SeriesStrikeBeginning))
         {
             SFXAudio.Play();
             hasSeriesOfStrikes = true;
         }
+
+        UpdateSeriesOfStrikes();    // обновить подсказку
     }
     public void ResetSeriesOfStrikes()
     {
         seriesOfStrikesNum = 0;
         hasSeriesOfStrikes = false;
+
+        UpdateSeriesOfStrikes();    // обновить подсказку
+    }
+    public void UpdateSeriesOfStrikes()
+    {
+        m_SeriesOfStrikesStarSlider.value = seriesOfStrikesNum;
+        m_SeriesOfStrikesStarFillImage.color = Color.Lerp(Color.blue, Color.cyan, seriesOfStrikesNum / SeriesStrikeBeginning);
     }
 
-    public void CheckAndSetSeriesOfBlocks(HeroManager whom = null, Text where = null)     // who - кому добавлять здоровье, where - в какой строке писать (не обязательные параметры)
+    public void AddSeriesOfBlocks(Text where = null)     // where - в какой строке писать (не обязательный параметр)
     {
-        m_SeriesOfBlocksStarSlider.value = seriesOfBlocksNum;
-        m_SeriesOfBlocksStarFillImage.color = Color.Lerp(Color.yellow, Color.green, seriesOfBlocksNum / seriesBlockBeginning);
+        seriesOfBlocksNum++;
+        UpdateSeriesOfBlocks();
 
-        int diff = seriesOfBlocksNum - seriesBlockBeginning;
+        int diff = seriesOfBlocksNum - SeriesBlockBeginning;
 
         if (diff == 0)
         {
             SFXAudio.Play();
             hasSeriesOfBlocks = true;
         }
-        else if ((diff > 0) && (whom != null) && (where != null))
+        else if ((diff > 0) && (where != null))
         {
-            whom._HP.RegenHealth(diff * seriesBlockStepValue); 
+            _HP.RegenHealth(diff * seriesBlockStepValue); 
             where.text = where.text + " +" + diff.ToString();
         }
     }
@@ -113,14 +180,21 @@ public class Series : MonoBehaviour
     {
         seriesOfBlocksNum = 0;
         hasSeriesOfBlocks = false;
+
+        UpdateSeriesOfBlocks();
+    }
+    public void UpdateSeriesOfBlocks()
+    {
+        m_SeriesOfBlocksStarSlider.value = seriesOfBlocksNum;
+        m_SeriesOfBlocksStarFillImage.color = Color.Lerp(Color.yellow, Color.green, seriesOfBlocksNum / SeriesBlockBeginning);
     }
 
     // 2. Добавить к урону бонусы за серии ударов
     public float AddSeriesDamage()  
     {
         float damage;
-        damage = seriesOfStrikesNum > seriesStrikeBeginning ? ((seriesOfStrikesNum - seriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
-        damage += strongStrikesNum > strongStrikeSeriesBeginning ? ((strongStrikesNum - strongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
+        damage = /*seriesOfStrikesNum > SeriesStrikeBeginning*/HasSeriesOfStrikes ? ((seriesOfStrikesNum - SeriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
+        damage += /*strongStrikesNum > StrongStrikeSeriesBeginning*/HasStrongStrikesSeries ? ((strongStrikesNum - StrongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
         return damage;
     }
 }
