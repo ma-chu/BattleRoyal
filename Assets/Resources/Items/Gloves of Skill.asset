@@ -13,20 +13,14 @@ MonoBehaviour:
   m_Name: Gloves of Skill
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: cf06f33de792f664faa7f53b915dcf6c, type: 3}
-  description: Chance to parry +7%
-  damageModifier: 0
-  damageModMulAdd: 0
+  name: gloves_of_skill
+  description: gloves_of_skill_desc
+  damageModifierAdd: 0
   blockChanceModifier: 0
-  blockChanceModMulAdd: 0
   evadeOnChangeChanceModifier: 0
-  evadeOnChangeChanceModMulAdd: 0
-  koefSecondSwordModifier: 0
-  koefSecondSwordModMulAdd: 0
-  koef2HandSwordModifier: 0
-  koef2HandSwordModMulAdd: 0
-  startHealthModifier: 0
-  startHealthModMulAdd: 0
+  coefSecondSwordModifier: 0
+  coef2HandSwordModifier: 0
+  startHealthModifierMul: 0
+  startHealthModifierAdd: 0
   part2HandedThroughShieldModifier: 0
-  part2HandedThroughShieldModMulAdd: 0
   parringChanceModifier: 7
-  parringChanceModMulAdd: 1

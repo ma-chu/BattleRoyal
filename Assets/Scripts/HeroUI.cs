@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using EF.Localization; 
+
 // Пока только тексты для вывода урона
 public class HeroUI : MonoBehaviour
 {
@@ -70,11 +72,11 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)                
         {
             case 1:
-                m_GetHit1Text.text = "parried";
+                m_GetHit1Text.text = "parried".Localize();
                 series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
-                m_GetHit2Text.text = "parried";
+                m_GetHit2Text.text = "parried".Localize();
                 series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
@@ -82,7 +84,7 @@ public class HeroUI : MonoBehaviour
 
     private void OnBlockVs2Handed()
     {
-        m_GetHit1Text.text = "shield: -" + heroManager.gotDamage.ToString();
+        m_GetHit1Text.text = "shield".Localize() + heroManager.gotDamage.ToString();
         series.ResetSeriesOfBlocks();
     }
 
@@ -92,11 +94,11 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "blocked";
+                m_GetHit1Text.text = "blocked".Localize();
                 series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
-                m_GetHit2Text.text = "blocked";
+                m_GetHit2Text.text = "blocked".Localize();
                 series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
@@ -107,10 +109,10 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "evaded";
+                m_GetHit1Text.text = "evaded".Localize();
                 break;
             case 2:
-                m_GetHit2Text.text = "evaded";
+                m_GetHit2Text.text = "evaded".Localize();
                 break;
         }
     }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9e88c306-1c28-4917-b872-034009efe570" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Dragons Amulet.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Dragons Amulet.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Foxs Schield.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Foxs Schield.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Gloves of Skill.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Gloves of Skill.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Parity Bracers.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Parity Bracers.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Ring of Cunning.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Ring of Cunning.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Sword of Power.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Sword of Power.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/05523276-EF37-492A-8918-C36E7BB297B4/46/e56fa917/AudioMixerSnapshot.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/B012CCB5-E8AA-445E-9080-C84BCBD08B7E/fa/51c34dae/Dropdown.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1qkFqe0jzjo3hEWtNKp3PEfWj0A" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Discover.Launch.Via.Unity" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="selectedOptions">
+        <set />
+      </option>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e88c306-1c28-4917-b872-034009efe570" name="Default Changelist" comment="" />
+      <created>1617615932497</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617615932497</updated>
+      <workItem from="1617615972499" duration="1510000" />
+      <workItem from="1617645898309" duration="1416000" />
+      <workItem from="1617647589277" duration="1936000" />
+      <workItem from="1617992929638" duration="1245000" />
+      <workItem from="1617995986283" duration="1750000" />
+      <workItem from="1617997805006" duration="904000" />
+      <workItem from="1618071403242" duration="875000" />
+      <workItem from="1618073218096" duration="1334000" />
+      <workItem from="1618076491193" duration="1789000" />
+      <workItem from="1618078622212" duration="1504000" />
+      <workItem from="1618228413852" duration="600000" />
+      <workItem from="1618230958244" duration="1094000" />
+      <workItem from="1618315331302" duration="1348000" />
+      <workItem from="1618318820170" duration="1769000" />
+      <workItem from="1618320636132" duration="1550000" />
+      <workItem from="1618396682138" duration="1196000" />
+      <workItem from="1618399184936" duration="1764000" />
+      <workItem from="1618401276295" duration="1846000" />
+      <workItem from="1618422849610" duration="1059000" />
+      <workItem from="1618426776289" duration="39000" />
+      <workItem from="1618427065171" duration="1000" />
+      <workItem from="1618431576317" duration="3192000" />
+      <workItem from="1618487668231" duration="9599000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="343" y="159" key="run.anything.popup" timestamp="1618569810492">
+      <screen x="0" y="0" width="1366" height="724" />
+    </state>
+    <state x="343" y="159" key="run.anything.popup/0.0.1366.724@0.0.1366.724" timestamp="1618569810492" />
+  </component>
+</project>

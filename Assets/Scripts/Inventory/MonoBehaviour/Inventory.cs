@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EF.Localization;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
@@ -13,7 +14,7 @@ public class Inventory : MonoBehaviour
     private Text itemName;                                   // текст для вывода имени предмета инвентаря
     private Text itemDescription;                            // текст для вывода описания предмета инвентаря
     private GameObject itemDescriptionObject;                // объект-родитель (холст), содержащий все эти поля (для вкл/выкл информации)
-
+    private Canvas itemCanvas;
 
     public void Awake()
     {
@@ -21,6 +22,7 @@ public class Inventory : MonoBehaviour
         itemImage = itemDescriptionObject.GetComponentInChildren<Image>();
         itemName = itemDescriptionObject.GetComponentsInChildren<Text>()[1];    // почему этот в массиве первый, а следующий нулевой? х.з.
         itemDescription = itemDescriptionObject.GetComponentsInChildren<Text>()[0];
+        itemCanvas = itemDescriptionObject.GetComponent<Canvas>();
     }
 
         // This function is called in order to add an item to the inventory.
@@ -68,11 +70,11 @@ public class Inventory : MonoBehaviour
         if (index == -1) return;    // защита от показывания свойств недобавленного (ввиду избытка) объекта - костыль
         else
         {
-            itemName.text = items[index].name;
-            itemDescription.text = items[index].Description;
+            itemName.text = items[index]./*name*/Name.Localize();
+            itemDescription.text = items[index].Description.Localize();
             itemImage.sprite = items[index].Sprite;
             //itemDescriptionObject.SetActive(true); - так будет перебатчен родительский холст
-            itemDescriptionObject.GetComponent<Canvas>().enabled = true; // так производительнее
+            itemCanvas.enabled = true; // так производительнее
 
         }
     }
@@ -81,6 +83,6 @@ public class Inventory : MonoBehaviour
     public void CloseItemDescription()
     {
         //itemDescriptionObject.SetActive(false);
-        itemDescriptionObject.GetComponent<Canvas>().enabled = false;
+        itemCanvas.enabled = false;
     }
 }

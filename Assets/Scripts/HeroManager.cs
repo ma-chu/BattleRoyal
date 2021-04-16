@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System;                                               // for Events
-
+using System;            // for Events
 
 public class HeroManager : MonoBehaviour
 {
@@ -300,7 +299,7 @@ public class HeroManager : MonoBehaviour
         if (a != -1)                                    // и чтоб не был полный инвенторий (т.е. мы выиграли 4 раунд, т.е. игру)
         {
             inventory.ShowItemDescription(a);           // отобразить описание выданного инвентаря
-            return inventory.items[a].name;
+            return inventory.items[a].Name;
         }
         else return null;
     }

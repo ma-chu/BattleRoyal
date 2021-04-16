@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Sword of Power
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: e3072a7f575d80042848b213ad7c29e1, type: 3}
-  description: Damage +1
+  name: sword_of_power
+  description: sword_of_power_desc
   damageModifierAdd: 1
   blockChanceModifier: 0
   evadeOnChangeChanceModifier: 0

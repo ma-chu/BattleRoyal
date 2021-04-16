@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;                                             // для Events
+using System;                                            // для Events
+using EF.Localization; 
 // #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
@@ -79,6 +80,8 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     private int stupitidyChangeDelay;                       // задержка на тупизну перед сменой оружия
+    
+    //private string _defeatToken = "";
 
     private void Start()
     {      
@@ -88,7 +91,7 @@ public class GameManager : MonoBehaviour {
         m_AttackWait = new WaitForSeconds(m_AttackDelay);
         m_ChangeWait = new WaitForSeconds(m_ChangeDelay);
 
-        StartCoroutine(GameLoop());                         // запускаем сам процесс боя как сопрограмму
+        StartCoroutine(GameLoop());                  // запускаем сам процесс боя как сопрограмму
                                                             // Почему как сопрограмму? Потому что будем прерывать её директивой yield return
     }
 
@@ -103,7 +106,7 @@ public class GameManager : MonoBehaviour {
         m_gameWinner = GameWinner();
         if (m_gameWinner!=Players.Nobody)                                // победитель игры определен
         {
-            m_resultText.text = "GAME OVER! "+ m_gameWinner.ToString() + " WIN";
+            m_resultText.text = /*"GAME OVER! "*/"game_over".Localize() + m_gameWinner.ToString().Localize() + /*" WIN"*/"win".Localize();
             m_gameOverAnimator.SetTrigger("GameOver");                   // запуск анимации конца игры
             SFXAudio.clip = m_audioClip_GameOver;                        // звук конца игры
             SFXAudio.Play();
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator GameStarting()                  // начало игры
     {      
-        m_resultText.text = "Defeat " + m_NumRoundsToWin.ToString() + " knights to win the Tournament!";
+        m_resultText.text = "Defeat".Localize() + m_NumRoundsToWin.ToString() + "to_win".Localize();
 
         yield return m_StartWait;                        
     }
@@ -132,7 +135,7 @@ public class GameManager : MonoBehaviour {
         //1. Увеличить номер раунда.
         m_roundNumber++;
         //2. Сформировать и вывести информационное сообщение.
-        m_resultText.text="ROUND " + m_roundNumber.ToString();
+        m_resultText.text=/*"ROUND "*/"round".Localize() + m_roundNumber.ToString();
         //3. Установить стартовые параметры игроку и врагу: твикеры (с учетом инвентаря), здоровье, начальные позиции и пр. Заблокировать кнопки управления игроку.
         // в самом начале игры инвентарь не сработает
         // ВОЗМОЖНО, тут лучше вызвать событие, и принять его не только HeroManager-ом, но и HP и пр.
@@ -330,14 +333,14 @@ public class GameManager : MonoBehaviour {
         m_Enemy.enabled = false;
         yield return m_DeathWait;                           // используем m_DeathWait ( 2.5 сек), чтоб не плодить сущности
         //2. Вывести информационное сообщение.
-        m_resultText.text = "in ROUND " + m_roundNumber.ToString() + " " + m_roundWinner + " wins";
+        m_resultText.text = "round".Localize() + m_roundNumber.ToString() + " " + "ended".Localize() + m_roundWinner.ToString().Localize() + "win".Localize();
         //3. Выдать игроку пункт инвентаря за победу в раунде
         if (m_roundWinner == Players.Player)
         {
             yield return m_DeathWait;                       // ждём еще одну m_DeathWait
 
             string a = m_Player.GiveOutPrize();
-            if (a!=null) m_resultText.text = "You've got a " + a;
+            if (a!=null) m_resultText.text = "you_got".Localize() + a.Localize();
         }
         yield return m_EndWait;                      
 

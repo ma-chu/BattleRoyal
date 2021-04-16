@@ -1,0 +1,181 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd5744fef76640a418e10f214dea627f, type: 3}
+  m_Name: LocalizationsContainer
+  m_EditorClassIdentifier: 
+  Localization:
+  - Token: attack
+    Translations:
+    - "\u0410\u0422\u0410\u041A\u0410"
+    - ATTACK
+  - Token: change_weapon
+    Translations:
+    - "\u0421\u041C\u0415\u041D\u0418\u0422\u042C \u041E\u0420\u0423\u0416\u0418\u0415"
+    - CHANGE WEAPON
+  - Token: sword_sword
+    Translations:
+    - "\u041C\u0415\u0427 & \u041C\u0415\u0427"
+    - SWORD & SWORD
+  - Token: sword_shield
+    Translations:
+    - "\u041C\u0415\u0427 & \u0429\u0418\u0422"
+    - SWORD & SHIELD
+  - Token: 2handed_sword
+    Translations:
+    - "\u0414\u0412\u0423\u0420\u0423\u0427\u041D \u041C\u0415\u0427"
+    - 2HANDED SWORD
+  - Token: offence
+    Translations:
+    - "\u0410\u0422\u0410\u041A\u0410"
+    - OFFENCE
+  - Token: defence
+    Translations:
+    - "\u0417\u0410\u0429\u0418\u0422\u0410"
+    - DEFENCE
+  - Token: restart_game
+    Translations:
+    - "\u0418\u0413\u0420\u0410\u0422\u042C \u0421\u041D\u041E\u0412\u0410"
+    - RESTART GAME
+  - Token: defeat
+    Translations:
+    - "\u041F\u043E\u0431\u0435\u0434\u0438 \u0432 "
+    - 'Defeat in '
+  - Token: to_win
+    Translations:
+    - " \u0440\u0430\u0443\u043D\u0434\u0430\u0445, \u0447\u0442\u043E\u0431\u044B
+      \u0432\u044B\u0438\u0433\u0440\u0430\u0442\u044C \u0442\u0443\u0440\u043D\u0438\u0440!"
+    - ' rounds to win the tournament!'
+  - Token: game_over
+    Translations:
+    - "\u0418\u0433\u0440\u0430 \u043E\u043A\u043E\u043D\u0447\u0435\u043D\u0430! "
+    - 'Game over! '
+  - Token: win
+    Translations:
+    - " \u0432\u044B\u0438\u0433\u0440\u0430\u043B"
+    - ' win'
+  - Token: round
+    Translations:
+    - "\u0440\u0430\u0443\u043D\u0434 "
+    - round
+  - Token: ended
+    Translations:
+    - "\u043E\u043A\u043E\u043D\u0447\u0435\u043D. "
+    - 'ended. '
+  - Token: you_got
+    Translations:
+    - "\u0412\u044B \u043F\u043E\u043B\u0443\u0447\u0438\u043B\u0438  "
+    - 'You''ve got a '
+  - Token: player
+    Translations:
+    - "\u0418\u0433\u0440\u043E\u043A"
+    - Player
+  - Token: enemy
+    Translations:
+    - "\u0412\u0440\u0430\u0433"
+    - Enemy
+  - Token: nobody
+    Translations:
+    - "\u041D\u0438\u043A\u0442\u043E \u043D\u0435 "
+    - Nobody
+  - Token: dragons_amulet
+    Translations:
+    - "\u0410\u043C\u0443\u043B\u0435\u0442 \u0414\u0440\u0430\u043A\u043E\u043D\u0430"
+    - Dragons Amulet
+  - Token: foxs_shield
+    Translations:
+    - "\u0429\u0438\u0442 \u041B\u0438\u0441\u044B"
+    - Foxs Schield
+  - Token: gloves_of_skill
+    Translations:
+    - "\u041F\u0435\u0440\u0447\u0430\u0442\u043A\u0438 \u041C\u0430\u0441\u0442\u0435\u0440\u0441\u0442\u0432\u0430"
+    - Gloves of Skill
+  - Token: parity_bracers
+    Translations:
+    - "\u0427\u0435\u0441\u0442\u043D\u044B\u0435 \u041D\u0430\u0440\u0443\u0447\u0438"
+    - Parity Bracers
+  - Token: ring_of_cunning
+    Translations:
+    - "\u041A\u043E\u043B\u044C\u0446\u043E \u0425\u0438\u0442\u0440\u043E\u0441\u0442\u0438"
+    - Ring of Cunning
+  - Token: sword_of_power
+    Translations:
+    - "\u041C\u0435\u0447 \u0421\u0438\u043B\u044B"
+    - Sword of Power
+  - Token: dragons_amulet_desc
+    Translations:
+    - "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435 +10% "
+    - Start Health +10%
+  - Token: foxs_shield_desc
+    Translations:
+    - "\u0428\u0430\u043D\u0441 \u0431\u043B\u043E\u043A\u0430 \u0449\u0438\u0442\u043E\u043C
+      +20% "
+    - Block chance +20%
+  - Token: gloves_of_skill_desc
+    Translations:
+    - "\u0428\u0430\u043D\u0441 \u043F\u0430\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F
+      +7%"
+    - Chance to parry +7%
+  - Token: parity_bracers_desc
+    Translations:
+    - "\u0421\u0438\u043B\u0430 \u043E\u0431\u0440\u0430\u0442\u043D\u043E\u0433\u043E
+      \u0443\u0434\u0430\u0440\u0430 \u0440\u0430\u0432\u043D\u0430 \u0441\u0438\u043B\u0435
+      \u043F\u0440\u044F\u043C\u043E\u0433\u043E"
+    - Equals forehand & backhand strike power
+  - Token: ring_of_cunning_desc
+    Translations:
+    - "\u0428\u0430\u043D\u0441 \u0443\u0432\u043E\u0440\u043E\u0442\u0430 \u043D\u0430
+      \u0441\u043C\u0435\u043D\u0435 +50%"
+    - Evade on change chance +50%
+  - Token: sword_of_power_desc
+    Translations:
+    - "\u0423\u0440\u043E\u043D +1"
+    - Damage +1
+  - Token: parried
+    Translations:
+    - "\u043F\u0430\u0440\u0438\u0440\u043E\u0432\u0430\u043B"
+    - parried
+  - Token: shield
+    Translations:
+    - "\u0449\u0438\u0442: -"
+    - 'shield: -'
+  - Token: blocked
+    Translations:
+    - "\u0431\u043B\u043E\u043A"
+    - blocked
+  - Token: evaded
+    Translations:
+    - "\u0443\u0432\u043E\u0440\u043E\u0442"
+    - evaded
+  - Token: paused
+    Translations:
+    - "\u041F\u0410\u0423\u0417\u0410"
+    - PAUSED
+  - Token: music_volume
+    Translations:
+    - "\u0433\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u043C\u0443\u0437\u044B\u043A\u0438"
+    - music volume
+  - Token: effects_volume
+    Translations:
+    - "\u0433\u0440\u043E\u043C\u043A\u043E\u0441\u0442\u044C \u044D\u0444\u0444\u0435\u043A\u0442\u043E\u0432"
+    - effects volume
+  - Token: quit_game
+    Translations:
+    - "\u0412\u042B\u0425\u041E\u0414"
+    - QUIT GAME
+  - Token: resume
+    Translations:
+    - "\u0414\u0410\u041B\u0415\u0415"
+    - RESUME
+  - Token: language
+    Translations:
+    - "\u042F\u0437\u044B\u043A"
+    - Language
