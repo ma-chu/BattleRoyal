@@ -12,10 +12,11 @@ using UnityEngine;
 
 		//public static bool IsFirstSession => !PlayerPrefs.HasKey(FIRST_SESSION);
 		
-		//public const float SAVE_DELAY = 3f;
+		//public const float SAVE_DELAY = 5f;
+		
+		//public static float SaveDelay { get; private set; } = SAVE_DELAY;
 		
 		public static SaveSnapshot LastLoadedSnapshot { get; private set; }
-		//public static float SaveDelay { get; private set; } = SAVE_DELAY;
 		
 		public static bool Exists()
 		{
@@ -43,7 +44,7 @@ using UnityEngine;
 				language = Localization.CurrentLanguage,
 				tournamentsWon = 0
 			};
-			LastLoadedSnapshot.language = Localization.CurrentLanguage;
+			snapshot.language = Localization.CurrentLanguage;
 			Save(snapshot);
 			Debug.Log("Save() done " + snapshot.language + " " + snapshot.tournamentsWon);
 		}
@@ -60,9 +61,9 @@ using UnityEngine;
 		
 		public static void ClearSave() 
 		{
-        			PlayerPrefs.DeleteKey(META_KEY);
+			PlayerPrefs.DeleteKey(META_KEY);
         
-        			//if (!PlayerPrefs.HasKey(FIRST_SESSION)) PlayerPrefs.SetString(FIRST_SESSION, "YES");
+			//if (!PlayerPrefs.HasKey(FIRST_SESSION)) PlayerPrefs.SetString(FIRST_SESSION, "YES");
 		}
 		
 		/*public static void Update(float deltaTime)

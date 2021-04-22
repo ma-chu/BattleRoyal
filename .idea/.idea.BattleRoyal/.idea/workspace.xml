@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e88c306-1c28-4917-b872-034009efe570" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,7 +95,7 @@
       <workItem from="1618426776289" duration="39000" />
       <workItem from="1618427065171" duration="1000" />
       <workItem from="1618431576317" duration="3192000" />
-      <workItem from="1618487668231" duration="34190000" />
+      <workItem from="1618487668231" duration="34524000" />
     </task>
     <servers />
   </component>
