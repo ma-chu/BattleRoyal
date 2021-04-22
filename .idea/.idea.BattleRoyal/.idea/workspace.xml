@@ -2,21 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e88c306-1c28-4917-b872-034009efe570" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Dragons Amulet.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Dragons Amulet.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Foxs Schield.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Foxs Schield.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Gloves of Skill.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Gloves of Skill.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Parity Bracers.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Parity Bracers.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Ring of Cunning.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Ring of Cunning.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/Items/Sword of Power.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/Items/Sword of Power.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/AudioManager.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,10 +27,14 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/ScriptableObjects/Item.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/HeroUI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/SaveSnapshot.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" />
       </list>
     </option>
   </component>
@@ -105,7 +101,7 @@
       <workItem from="1618426776289" duration="39000" />
       <workItem from="1618427065171" duration="1000" />
       <workItem from="1618431576317" duration="3192000" />
-      <workItem from="1618487668231" duration="9599000" />
+      <workItem from="1618487668231" duration="34190000" />
     </task>
     <servers />
   </component>
@@ -118,9 +114,9 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="343" y="159" key="run.anything.popup" timestamp="1618569810492">
+    <state x="343" y="159" key="run.anything.popup" timestamp="1618822489617">
       <screen x="0" y="0" width="1366" height="724" />
     </state>
-    <state x="343" y="159" key="run.anything.popup/0.0.1366.724@0.0.1366.724" timestamp="1618569810492" />
+    <state x="343" y="159" key="run.anything.popup/0.0.1366.724@0.0.1366.724" timestamp="1618822489617" />
   </component>
 </project>

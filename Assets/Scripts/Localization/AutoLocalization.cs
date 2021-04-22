@@ -1,6 +1,4 @@
-﻿//using GeneralTools;
-
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +13,7 @@ namespace EF.Localization
 
         public void UpdateLocalization()    // в исходнике вызывается для всех BaseButton из массива _allButtons и всех autoLocalizations из массива _autoLocalizations
         {
-            Debug.Log("+" + this.name);
+            //Debug.Log("+" + this.name);
             /*if (_text == null)*/
             {
                 _text = GetComponentInChildren<Text/*MeshProUGUI*/>();
@@ -23,25 +21,16 @@ namespace EF.Localization
             }
 
             _text.text = _stringToken.Localize();
-            Debug.Log(_text.text);
+            //Debug.Log(_text.text);
         }
+        
 
-        /*private void Awake()
-        {
-            Localization.ApplyLanguage(Language.Ru);
-        }
-
-        private void Start()
-        {
-            UpdateLocalization();
-        }*/
-
-/*#if UNITY_EDITOR
+#if UNITY_EDITOR
         private void Update()
         {
             if (Application.isPlaying || _text != null) return;
-            _text = GetComponentInChildren<Text/*MeshProUGUI*///>();
-       // }
-//#endif
+            _text = GetComponentInChildren<Text/*MeshProUGUI*/>();
+        }
+#endif
     }
 }

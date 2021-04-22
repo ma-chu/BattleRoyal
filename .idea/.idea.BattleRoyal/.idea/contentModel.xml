@@ -50,6 +50,10 @@
             <e p="PauseManager.cs" t="Include" />
           </e>
           <e p="PlayerManager.cs" t="Include" />
+          <e p="Serialization" t="Include">
+            <e p="GameSave.cs" t="Include" />
+            <e p="SaveSnapshot.cs" t="Include" />
+          </e>
           <e p="Series.cs" t="Include" />
           <e p="Tweakers.cs" t="Include" />
         </e>

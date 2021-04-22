@@ -10,21 +10,28 @@ public class LocalizationManager : MonoBehaviour
 {
     private AutoLocalization[] _autoLocalizations = new AutoLocalization[0];
     [SerializeField] private Dropdown languageDropdown;
-    private void OnEnable()
+    private void Awake()
     {
         var allLanguages = Enum.GetValues(typeof(Language))
-            .Cast</*int*/Language>()
+            .Cast<Language>()
             .ToList();
         allLanguages.Remove(Language.None);
         
         foreach (var lang in allLanguages) languageDropdown.options.Add(new Dropdown.OptionData(lang.ToString()));
 
-        //var allLanguagesOpt = allLanguagesInt.Cast<Dropdown.OptionData>().ToList();
-
-        //languageDropdown.options.AddRange(allLanguagesOpt);
-
-        Localization.ApplyLanguage(Language.Ru);
         _autoLocalizations = GetComponentsInChildren<AutoLocalization>(true);
+        
+        var snapshot = GameSave.Load();
+        if (snapshot != null)
+        {
+            Localization.ApplyLanguage(snapshot.language);
+            languageDropdown.value = (int) snapshot.language;
+        }
+        else
+        {
+            Localization.ApplyLanguage(Language.Ru);
+        }
+
         UpdateLocalization();
     }
 

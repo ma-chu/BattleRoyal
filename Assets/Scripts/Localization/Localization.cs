@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-//using _IDLE.Scripts.Tools;
 using EF.Tools;
 
 namespace EF.Localization

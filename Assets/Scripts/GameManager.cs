@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour {
             SFXAudio.Play();
             if (m_gameWinner == Players.Player)
             {
+                GameSave.LastLoadedSnapshot.tournamentsWon++;
                 yield return StartCoroutine(Salute());
             }
             yield return m_EndWait;                                      // подождать 3.5 сек
@@ -476,5 +477,10 @@ public class GameManager : MonoBehaviour {
         m_FireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
         m_FireExplodeParticles.Play();                                    
         m_FireExplodeAudio.Play();                                        
+    }
+    
+    private void OnApplicationQuit()
+    {
+        GameSave.Save();
     }
 }
