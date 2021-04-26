@@ -79,6 +79,7 @@ public class PlayerManager : HeroManager
 
     public void RestartPressed()
     {
+        GameSave.Save();
         SceneManager.LoadScene(0);                          // на перезагрузку сцены
     }
 

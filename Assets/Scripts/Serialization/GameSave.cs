@@ -6,7 +6,7 @@ using UnityEngine;
 
 	public static class GameSave
 	{
-		public const string META_KEY = "meta";
+		public const string _KEY = "SAVE";
 
 		//private const string FIRST_SESSION = "HAS_FIRST_SESSION";
 
@@ -20,7 +20,7 @@ using UnityEngine;
 		
 		public static bool Exists()
 		{
-			return PlayerPrefs.HasKey(META_KEY) && PlayerPrefs.GetString(META_KEY).Length > 0;
+			return PlayerPrefs.HasKey(_KEY) && PlayerPrefs.GetString(_KEY).Length > 0;
 		}
 		
 		
@@ -28,7 +28,7 @@ using UnityEngine;
 		{
 			if (!Exists()) return null;
 
-			var json = PlayerPrefs.GetString(META_KEY);
+			var json = PlayerPrefs.GetString(_KEY);
 			LastLoadedSnapshot = JsonUtility.FromJson<SaveSnapshot>(json);
 
 			Debug.Log("Load() done "+LastLoadedSnapshot.language + " " + LastLoadedSnapshot.tournamentsWon);
@@ -54,14 +54,14 @@ using UnityEngine;
 		{
 			var json = JsonUtility.ToJson(snapshot);
 
-			PlayerPrefs.SetString(META_KEY, json);
+			PlayerPrefs.SetString(_KEY, json);
 			PlayerPrefs.Save();
 		}
 		
 		
 		public static void ClearSave() 
 		{
-			PlayerPrefs.DeleteKey(META_KEY);
+			PlayerPrefs.DeleteKey(_KEY);
         
 			//if (!PlayerPrefs.HasKey(FIRST_SESSION)) PlayerPrefs.SetString(FIRST_SESSION, "YES");
 		}

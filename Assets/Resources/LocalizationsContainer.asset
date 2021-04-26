@@ -23,16 +23,16 @@ MonoBehaviour:
     - CHANGE WEAPON
   - Token: sword_sword
     Translations:
-    - "\u041C\u0415\u0427 & \u041C\u0415\u0427"
-    - SWORD & SWORD
+    - "\u041C\u0435\u0447 & \u041C\u0435\u0447"
+    - Sword & Sword
   - Token: sword_shield
     Translations:
-    - "\u041C\u0415\u0427 & \u0429\u0418\u0422"
-    - SWORD & SHIELD
+    - "\u041C\u0435\u0447 & \u0429\u0438\u0442"
+    - Sword & Shield
   - Token: 2handed_sword
     Translations:
-    - "\u0414\u0412\u0423\u0420\u0423\u0427\u041D \u041C\u0415\u0427"
-    - 2HANDED SWORD
+    - "\u0414\u0432\u0443\u0440\u0443\u0447\u043D \u041C\u0435\u0447"
+    - 2Handed Sword
   - Token: offence
     Translations:
     - "\u0410\u0422\u0410\u041A\u0410"

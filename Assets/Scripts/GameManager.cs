@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour {
         {
             yield return m_DeathWait;                       // ждём еще одну m_DeathWait
 
+            GameSave.LastLoadedSnapshot.tournamentsWon++;
             string a = m_Player.GiveOutPrize();
             if (a!=null) m_resultText.text = "you_got".Localize() + a.Localize();
         }
