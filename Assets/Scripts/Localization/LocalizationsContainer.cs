@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-//using _IDLE.Scripts.Balance;
-//using _IDLE.Scripts.Balance.Attributes;
-//using _IDLE.Scripts.Balance.Base;
-//using _IDLE.Scripts.Enums;
-//using _IDLE.Scripts.Tools;
 using UnityEngine;
 using EF.Tools;
 
@@ -15,13 +10,11 @@ namespace EF.Localization
     public class LocalizationData
     {
         public string Token;
-        /*[RepetitiveTableValues(2)]*/ public List<string> Translations;
-
-        /*public override string ToString() => $"{Token} data";*/
+        public List<string> Translations;
     }
     
     [CreateAssetMenu(fileName = "LocalizationsContainer", menuName = "_EF/Localizations container", order = 1)]
-    public class LocalizationsContainer : ScriptableObject/*, IBalanceBase*/
+    public class LocalizationsContainer : ScriptableObject
     {
         public List<LocalizationData> Localization;
 
@@ -37,11 +30,11 @@ namespace EF.Localization
             }
         }
         
-        public static string Get(string token, Language language)
+       /* public static string Get(string token, Language language)
         {
             var data = Instance.Localization.Find(d => d.Token == token);
             return data != null ? data.Translations[(int)language] : token;
-        }
+        }*/
         
         public static Dictionary<string, string> GetDictionary(Language language)
         {
@@ -59,7 +52,7 @@ namespace EF.Localization
             return dictionary;
         }
         
-        public void OnParsed()
+        /*public void OnParsed()
         {
             var allLanguages = Enum.GetValues(typeof(Language))
                                    .Cast<int>()
@@ -93,6 +86,6 @@ namespace EF.Localization
 #if UNITY_EDITOR
             UnityEditor.Selection.activeObject = this;
 #endif
-        }
+        }*/
     }
 }

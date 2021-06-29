@@ -193,8 +193,8 @@ public class Series : MonoBehaviour
     public float AddSeriesDamage()  
     {
         float damage;
-        damage = /*seriesOfStrikesNum > SeriesStrikeBeginning*/HasSeriesOfStrikes ? ((seriesOfStrikesNum - SeriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
-        damage += /*strongStrikesNum > StrongStrikeSeriesBeginning*/HasStrongStrikesSeries ? ((strongStrikesNum - StrongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
+        damage = HasSeriesOfStrikes ? ((seriesOfStrikesNum - SeriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
+        damage += HasStrongStrikesSeries ? ((strongStrikesNum - StrongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
         return damage;
     }
 }

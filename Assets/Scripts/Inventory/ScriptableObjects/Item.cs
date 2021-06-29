@@ -9,7 +9,7 @@ public class Item : ScriptableObject                // наследование 
     [SerializeField]
     private Sprite sprite;                          // картинка
     [SerializeField]
-    private string name;                            // название
+    new private string name;                        // название, скрывает наследуемый член Object.name
     [SerializeField]
     private string description;                     // описание
 

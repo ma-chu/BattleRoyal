@@ -1,37 +1,26 @@
-﻿using System;
-using System.IO;
-using EF.Localization;
-using UnityEditor;
+﻿using EF.Localization;
 using UnityEngine;
 
 	public static class GameSave
 	{
-		public const string _KEY = "SAVE";
+		public const string _SaveKey = "SAVE";
 
-		//private const string FIRST_SESSION = "HAS_FIRST_SESSION";
-
-		//public static bool IsFirstSession => !PlayerPrefs.HasKey(FIRST_SESSION);
-		
-		//public const float SAVE_DELAY = 5f;
-		
-		//public static float SaveDelay { get; private set; } = SAVE_DELAY;
-		
 		public static SaveSnapshot LastLoadedSnapshot { get; private set; }
 		
-		public static bool Exists()
+		public static bool SaveKeyExists()
 		{
-			return PlayerPrefs.HasKey(_KEY) && PlayerPrefs.GetString(_KEY).Length > 0;
+			return PlayerPrefs.HasKey(_SaveKey) && PlayerPrefs.GetString(_SaveKey).Length > 0;
 		}
 		
 		
 		public static SaveSnapshot Load()
 		{
-			if (!Exists()) return null;
+			if (!SaveKeyExists()) return null;
 
-			var json = PlayerPrefs.GetString(_KEY);
+			var json = PlayerPrefs.GetString(_SaveKey);
 			LastLoadedSnapshot = JsonUtility.FromJson<SaveSnapshot>(json);
 
-			Debug.Log("Load() done "+LastLoadedSnapshot.language + " " + LastLoadedSnapshot.tournamentsWon);
+			Debug.Log("Load() done. Lang = "+ LastLoadedSnapshot.language + ". CUPS = " + LastLoadedSnapshot.tournamentsWon);
 			return LastLoadedSnapshot;
 		}
 		
@@ -46,7 +35,7 @@ using UnityEngine;
 			};
 			snapshot.language = Localization.CurrentLanguage;
 			Save(snapshot);
-			Debug.Log("Save() done " + snapshot.language + " " + snapshot.tournamentsWon);
+			Debug.Log("Save() done. Lang = " + snapshot.language + ". CUPS = " + snapshot.tournamentsWon);
 		}
 		
 		
@@ -54,29 +43,14 @@ using UnityEngine;
 		{
 			var json = JsonUtility.ToJson(snapshot);
 
-			PlayerPrefs.SetString(_KEY, json);
+			PlayerPrefs.SetString(_SaveKey, json);
 			PlayerPrefs.Save();
 		}
 		
 		
-		public static void ClearSave() 
+		public static void ClearSave()
 		{
-			PlayerPrefs.DeleteKey(_KEY);
-        
-			//if (!PlayerPrefs.HasKey(FIRST_SESSION)) PlayerPrefs.SetString(FIRST_SESSION, "YES");
+			PlayerPrefs.DeleteKey(_SaveKey);
 		}
-		
-		/*public static void Update(float deltaTime)
-		{
-			if (SaveDelay.EqualTo(0f)) return;
-
-			SaveDelay -= deltaTime;
-
-			if (SaveDelay > 0f) return;
-
-			SaveDelay = SAVE_DELAY;
-			Save();
-		}*/
-		
 
 	}

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using EF.Localization;
 using UnityEngine.UI;
 using System;
@@ -43,7 +41,7 @@ public class LocalizationManager : MonoBehaviour
     
     public virtual void UpdateLocalization()
     {
-        //foreach (var button in AllButtons) button.UpdateLocalization();
+        //foreach (var button in _buttons) button.UpdateLocalization();
         foreach (var autoLocalization in _autoLocalizations) autoLocalization.UpdateLocalization();
     }
 

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Globalization;
-using EF.Localization;
-using UnityEngine;
+﻿using EF.Localization;
+
 
 public class SaveSnapshot /*: ISerializationCallbackReceiver*/
 // Возможно, этот интерфейс надо реализовывать, если будем сохранять какие-то контейнеры:

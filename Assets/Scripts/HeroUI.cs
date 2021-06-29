@@ -58,10 +58,10 @@ public class HeroUI : MonoBehaviour
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "-" + heroManager.gotDamage.ToString();  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
+                m_GetHit1Text.text = "-" + heroManager.gotDamage[0];  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
                 break;
             case 2:
-                m_GetHit2Text.text = "-" + heroManager.gotDamage.ToString();
+                m_GetHit2Text.text = "-" + heroManager.gotDamage[1];
                 break;
         }
         series.ResetSeriesOfBlocks();
@@ -84,7 +84,7 @@ public class HeroUI : MonoBehaviour
 
     private void OnBlockVs2Handed()
     {
-        m_GetHit1Text.text = "shield".Localize() + heroManager.gotDamage.ToString();
+        m_GetHit1Text.text = "shield".Localize() + heroManager.gotDamage[0];
         series.ResetSeriesOfBlocks();
     }
 

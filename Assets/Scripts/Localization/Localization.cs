@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EF.Tools;
 
 namespace EF.Localization
@@ -23,10 +22,10 @@ namespace EF.Localization
             _dictionary = LocalizationsContainer.GetDictionary(language);
         }
 
-        public static string Localize(this Enum token)
+       /* public static string Localize(this Enum token)
         {
             return Localize(token.ToString());
-        }
+        }*/
         
         public static string Localize(this string token)        // 2. После этого надо бы вызывать этот метод для всех токенов - скрипт AutoLocalization
         {

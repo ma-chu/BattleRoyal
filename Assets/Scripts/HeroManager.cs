@@ -6,23 +6,23 @@ public class HeroManager : MonoBehaviour
     /* ССЫЛКИ НА ДРУГИЕ MonoBehaviour-классы, относящиеся к этому герою.
      * Хотел сделать их вложенными классами, но косолапая реализация паттерна комповщика в Unity С#
      * (отсутствие ссылки на внешний класс и инициализации полей вложенного класса редактором) мешает */
-    private HP _HP;                                             // Здоровье
-    private Series series;                                      // Серии ударов и блоков
-    protected HeroAnimation m_HeroAnimation;                    // Анимация
+    private HP _HP;                                                 // Здоровье
+    private Series series;                                          // Серии ударов и блоков
+    protected HeroAnimation m_HeroAnimation;                        // Анимация
 
     [SerializeField]
-    protected Inventory inventory;                              // Инвенторий
+    protected Inventory inventory;                                  // Инвенторий
     [HideInInspector]
     protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)
     
-    public Tweakers m_Tweakers;                                 // Настройки балланса боёвки
+    public Tweakers m_Tweakers;                                     // Настройки балланса боёвки
 
-    public PreCoeffs[] preCoeffs = new PreCoeffs[2];            // Предв. значения для рассчета урона
+    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                // Предв. значения для рассчета урона
+    public ExchangeResult[] exchangeResult = new ExchangeResult[2]; // Результаты ударов
+    public float defencePart;                                       // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
+    public int[] gotDamage;                                         // Возможный получаемый урон на текущий удар
 
-    public float defencePart;                                   // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
-    public float gotDamage;                                     // Возможный получаемый урон на текущий удар
-
-    public bool m_dead;                                         // герой мёртв 
+    public bool m_dead;                                             // герой мёртв 
 
 
     public bool HasStrongStrikesSeries
@@ -96,6 +96,8 @@ public class HeroManager : MonoBehaviour
         sword2MeshRenderer = heroSword_2.GetComponent<MeshRenderer>();
         shieldMeshRenderer = heroShield.GetComponent<MeshRenderer>();
         twoHandedSwordMeshRenderer = hero2HandedSword.GetComponent<MeshRenderer>();
+        
+        gotDamage = new int[2];        // Так и не понял, почему нельзя писать при определении массива public int[] gotDamage = new int[2]; 
     }
 
     protected virtual void OnEnable()                          // что мы делаем, когда герой снова жив (back on again, следующий раунд)
@@ -156,41 +158,41 @@ public class HeroManager : MonoBehaviour
     // Функции-запускатели событий этого класса, что подписываются на GameManager.ExchangeEvent1-2
     private void OnExchange1()
     {
-        if ((preCoeffs[0].exchangeResult == ExchangeResult.GetHit) || (preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed))
+        if ((exchangeResult[0] == ExchangeResult.GetHit) || (exchangeResult[0] == ExchangeResult.BlockVs2Handed))
         {
             GetHitEvent?.Invoke(1);
-            if (_HP.TakeDamage(/*damage1*/gotDamage)) InvokeDeathEvent();
+            if (_HP.TakeDamage(gotDamage[0])) InvokeDeathEvent();
         }
 
         if (decision == Decision.Attack)
         {
-            if (preCoeffs[0].exchangeResult == ExchangeResult.Parry) ParryEvent?.Invoke(1);
-            if (preCoeffs[0].exchangeResult == ExchangeResult.Block) BlockEvent?.Invoke(1);
-            if (preCoeffs[0].exchangeResult == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke();
+            if (exchangeResult[0] == ExchangeResult.Parry) ParryEvent?.Invoke(1);
+            if (exchangeResult[0] == ExchangeResult.Block) BlockEvent?.Invoke(1);
+            if (exchangeResult[0] == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke();
         }
 
-        if (preCoeffs[0].exchangeResult == ExchangeResult.Evade) EvadeEvent?.Invoke(1);
+        if (exchangeResult[0] == ExchangeResult.Evade) EvadeEvent?.Invoke(1);
     }
 
     protected virtual void OnExchange2()
     {
         if (decision == Decision.Attack) AttackEvent?.Invoke();
 
-        if ((preCoeffs[1].exchangeResult == ExchangeResult.GetHit) && !m_dead)    // если не помер после первого удара
+        if ((exchangeResult[1] == ExchangeResult.GetHit) && !m_dead)    // если не помер после первого удара
         {
             GetHitEvent?.Invoke(2);                                               // то принимаем второй
-            if (_HP.TakeDamage(/*damage2*/gotDamage)) InvokeDeathEvent();  
+            if (_HP.TakeDamage(gotDamage[1])) InvokeDeathEvent();  
         }
 
         if (((decision == Decision.ChangeSwordShield) || (decision == Decision.ChangeSwordSword) || (decision == Decision.ChangeTwoHandedSword))
             && !m_dead) ChangeEvent?.Invoke();
         else
         {        
-        if (preCoeffs[1].exchangeResult == ExchangeResult.Parry) ParryEvent?.Invoke(2);
-        if (preCoeffs[1].exchangeResult == ExchangeResult.Block) BlockEvent?.Invoke(2);
+            if (exchangeResult[1] == ExchangeResult.Parry) ParryEvent?.Invoke(2);
+            if (exchangeResult[1] == ExchangeResult.Block) BlockEvent?.Invoke(2);
         }
 
-        if (preCoeffs[1].exchangeResult == ExchangeResult.Evade) EvadeEvent?.Invoke(2);
+        if (exchangeResult[1] == ExchangeResult.Evade) EvadeEvent?.Invoke(2);
     }
 
     private void OnExchangeEnded()
@@ -200,8 +202,8 @@ public class HeroManager : MonoBehaviour
 
     public virtual void CalculatePreCoeffs()
     {
-        preCoeffs[0].exchangeResult = ExchangeResult.No;
-        preCoeffs[1].exchangeResult = ExchangeResult.No;
+        //preCoeffs[0].exchangeResult = ExchangeResult.No;    //28.05.21
+        //preCoeffs[1].exchangeResult = ExchangeResult.No;    //28.05.21
 
         preCoeffs[0].parry = (UnityEngine.Random.value <= defencePart);
         preCoeffs[1].parry = (UnityEngine.Random.value <= defencePart);

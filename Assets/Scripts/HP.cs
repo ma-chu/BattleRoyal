@@ -24,8 +24,8 @@ public class HP : MonoBehaviour
         SetHealthUI();                                   
     }
     // ПРИНЯТЬ УДАР
-    public bool TakeDamage(float amount)                // public, следовательно будет вызываться другим классом (GameManager)
-    {                                                   // возвращает true, если после текущего удара герой умер
+    public bool TakeDamage(float amount)                 // возвращает true, если после текущего удара герой умер
+    {                                                  
         m_CurrentHealth -= amount;                          
         SetHealthUI();                          
         

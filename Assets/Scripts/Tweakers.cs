@@ -26,46 +26,29 @@ public class Tweakers                                      // Настройки
     [SerializeField]
     private float startingHealth = 100f;                // начальное здоровье
 
-    public int DamageBaseMin
+    public int DamageBaseMin                            // 1. Полная запись свойства (с именнованным полем)
     {
-        get { return damageBaseMin; }
+        get
+        {
+            return damageBaseMin;
+        }
     }
-    public int DamageBaseMax
+    public int DamageBaseMax                               
     {
-        get { return damageBaseMax; }
+        get => damageBaseMax;
+        //set => damageBaseMax=value;                    // 2. Сокращенная запись св-ва (с именнованным полем); позволяет использовать модификатор set
     }
-    public float Coef2HandedSword
-    {
-        get { return coef2HandedSword; }
-    }
-    public float CoefSecondSword
-    {
-        get { return coefSecondSword; }
-    }
-    public float BlockChance
-    {
-        get { return blockChance; }
-    }
-    public float Part2HandedThroughShield
-    {
-        get { return part2HandedThroughShield; }
-    }
-    public float EvadeOnChangeChance
-    {
-        get { return evadeOnChangeChance; }
-    }
-    public float MaxDefencePart
-    {
-        get { return maxDefencePart; }
-    }
-    public float ParryChance
-    {
-        get { return parryChance; }
-    }
-    public float StartingHealth
-    {
-        get { return startingHealth; }
-    }
+
+    public float Coef2HandedSword => coef2HandedSword;   // 3. Еще более сокращенная запись readonly свойства (с именнованным полем); не позволяет использовать модификатор set
+    // 4. Еще короче только автоматически реализуемое свойство: public static Language CurrentLanguage { get; private set; }  НО здесь поле неименнованное, что плохо для сериализации 
+
+    public float CoefSecondSword => coefSecondSword;
+    public float BlockChance => blockChance;
+    public float Part2HandedThroughShield => part2HandedThroughShield;
+    public float EvadeOnChangeChance => evadeOnChangeChance;
+    public float MaxDefencePart => maxDefencePart;
+    public float ParryChance => parryChance;
+    public float StartingHealth => startingHealth;
 
     public Tweakers()                                          // значения по-умолчанию
     {
