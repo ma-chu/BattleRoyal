@@ -17,6 +17,7 @@ TagManager:
   - shield
   - sword_2
   - PlayerSeriesHUD
+  - seriesStar
   layers:
   - Default
   - TransparentFX

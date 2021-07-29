@@ -62,6 +62,12 @@ public class PlayerManager : HeroManager
         base.OnExchange2();
     }
 
+    /*protected override void OnExchangeEnded()
+    {
+        m_PlayersControlsCanvas.enabled = false;
+        base.OnExchangeEnded();
+    }*/
+
     public void AttackPressed()                    
     {
         decision = Decision.Attack;
@@ -79,6 +85,8 @@ public class PlayerManager : HeroManager
 
     public void RestartPressed()
     {
+        GameSave.Save();
+        if (GameManager.gameType != GameType.Single) BoltLauncher.Shutdown();
         SceneManager.LoadScene(0);                          // на перезагрузку сцены
     }
 
@@ -111,9 +119,13 @@ public class PlayerManager : HeroManager
         swordSwordButton.enabled = true;
         twoHandedSwordButton.enabled = true;
     }
-    public override void CalculatePreCoeffs()
+    /*public override void CalculatePreCoeffs()
+    {
+        base.CalculatePreCoeffs();
+    }*/
+
+    public void SetDefencePart()
     {
         defencePart = tacticSlider.value * m_Tweakers.MaxDefencePart + m_Tweakers.ParryChance;
-        base.CalculatePreCoeffs();
     }
 }

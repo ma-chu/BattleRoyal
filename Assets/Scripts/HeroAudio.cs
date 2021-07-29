@@ -45,7 +45,6 @@ public class HeroAudio : MonoBehaviour
         m_WoundAudio = m_WoundParticles.GetComponent<AudioSource>();                        // берём другой компонент (можно ссылаться на объект по его компоненту)
         // отправляем объект  в пассив... Наверное, так надо делать, если у нас есть компоненты "Play on Awake", чтобы они не отобразились сразу. Сейчас не надобно
         //m_WoundParticles.gameObject.SetActive(false);   
-        m_WoundAudio.clip = m_audioClip;
         //цвет материала крови красный
         m_WoundParticles.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
         m_WoundParticles.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
@@ -86,6 +85,7 @@ public class HeroAudio : MonoBehaviour
         if (strikeNumber == 2) delay = 0.3f;
         m_WoundParticles.transform.position = heroManager.transform.position;   // перемещаем рану на героя
         //m_WoundParticles.gameObject.SetActive(true);              // активируем
+        m_WoundAudio.clip = m_audioClip;
         m_WoundParticles.Play();                                                // воспроизводим систему частиц
         m_WoundAudio.PlayDelayed(delay);                                        // воспроизводим аудио крика боли
     }

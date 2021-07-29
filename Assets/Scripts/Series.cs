@@ -112,7 +112,8 @@ public class Series : MonoBehaviour
         // проверить, достигнута ли серия: сыграть звук достижения серии и выставить меркер
         if (!hasStrongStrikesSeries && (strongStrikesNum == StrongStrikeSeriesBeginning))
         {
-            SFXAudio.Play();
+            //Debug.Log("STRONG YEE");
+            SFXAudio.PlayDelayed(0.2f);
             hasStrongStrikesSeries = true;
         }
 
@@ -139,7 +140,7 @@ public class Series : MonoBehaviour
 
         if (!hasSeriesOfStrikes && (seriesOfStrikesNum == SeriesStrikeBeginning))
         {
-            SFXAudio.Play();
+            SFXAudio.PlayDelayed(0.2f);
             hasSeriesOfStrikes = true;
         }
 
@@ -167,7 +168,7 @@ public class Series : MonoBehaviour
 
         if (diff == 0)
         {
-            SFXAudio.Play();
+            SFXAudio.PlayDelayed(0.2f);
             hasSeriesOfBlocks = true;
         }
         else if ((diff > 0) && (where != null))
@@ -193,8 +194,8 @@ public class Series : MonoBehaviour
     public float AddSeriesDamage()  
     {
         float damage;
-        damage = /*seriesOfStrikesNum > SeriesStrikeBeginning*/HasSeriesOfStrikes ? ((seriesOfStrikesNum - SeriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
-        damage += /*strongStrikesNum > StrongStrikeSeriesBeginning*/HasStrongStrikesSeries ? ((strongStrikesNum - StrongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
+        damage = HasSeriesOfStrikes ? ((seriesOfStrikesNum - SeriesStrikeBeginning) * seriesStrikeStepValue) : 0;                   // за серию ударов
+        damage += HasStrongStrikesSeries ? ((strongStrikesNum - StrongStrikeSeriesBeginning) * strongStrikeSeriesStepValue) : 0;    // за кол-во сильных ударов
         return damage;
     }
 }

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Parity Bracers
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: b1eeeb2699d93f548ae2931cba1ed14c, type: 3}
-  description: Equals forehand & backhand strike power
+  name: parity_bracers
+  description: parity_bracers_desc
   damageModifierAdd: 0
   blockChanceModifier: 0
   evadeOnChangeChanceModifier: 0

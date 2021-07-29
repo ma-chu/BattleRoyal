@@ -48,7 +48,7 @@ public class EnemyManager : HeroManager
         // Установить начальное положение героя, задать исходное на ристалище 
         m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
   
-        inventory.RemoveItem(enemiesItem1);                         // убираем инвентарь врага с прошлого раунда (если был, то максимум один)
+        if (GameManager.gameType == GameType.Single) inventory.RemoveItem(enemiesItem1);    // убираем инвентарь врага с прошлого раунда (если был, то максимум один)
         
         // 1. Изменения в зависимости от количества выигранных игроком раундов: цвет и форма оружия врага, инвентарь врага
         switch (HeroManager.player_countRoundsWon)                  
@@ -110,14 +110,14 @@ public class EnemyManager : HeroManager
                 twoHandedSwordMeshRenderer.material.EnableKeyword("_EMISSION");
                 twoHandedSwordMeshRenderer.material.SetColor("_EmissionColor", new Color(0.6f, 0.6f, 0.2f));
                 // даем врагу кольцо
-                inventory.AddItem(enemiesItem1);
+                if (GameManager.gameType == GameType.Single) inventory.AddItem(enemiesItem1);
                 break;
         }
 
         base.OnEnable();                           
 
         //2. Усложнить игру базовым уроном в зависимости от кол-ва выигранных раундов
-        m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);
+        if (GameManager.gameType == GameType.Single) m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);
     }
 
 }

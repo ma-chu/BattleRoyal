@@ -3,11 +3,13 @@
 // This simple script represents Items in the game. The inventory system is done using
 // this script instead of just sprites to ensure that items are extensible.
 
-[CreateAssetMenu]                                   // позволяет добавлять себя себя через меню редактора Assets|Create
+[CreateAssetMenu(menuName = "_EF/Item", order = 1)]  // позволяет добавлять себя себя через меню редактора Assets|Create
 public class Item : ScriptableObject                // наследование от ScriptableObject означает, что мы можем сохранить этот скрипт как asset (и создавать его instance-ы)
 {
     [SerializeField]
     private Sprite sprite;                          // картинка
+    [SerializeField]
+    new private string name;                        // название, скрывает наследуемый член Object.name
     [SerializeField]
     private string description;                     // описание
 
@@ -39,6 +41,11 @@ public class Item : ScriptableObject                // наследование 
     public string Description
     {
         get { return description; }
+    }
+    public string Name
+    {
+        get => name;
+        set => name = value;
     }
     public int DamageModifierAdd
     {
