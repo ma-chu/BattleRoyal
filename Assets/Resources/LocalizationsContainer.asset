@@ -170,7 +170,7 @@ MonoBehaviour:
   - Token: quit_game
     Translations:
     - "\u0412\u042B\u0425\u041E\u0414"
-    - QUIT GAME
+    - Quit Game
   - Token: resume
     Translations:
     - "\u0414\u0410\u041B\u0415\u0415"

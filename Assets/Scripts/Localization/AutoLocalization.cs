@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using EF.Tools;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace EF.Localization
         {
             {
                 _text = GetComponentInChildren<Text/*MeshProUGUI*/>();
-                if (_text == null) return;
+                if (_text.IsNull()) return;
             }
 
             _text.text = _stringToken.Localize();

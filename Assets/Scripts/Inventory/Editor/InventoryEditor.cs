@@ -67,7 +67,8 @@ public class InventoryEditor : Editor
     // в рантайме на андроиде вывалит кучу ошибок про отсутствие MenuItem и AssetDatabase
     // подгрузил в папку Resources айтемов, вызвал повторно конструктор - и готово
     private const string creationPath = "Assets/Resources/AllItems.asset";  // The path that the AllItems asset is created at.
-    [MenuItem("Assets/Create/AllItems")]                                    // Call this function when the menu item is selected.
+    [MenuItem("Assets/Create/_EF/AllItems")]                                    // Call this function when the menu item is selected.
+
     public static void CreateAllItemsAsset()
     {
         // Удалим старый (а потом создадим новый)

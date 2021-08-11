@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
+
 public class Menu : GlobalEventListener
 {
     [SerializeField] private GameObject MultiPlayerGO;
@@ -47,7 +48,7 @@ public class Menu : GlobalEventListener
     public void StartSinglePlayer()
     {
         GameManager.gameType = GameType.Single;
-        SceneManager.LoadScene(1);                          
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);                          
     }
     
     public void StartMultiPlayer()

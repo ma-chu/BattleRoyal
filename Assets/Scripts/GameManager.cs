@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Linq; // для Events
-using EF.Localization; 
+using EF.Localization;
+using EF.Tools;
+
 // #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
@@ -30,8 +32,11 @@ public class GameManager : MonoBehaviour {
     public static event Action ExchangeEvent2;             // удар2 состоялся
     public static event Action ExchangeEndedEvent;         // весь сход закончен
 
-    public static GameManager instance;                    // ссылка на себя, сигнализирующая, создан ли (единственный - "singleton") инстанс этого класса или нет. Для Bolt-а
+    private static GameManager _instance;                  // ссылка на себя, сигнализирующая, создан ли (единственный - "singleton") инстанс этого класса или нет. Для Bolt-а
                                                             // GameObject.FindGameObjectsWithTag() в ServerNetworkCallbacks не срабатывает
+    public static GameManager Instance => _instance;                                                       
+                                                            
+                                                            
     public  PlayerManager m_Player;                        // ссылка на менеджер игрока
     public  EnemyManager m_Enemy;                          // ссылка на менеджер врага
 
@@ -94,11 +99,15 @@ public class GameManager : MonoBehaviour {
     private IEFPlayerState _enemyState;
     [SerializeField] private Text m_myNameText;  
     [SerializeField] private Text m_enemyNameText;
-    
+
+    private void Awake()
+    {
+        if (_instance.IsNull()) _instance = this;
+    }
+
     private void Start()
     {
-        if (instance == null) instance = this;
-        m_DeathWait = new WaitForSeconds(m_DeathDelay);     // инициализируем задержки: переводим секунды в понятный сопрограмме вид. Затем будем использовать их yield-ом
+        m_DeathWait = new WaitForSeconds(m_DeathDelay);         // инициализируем задержки: переводим секунды в понятный сопрограмме вид. Затем будем использовать их yield-ом
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_AttackWait = new WaitForSeconds(m_AttackDelay);

@@ -57,8 +57,8 @@ public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
 
     public void SetLinks()                     // установить ссылки на свои GameManager & PlayerManager
     {
-        _playerManager = GameManager.instance.m_Player;
-        _gameManager = GameManager.instance;
+        _playerManager = GameManager.Instance.m_Player;
+        _gameManager = GameManager.Instance;
 
         state.AddCallback("Decision", DecisionCallback);
         state.AddCallback("InventoryItem", InventoryCallback);

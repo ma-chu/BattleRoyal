@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="8d25125c-dfd5-47c0-882e-bf4f691bab92" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/LocalizationsContainer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LocalizationsContainer.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/StartMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/StartMenu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inventory/Editor/InventoryEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inventory/Editor/InventoryEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/ExtensionMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/ExtensionMethods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerEntityController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerEntityController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/NetworkData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/NetworkData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,12 +45,17 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/DE1F8EF4-975B-4EAC-BEB0-ACCC1B22C9B0/02/28ba55d8/Tweener.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/DE1F8EF4-975B-4EAC-BEB0-ACCC1B22C9B0/f7/12649c0b/ShortcutExtensions.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerClientToken.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerObject.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyManager.cs" />
@@ -26,12 +64,22 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerEntityController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationsContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/AutoLocalization.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/EFButton.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/ExtensionMethods.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/SpriteContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFBaseUI.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/SpritesContainer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/Editor/InventoryEditor.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" />
       </list>
     </option>
   </component>
@@ -92,6 +140,8 @@
       <workItem from="1626609919104" duration="66490000" />
       <workItem from="1626890832112" duration="89617000" />
       <workItem from="1627545909050" duration="2444000" />
+      <workItem from="1627932154248" duration="37494000" />
+      <workItem from="1628156054975" duration="15549000" />
     </task>
     <servers />
   </component>
@@ -100,6 +150,18 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -172,10 +234,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="184" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1626554704369" />
-    <state x="92" y="92" width="1182" height="544" key="VCS.FileHistoryDialog" timestamp="1626612966004">
+    <state x="92" y="92" width="1182" height="544" key="VCS.FileHistoryDialog" timestamp="1628159352863">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="92" y="92" width="1182" height="544" key="VCS.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1626612966004" />
+    <state x="92" y="92" width="1182" height="544" key="VCS.FileHistoryDialog/0.0.1366.728@0.0.1366.728" timestamp="1628159352863" />
     <state x="339" y="157" key="run.anything.popup" timestamp="1627325703001">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

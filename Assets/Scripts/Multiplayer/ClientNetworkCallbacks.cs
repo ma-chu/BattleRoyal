@@ -14,9 +14,9 @@ public class ClientNetworkCallbacks : GlobalEventListener
 
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
    {
-       _gameManager = GameManager.instance;
-       _playerManager = GameManager.instance.m_Player;
-       _enemyManager = GameManager.instance.m_Enemy;
+       _gameManager = GameManager.Instance;
+       _playerManager = GameManager.Instance.m_Player;
+       _enemyManager = GameManager.Instance.m_Enemy;
    }
    
    
