@@ -18,7 +18,7 @@ namespace EF.Sounds
         
         private SaveSnapshot _snapshot;
         
-        [SerializeField] private AudioMixer masterMixer;   
+        public AudioMixer masterMixer;   
 
         private void Awake()
         {

@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviour {
             if (!doServerExchange && !doClientExchange) m_Player.m_PlayersControlsCanvas.enabled = true;
 
             //b0. При одиночной игре определить решение врага: удар или смена оружия
-            if (gameType == GameType.Single)
+            if (gameType == GameType.Single && m_Enemy.decision == Decision.No)
             {
                 MakeSinglePlayerEnemyDecision(HeroManager.player_countRoundsWon); 
             }
@@ -559,10 +559,5 @@ public class GameManager : MonoBehaviour {
         fireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
         fireExplodeParticles.Play();
         SoundsManager.Instance.PlaySound(grenadeSound);
-    }
-    
-    private void OnApplicationQuit()
-    {
-        GameSave.Save();
     }
 }

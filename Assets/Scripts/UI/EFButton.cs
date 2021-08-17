@@ -88,7 +88,8 @@ namespace EF.UI
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
         AnimateScale(1.5f, 0.5f);
         AnimateRotation(5f, .25f);
-        AnimatePosition(RectTrans.anchoredPosition + new Vector2(20,0), 0.5f,  ()=>Debug.Log("Position Animated!"));
+        AnimatePosition(RectTrans.anchoredPosition + new Vector2(20, 0), 0.5f,
+            () => { ; } /*Debug.Log("Position Animated!")*/);
     }
 
     private void VerifyLocalizationToken()

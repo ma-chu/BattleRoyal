@@ -1,4 +1,5 @@
 ﻿using EF.Localization;
+using EF.Sounds;
 using UnityEngine;
 
 	public static class GameSave
@@ -36,9 +37,9 @@ using UnityEngine;
 			};
 			snapshot.language = Localization.CurrentLanguage;
 			
-			MixLevels.Instance.masterMixer.GetFloat("sfxVolume", out float sfx);
+			SoundsManager.Instance.masterMixer.GetFloat("sfxVolume", out float sfx);
 			snapshot.SFXLvl = sfx;
-			MixLevels.Instance.masterMixer.GetFloat("musicVolume", out float mus);
+			SoundsManager.Instance.masterMixer.GetFloat("musicVolume", out float mus);
 			snapshot.musicLvl = mus;
 				
 			Save(snapshot);

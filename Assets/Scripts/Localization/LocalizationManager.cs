@@ -18,8 +18,12 @@ public class LocalizationManager : MonoBehaviour
             .Cast<Language>()
             .ToList();
         allLanguages.Remove(Language.None);
-        
-        foreach (var language in allLanguages) languageDropdown.options.Add(new Dropdown.OptionData(language.ToString()));
+
+        if (languageDropdown != null)
+        {
+            foreach (var language in allLanguages)
+                languageDropdown.options.Add(new Dropdown.OptionData(language.ToString()));
+        }
 
         _autoLocalizations = GetComponentsInChildren<AutoLocalization>(true);
         _buttons = GetComponentsInChildren<EFButton>(true);
@@ -28,7 +32,7 @@ public class LocalizationManager : MonoBehaviour
         if (!snapshot.IsNull())
         {
             Localization.ApplyLanguage(snapshot.language);
-            languageDropdown.value = (int) snapshot.language;
+            if (languageDropdown != null) languageDropdown.value = (int) snapshot.language;
         }
         else
         {

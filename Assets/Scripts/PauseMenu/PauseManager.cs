@@ -81,4 +81,9 @@ public class PauseManager : MonoBehaviour {
 		Application.Quit();
 		#endif
 	}
+	
+	private void OnApplicationQuit()
+	{
+		GameSave.Save();
+	}
 }

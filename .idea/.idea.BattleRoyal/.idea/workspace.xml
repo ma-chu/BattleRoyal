@@ -21,30 +21,16 @@
   <component name="ChangeListManager">
     <list default="true" id="8d25125c-dfd5-47c0-882e-bf4f691bab92" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/FireballExplode.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/FireballExplode.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GetWound.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GetWound.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/LocalizationsContainer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/LocalizationsContainer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/SoundsContainer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/SoundsContainer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/SoundsContainer.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/SoundsContainer.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Global.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Global.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Serialization/SaveSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Serialization/SaveSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Series.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Series.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsContainer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsContainer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,17 +67,17 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StartLoader.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Series.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/SaveSnapshot.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
       </list>
     </option>
   </component>
@@ -157,7 +143,7 @@
       <workItem from="1628708954660" duration="9695000" />
       <workItem from="1628862217862" duration="5074000" />
       <workItem from="1628884137953" duration="41626000" />
-      <workItem from="1629184825455" duration="827000" />
+      <workItem from="1629184825455" duration="5146000" />
     </task>
     <servers />
   </component>
@@ -263,9 +249,10 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="339" y="157" key="run.anything.popup/0.0.1366.728@0.0.1366.728" timestamp="1627325703001" />
-    <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1629099506789">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state x="346" y="49" width="672" height="675" key="search.everywhere.popup" timestamp="1629206723613">
+      <screen x="0" y="0" width="1366" height="724" />
     </state>
+    <state x="346" y="49" width="672" height="675" key="search.everywhere.popup/0.0.1366.724@0.0.1366.724" timestamp="1629206723613" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728@0.0.1366.728" timestamp="1629099506789" />
   </component>
 </project>

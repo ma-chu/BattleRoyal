@@ -54,8 +54,8 @@ public class Menu : GlobalEventListener
     public void StartSinglePlayer()
     {
         GameManager.gameType = GameType.Single;
-        SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex*/0);
-        SceneManager.LoadScene (2, LoadSceneMode.Additive); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
+        //SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex*/0);
+        SceneManager.LoadScene (2, LoadSceneMode.Single); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
         //SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main"));
     }
     
