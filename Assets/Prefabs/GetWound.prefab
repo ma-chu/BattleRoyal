@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4964712497566412}
   - component: {fileID: 198719498175532254}
   - component: {fileID: 199638149433250540}
-  - component: {fileID: 82641341598222712}
+  - component: {fileID: 82489399751938620}
   m_Layer: 0
   m_Name: GetWound
   m_TagString: Untagged
@@ -4748,7 +4748,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!82 &82641341598222712
+--- !u!82 &82489399751938620
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4759,8 +4759,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3652404730242764012, guid: 9104d8500b5c346478f3add74eb96624,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 982c2517463496d438abcd87d3be20c7, type: 3}
-  m_PlayOnAwake: 0
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

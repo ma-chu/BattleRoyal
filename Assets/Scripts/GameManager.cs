@@ -5,12 +5,15 @@ using UnityEngine.UI;
 using System;
 using System.Linq; // для Events
 using EF.Localization;
+using EF.Sounds;
 using EF.Tools;
+using UnityEngine.SceneManagement;
 
 // #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
-public enum Players : short { Player, Enemy, Nobody };                                                  // варианты победителей раундов и игры
+public enum Heroes : short { Player, Enemy, Nobody };                                                  // варианты героев (победителей раундов и игры)
+
 public enum Decision : short {No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword}; // варианты действий героя - импульс на 1 такт
 public enum ExchangeResult : short { No, Evade, Parry, BlockVs2Handed, Block, GetHit };                 // варианты исхода размена ударами для каждого противника
 public enum GameType : short { Single, Server, Client };                                                // тип игры
@@ -32,33 +35,24 @@ public class GameManager : MonoBehaviour {
     public static event Action ExchangeEvent2;             // удар2 состоялся
     public static event Action ExchangeEndedEvent;         // весь сход закончен
 
-    private static GameManager _instance;                  // ссылка на себя, сигнализирующая, создан ли (единственный - "singleton") инстанс этого класса или нет. Для Bolt-а
-                                                            // GameObject.FindGameObjectsWithTag() в ServerNetworkCallbacks не срабатывает
+    private static GameManager _instance;                  // ссылка на себя, сигнализирующая, создан ли (единственный - "singleton") инстанс этого класса или нет. Для Bolt-а// GameObject.FindGameObjectsWithTag() в ServerNetworkCallbacks не срабатывает
     public static GameManager Instance => _instance;                                                       
-                                                            
-                                                            
+    
     public  PlayerManager m_Player;                        // ссылка на менеджер игрока
     public  EnemyManager m_Enemy;                          // ссылка на менеджер врага
 
-    [SerializeField]
-    private int m_NumRoundsToWin = 4;                      // надо выиграть раундов для выигрыша игры
+    [SerializeField] private int m_NumRoundsToWin = 4;     // надо выиграть раундов для выигрыша игры
     private int m_roundNumber = 0;                         // текущий номер раунда
-    private Players m_roundWinner;                         // победитель раунда
-    private Players m_gameWinner;                          // победитель игры
+    private Heroes m_roundWinner;                          // победитель раунда
+    private Heroes m_gameWinner;                           // победитель игры
 
-    [SerializeField]
-    private Text m_resultText;                             // текст для вывода "Игра окончена" и прочего
+    [SerializeField] private Text m_resultText;                             // текст для вывода "Игра окончена" и прочего
 
-    [SerializeField]
-    private float m_StartDelay = 3.5f;                     // стартовая задержка в секундах
-    [SerializeField]
-    private float m_EndDelay = 5f;                         // конечная задержка в секундах
-    [SerializeField]
-    private float m_DeathDelay = 2.5f;                     // задержка на смерть в секундах
-    [SerializeField]
-    private float m_AttackDelay = 3f;                      // задержка на анимацию размена ударами
-    [SerializeField]
-    private float m_ChangeDelay = 7.5f;                    // задержка на анимацию смены оружия
+    [SerializeField] private float m_StartDelay = 3.5f;                     // стартовая задержка в секундах
+    [SerializeField] private float m_EndDelay = 5f;                         // конечная задержка в секундах
+    [SerializeField] private float m_DeathDelay = 2.5f;                     // задержка на смерть в секундах
+    [SerializeField] private float m_AttackDelay = 3f;                      // задержка на анимацию размена ударами
+    [SerializeField] private float m_ChangeDelay = 7.5f;                    // задержка на анимацию смены оружия
 
     private WaitForSeconds m_DeathWait;                    // задержки понятного сопрограмме вида
     private WaitForSeconds m_StartWait;                    // переведение в него из секунд состоится в ф-ии Start()                 
@@ -67,25 +61,11 @@ public class GameManager : MonoBehaviour {
     private WaitForSeconds m_ChangeWait;
 
     // Стафф конца игры
-    [SerializeField]
-    private Animator m_gameOverAnimator;                    
-    [SerializeField]
-    private AudioSource SFXAudio;                           // аудио-сорс общих звуковых эффектов игры: пока только звук конца игры
-    // SFX и VFX победы
-    [SerializeField]
-    private AudioClip m_audioClip_GameOver;                 // клип конца игры  
-    [SerializeField]
-    private GameObject m_FireExplodePrefab;                 // ссылка на объект-салют (префаб, состоящий из particle system и звука)
-    [SerializeField]
-    private AudioClip m_FireExplodeaudioClip;               // аудио-клип салюта
-    private AudioSource m_FireExplodeAudio;                 // ссылки на компоненты конкретного инстанса префаба салюта
-    private ParticleSystem m_FireExplodeParticles;
-    [SerializeField]
-    private float m_ExplodesInterval = 1f;                  // задержка меж выстрелами в секундах
-    private WaitForSeconds m_ExplodesWait;                  
+    [SerializeField] private Animator m_gameOverAnimator;
+    [SerializeField] private GameObject m_FireExplodePrefab;                 // ссылка на объект-салют (префаб, состоящий из particle system (уже без звука)
+    [SerializeField] private float m_ExplodesInterval = 1f;                  // задержка меж выстрелами в секундах
 
-    [SerializeField]
-    private int stupitidyChangeDelay;                       // задержка на тупизну перед сменой оружия
+    [SerializeField] private int stupitidyChangeDelay;                       // задержка на тупизну перед сменой оружия
     
     // Multiplayer staff
     public static GameType gameType;      
@@ -93,16 +73,20 @@ public class GameManager : MonoBehaviour {
     public static BoltEntity enemyBoltEntity;
     public static bool ClientConnected = false;
 
-    public bool doServerExchange;
-    public bool doClientExchange;
+    [HideInInspector] public bool doServerExchange;
+    [HideInInspector] public bool doClientExchange;
 
     private IEFPlayerState _enemyState;
+    
     [SerializeField] private Text m_myNameText;  
     [SerializeField] private Text m_enemyNameText;
 
     private void Awake()
     {
         if (_instance.IsNull()) _instance = this;
+        
+        //if (!SceneManager.GetSceneByName("Start").isLoaded) SceneManager.LoadScene ("Start", LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) SceneManager.LoadScene (1, LoadSceneMode.Additive);
     }
 
     private void Start()
@@ -129,21 +113,20 @@ public class GameManager : MonoBehaviour {
 
         m_gameWinner = GameWinner();
         
-        if (m_gameWinner != Players.Nobody)
+        if (m_gameWinner != Heroes.Nobody)
         {
             var winner = m_gameWinner.ToString().Localize();
             if (gameType != GameType.Single)
             {
-                if (m_gameWinner == Players.Player) winner = PlayerPrefs.GetString("username");
+                if (m_gameWinner == Heroes.Player) winner = PlayerPrefs.GetString("username");
                 else winner = _enemyState.Username;
             }
             m_resultText.text = "game_over".Localize() + winner + "win".Localize();
             
-            m_gameOverAnimator.SetTrigger("GameOver");                   
-            SFXAudio.clip = m_audioClip_GameOver;                        
-            SFXAudio.Play();
-            
-            if (m_gameWinner == Players.Player)
+            m_gameOverAnimator.SetTrigger("GameOver");
+            SoundsManager.Instance.PlaySound(SoundsContainer.GetAudioClip(SoundTypes.GameOver));
+
+            if (m_gameWinner == Heroes.Player)
             {
                 GameSave.LastLoadedSnapshot.tournamentsWon++;
                 yield return StartCoroutine(Salute());
@@ -334,11 +317,11 @@ public class GameManager : MonoBehaviour {
         m_resultText.text = "round".Localize() + m_roundNumber.ToString() + " " + "ended".Localize() + m_roundWinner.ToString().Localize() + "win".Localize();
         
         //3. ждём еще одну m_DeathWait, ибо будем выдавать инвентарь
-        if (m_roundWinner == Players.Player || gameType != GameType.Single)
+        if (m_roundWinner == Heroes.Player || gameType != GameType.Single)
             yield return m_DeathWait;
         
         //4. Выдать игроку пункт инвентаря за победу в раунде
-        if (m_roundWinner == Players.Player)
+        if (m_roundWinner == Heroes.Player)
         {
             string a = m_Player.GiveOutPrize()?.Name;
             if (a != null) m_resultText.text = "you_got".Localize() + a.Localize();
@@ -441,7 +424,7 @@ public class GameManager : MonoBehaviour {
     public void MakeMultiplayerEnemyDecision(Decision decision, float defencePart, out int[] clientExchangeResult, out int[] clientDamage, out int[] serverExchangeResult, out int[] serverDamage)
     // выполняется на сервере
     {
-        m_Enemy.decision = (Decision) decision;    //лишнее, уже сделано в ServerNetworkCallbacks по событию EFReadyForExchangeEvent
+        //m_Enemy.decision = (Decision) decision;    //лишнее, уже сделано в ServerNetworkCallbacks по событию EFReadyForExchangeEvent
         m_Enemy.defencePart = defencePart;
 
         ExchangeResultsAndDamages();
@@ -530,50 +513,52 @@ public class GameManager : MonoBehaviour {
         {
             if (m_Enemy.m_dead)                         // ничья
             {
-                m_roundWinner = Players.Nobody;
+                m_roundWinner = Heroes.Nobody;
                 return true;
             }
             HeroManager.enemy_countRoundsWon++;         // врагу +1 раунд
-            m_roundWinner = Players.Enemy;          
+            m_roundWinner = Heroes.Enemy;          
             return true;
         }
         if (m_Enemy.m_dead)
         {
             HeroManager.player_countRoundsWon++;        // мне +1 раунд
-            m_roundWinner = Players.Player;
+            m_roundWinner = Heroes.Player;
             return true;
         }
         return false;
     }
 
-    private Players GameWinner()
+    private Heroes GameWinner()
     {
         var roundsForEnemy = gameType == GameType.Single ? 1 : m_NumRoundsToWin;
-        if (HeroManager.enemy_countRoundsWon >= roundsForEnemy) return Players.Enemy;
-        if (HeroManager.player_countRoundsWon >= m_NumRoundsToWin) return Players.Player;
-        return Players.Nobody;
+        if (HeroManager.enemy_countRoundsWon >= roundsForEnemy) return Heroes.Enemy;
+        if (HeroManager.player_countRoundsWon >= m_NumRoundsToWin) return Heroes.Player;
+        return Heroes.Nobody;
     }
 
     private IEnumerator Salute()
     {
-        m_ExplodesWait = new WaitForSeconds(m_ExplodesInterval);
+        var explodesWait = new WaitForSeconds(m_ExplodesInterval);
+        var fireExplodeParticles = Instantiate(m_FireExplodePrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба взрыва и берем компонент этого инстанса
+        var grenadeSound = SoundsContainer.GetAudioClip(SoundTypes.Grenade);
+        
         // первый выстрел
-        m_FireExplodeParticles = Instantiate(m_FireExplodePrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба взрыва и берем компонент этого инстанса
-        m_FireExplodeAudio = m_FireExplodeParticles.GetComponent<AudioSource>();                     // берём другой компонент (можно ссылаться на объект по его компоненту)   
-        m_FireExplodeAudio.clip = m_FireExplodeaudioClip;
-        m_FireExplodeParticles.transform.position = new Vector3(-1f, 2f, 2.35f);
-        m_FireExplodeParticles.Play();                                    
-        m_FireExplodeAudio.Play();                                        
-        yield return m_ExplodesWait;                                      
+        fireExplodeParticles.transform.position = new Vector3(-1f, 2f, 2.35f);
+        fireExplodeParticles.Play();
+        SoundsManager.Instance.PlaySound(grenadeSound);
+        yield return explodesWait; 
+        
         // второй выстрел
-        m_FireExplodeParticles.transform.position = new Vector3(-3f, 2.5f, 2.55f);
-        m_FireExplodeParticles.Play();                                    
-        m_FireExplodeAudio.Play();                                       
-        yield return m_ExplodesWait;                                      
+        fireExplodeParticles.transform.position = new Vector3(-3f, 2.5f, 2.55f);
+        fireExplodeParticles.Play(); 
+        SoundsManager.Instance.PlaySound(grenadeSound);
+        yield return explodesWait;
+        
         // третий выстрел
-        m_FireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
-        m_FireExplodeParticles.Play();                                    
-        m_FireExplodeAudio.Play();                                        
+        fireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
+        fireExplodeParticles.Play();
+        SoundsManager.Instance.PlaySound(grenadeSound);
     }
     
     private void OnApplicationQuit()

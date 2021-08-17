@@ -24,7 +24,7 @@ public class LocalizationManager : MonoBehaviour
         _autoLocalizations = GetComponentsInChildren<AutoLocalization>(true);
         _buttons = GetComponentsInChildren<EFButton>(true);
         
-        var snapshot = GameSave.Load();
+        var snapshot = GameSave.LastLoadedSnapshot ?? GameSave.Load();
         if (!snapshot.IsNull())
         {
             Localization.ApplyLanguage(snapshot.language);

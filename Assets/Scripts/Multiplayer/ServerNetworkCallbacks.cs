@@ -74,7 +74,6 @@ public class ServerNetworkCallbacks : Bolt.GlobalEventListener
         
         GameManager.ClientConnected = true; 
     }
-
     
 
     // ф-ия-событие, когда локальныая сцена (здесь сервера)  (или сервера/клиента, если бы не было флага BoltNetworkModes.Server) болта стартанула

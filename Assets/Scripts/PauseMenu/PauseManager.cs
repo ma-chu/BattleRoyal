@@ -1,23 +1,47 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 using UnityEngine.Audio;        // пространство имен для аудио-миксеров и их снимков
-#if UNITY_EDITOR                // скрипт запущен из редактора (или как приложение?)
+using EF.Tools;
+using UnityEngine.UI;
+#if UNITY_EDITOR                // скрипт запущен из редактора (не как приложение)
 using UnityEditor;
 #endif
 
 public class PauseManager : MonoBehaviour {
 	
-	public AudioMixerSnapshot paused;                         // ссылки на снимки состояний миксера
-	public AudioMixerSnapshot unpaused;
+	[SerializeField] private AudioMixerSnapshot startPaused;                         // ссылки на снимки состояний миксера
+	[SerializeField] private AudioMixerSnapshot startUnpaused;
 	
 	Canvas canvas;
-	
+
+	private AudioMixerSnapshot _paused;
+	private AudioMixerSnapshot _unpaused;
+
+	[SerializeField] private Slider sFXSlider;
+	[SerializeField] private Slider musicSlider;
+
 	void Start()
 	{
+		_paused = startPaused;
+		_unpaused = startUnpaused;
+		
 		canvas = GetComponent<Canvas>();
         canvas.enabled = false;
-    }
+        
+        var snapshot = GameSave.LastLoadedSnapshot ?? GameSave.Load();
+        if (!snapshot.IsNull())
+        {
+	        _unpaused.audioMixer.SetFloat("sfxVolume", snapshot.SFXLvl);
+	        _unpaused.audioMixer.SetFloat("moveVolume", snapshot.SFXLvl - 12f);
+	        _unpaused.audioMixer.SetFloat("musicVolume", snapshot.musicLvl);
+
+	        _paused.audioMixer.SetFloat("sfxVolume", snapshot.SFXLvl - 40f);
+	        _paused.audioMixer.SetFloat("moveVolume", snapshot.SFXLvl - 28f);
+	        _paused.audioMixer.SetFloat("musicVolume", snapshot.musicLvl - 20f);
+
+	        sFXSlider.value = snapshot.SFXLvl;
+	        musicSlider.value = snapshot.musicLvl;
+        }
+	}
 	
 	void Update()
 	{
@@ -39,13 +63,13 @@ public class PauseManager : MonoBehaviour {
 	{
 		if (Time.timeScale == 0)
 		{
-			paused.TransitionTo(.01f);                     // достичь уровнем звуков состояния этого снимка за 0.01 сек
+			/*startPaused*/_paused.TransitionTo(.01f);                     // достичь уровнем звуков состояния этого снимка за 0.01 сек
 		}
 		
 		else
 			
 		{
-			unpaused.TransitionTo(.01f);
+			/*startUnpaused*/_unpaused.TransitionTo(.01f);
 		}
 	}
 	

@@ -2,16 +2,24 @@
 using EF.Tools;
 using UnityEngine;
 using EF.UI;
-// В сцене Main пока не прикручивал
+using DG.Tweening;
+using UnityEngine.Audio;
+
+// только для общих звуков
 namespace EF.Sounds
 {
     public class SoundsManager : MonoBehaviour
     {
         private static SoundsManager _instance;
         public static SoundsManager Instance => _instance;
-
-        [SerializeField] private AudioSource SFXAudioSourceSound/*, _audioSourceMusic*/;
         
+        [SerializeField] private AudioSource musicAudioSource;
+        [SerializeField] private AudioSource globalSFXAudioSource;
+        
+        private SaveSnapshot _snapshot;
+        
+        [SerializeField] private AudioMixer masterMixer;   
+
         private void Awake()
         {
             _instance = this;
@@ -19,38 +27,44 @@ namespace EF.Sounds
 
         private void OnEnable()
         {
-            UpdateSettings();
-
             //PlayerSettings.SoundSettingsChanged += UpdateSettings;
             EFButton.ClickSound += OnAction;
         }
+
+        private void Start()
+        {
+            _snapshot = GameSave.LastLoadedSnapshot ?? GameSave.Load();
+            UpdateAudioSettings();
+            PlayMusic(SoundsContainer.GetAudioClip(SoundTypes.BackgroundMusic));
+        }
+
         private void OnDisable()
         {
             //PlayerSettings.SoundSettingsChanged -= UpdateSettings;
             EFButton.ClickSound -= OnAction;
         }
 
-        public void PlaySound(AudioClip clip)
+        public void PlaySound(AudioClip clip, float delay = 0f)
         {
-            if (/*PlayerSettings.Instance.IsMuteSound ||*/
-                SFXAudioSourceSound.IsNull() ||
-                SFXAudioSourceSound.enabled == false)
+            if (globalSFXAudioSource.mute ||
+                globalSFXAudioSource.IsNull() ||
+                globalSFXAudioSource.enabled == false)
                 return;
             
-            SFXAudioSourceSound.PlayOneShot(clip);
-            //Debug.Log("CLICK!! + clipName = " + clip.name);
+            globalSFXAudioSource.PlayOneShot(clip);
         }
         
-        /*public void PlayMusic(AudioClip clip, bool loop = true, float fadeLengths = 0f)
+        public void PlayMusic(AudioClip clip, bool loop = true, float fadeLengths = 0f)
         {
-            _audioSourceMusic.clip = clip;
-            _audioSourceMusic.time = 0f;
-            _audioSourceMusic.Play();
+            if (musicAudioSource.mute ||
+                musicAudioSource.IsNull() ||
+                musicAudioSource.enabled == false)
+                return;
             
-            if(clip == null) return;
-            _audioSourceMusic.loop = loop;
-            _audioSourceMusic.clip = clip;
-            _audioSourceMusic.Play();
+            musicAudioSource.clip = clip;
+            musicAudioSource.loop = loop;
+            musicAudioSource.time = 0f;
+            musicAudioSource.Play();
 
             if (fadeLengths > 0)
             {
@@ -66,7 +80,7 @@ namespace EF.Sounds
         
         public void FadeMusic(float delay, Action onComplete = null)
         {
-            DOTween.To(() => _audioSourceMusic.volume, value => _audioSourceMusic.volume = value, 0f, delay).onComplete =
+            DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, 0f, delay).onComplete =
                 () =>
                 {
                     onComplete?.Invoke();
@@ -75,18 +89,23 @@ namespace EF.Sounds
 
         public void StopMusic()
         {
-            _audioSourceMusic.Stop();
-        }*/
-
-        private void UpdateSettings()
-        {
-            //_audioSourceMusic.mute = PlayerSettings.Instance.IsMuteMusic;
-            //_audioSourceSound.mute = PlayerSettings.Instance.IsMuteSound;
+            musicAudioSource.Stop();
         }
 
-        private void OnAction(SoundTypes type)
+        private void UpdateAudioSettings()
+        {
+            musicAudioSource.mute = _snapshot.SFXLvl <= -80f;
+            globalSFXAudioSource.mute = _snapshot.musicLvl <= -80f;
+            
+            masterMixer.SetFloat("sfxVolume", _snapshot.SFXLvl);
+            masterMixer.SetFloat("moveVolume", _snapshot.SFXLvl - 12f);
+            masterMixer.SetFloat ("musicVolume", _snapshot.musicLvl);
+        }
+
+        private void OnAction(SoundTypes type)    // для глобальных звуков
         {
             if (type == SoundTypes.None) return;
+
             PlaySound(SoundsContainer.GetAudioClip(type));
         }
     }

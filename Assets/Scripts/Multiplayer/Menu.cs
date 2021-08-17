@@ -24,6 +24,12 @@ public class Menu : GlobalEventListener
 
     private List <UdpSession/*PhotonSession*/> sessionList = new List<UdpSession/*PhotonSession*/>();   
     private string _userName;
+
+    private void Awake()
+    {
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) SceneManager.LoadScene (1, LoadSceneMode.Additive);
+    }
+
     public void Start()
     {
         //PlayerPrefs.DeleteKey("username");
@@ -48,7 +54,9 @@ public class Menu : GlobalEventListener
     public void StartSinglePlayer()
     {
         GameManager.gameType = GameType.Single;
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);                          
+        SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex*/0);
+        SceneManager.LoadScene (2, LoadSceneMode.Additive); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
+        //SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main"));
     }
     
     public void StartMultiPlayer()
@@ -77,14 +85,14 @@ public class Menu : GlobalEventListener
         BoltLauncher.StartClient();
     }
 
-    // ф-ия-событие, когда сервер болта стартанул: будет загружать всем клиентам сцену Main
+    // ф-ия-событие, когда сервер болта стартанул: будет загружать всем клиентам сцену Start
     public override void BoltStartDone()
     {
         _userName =  PlayerPrefs.GetString("username") ?? "Joe Doe";
         if (BoltNetwork.IsServer)
         {
+            Debug.LogWarning("connections max = " + BoltMatchmaking.CurrentSession.ConnectionsMax);
             BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");
-            //Debug.LogWarning("connections max = " + BoltMatchmaking.CurrentSession.ConnectionsMax);
         }
     }
     

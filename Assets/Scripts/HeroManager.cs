@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System;            // for Events
+using System;
+using EF.Sounds; // for Events
 
 public class HeroManager : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class HeroManager : MonoBehaviour
 
     public bool m_dead;                                             // герой мёртв 
 
+    [HideInInspector] public Heroes heroType;
 
     public bool HasStrongStrikesSeries
     {

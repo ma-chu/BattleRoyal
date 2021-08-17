@@ -4,8 +4,16 @@ using UnityEngine.Audio;
 
 public class MixLevels : MonoBehaviour {
 
+	private static MixLevels _instance;
+	public static MixLevels Instance => _instance;
+	
 	public AudioMixer masterMixer;                          // ссылка на главный миксер
 
+	private void Awake()
+	{
+		_instance = this;
+	}
+	
 	public void SetSfxLvl(float sfxLvl)
 	{
 		masterMixer.SetFloat("sfxVolume", sfxLvl);

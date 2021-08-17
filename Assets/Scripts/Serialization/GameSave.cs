@@ -20,7 +20,8 @@ using UnityEngine;
 			var json = PlayerPrefs.GetString(_SaveKey);
 			LastLoadedSnapshot = JsonUtility.FromJson<SaveSnapshot>(json);
 
-			Debug.Log("Load() done. Lang = "+ LastLoadedSnapshot.language + ". CUPS = " + LastLoadedSnapshot.tournamentsWon);
+			Debug.Log("Load() done. Lang = "+ LastLoadedSnapshot.language + ". CUPS = " + LastLoadedSnapshot.tournamentsWon
+			          + ". SFXlvl = " + LastLoadedSnapshot.SFXLvl + ". MusLvl = " + LastLoadedSnapshot.musicLvl);
 			return LastLoadedSnapshot;
 		}
 		
@@ -34,8 +35,15 @@ using UnityEngine;
 				tournamentsWon = 0
 			};
 			snapshot.language = Localization.CurrentLanguage;
+			
+			MixLevels.Instance.masterMixer.GetFloat("sfxVolume", out float sfx);
+			snapshot.SFXLvl = sfx;
+			MixLevels.Instance.masterMixer.GetFloat("musicVolume", out float mus);
+			snapshot.musicLvl = mus;
+				
 			Save(snapshot);
-			Debug.Log("Save() done. Lang = " + snapshot.language + ". CUPS = " + snapshot.tournamentsWon);
+			Debug.Log("Save() done. Lang = " + snapshot.language + ". CUPS = " + snapshot.tournamentsWon
+			          + ". SFXlvl = " + snapshot.SFXLvl + ". MusLvl = " + snapshot.musicLvl);
 		}
 		
 		

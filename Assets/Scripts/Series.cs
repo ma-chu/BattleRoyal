@@ -1,22 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using EF.Sounds;
+using EF.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 //  СЕРИИ ГЕРОЯ
 public class Series : MonoBehaviour
 {
-    [SerializeField]
-    private HP _HP;                                   // Ссылка на компонент-здоровье
+    //public static event Action<SoundTypes, Heroes> BonusSound;
+    
+    private HP _HP;                                                    // Ссылка на компонент-здоровье
 
     // ПАРАМЕТРЫ для рассчета бонусов за серии:
-    [SerializeField]
-    private float strongStrikeMin = 14;               // минимальный урон для определения сильных ударов
-    [SerializeField]
-    private int strongStrikeSeriesBeginning = 2;      // после какого удара начинаются бонусы за сильные удары    
-    [SerializeField]
-    private int seriesStrikeBeginning = 3;            // после какого удара начинаются бонусы за серию ударов    
-    [SerializeField]
-    private int seriesBlockBeginning = 3;             // после какого блока начинаются бонусы за серию блоков
+    [SerializeField] private float strongStrikeMin = 14;               // минимальный урон для определения сильных ударов
+    [SerializeField] private int strongStrikeSeriesBeginning = 2;      // после какого удара начинаются бонусы за сильные удары    
+    [SerializeField] private int seriesStrikeBeginning = 3;            // после какого удара начинаются бонусы за серию ударов    
+    [SerializeField] private int seriesBlockBeginning = 3;             // после какого блока начинаются бонусы за серию блоков
     public float StrongStrikeMin
     {
         get { return strongStrikeMin; }
@@ -35,13 +35,13 @@ public class Series : MonoBehaviour
     }
 
     [SerializeField]
-    private float strongStrikeSeriesStepValue = 0.5f; // ценность каждого сильного удара после strongStrikeSeriesBeginning
+    private float strongStrikeSeriesStepValue = 1.5f; // ценность каждого сильного удара после strongStrikeSeriesBeginning
     [SerializeField]
-    private float seriesStrikeStepValue = 0.5f;       // ценность каждого последующего удара в серии после seriesStrikeBeginning
+    private float seriesStrikeStepValue = 0.5f;         // ценность каждого последующего удара в серии после seriesStrikeBeginning
     [SerializeField]
     private float seriesBlockStepValue = 1f;          // ценность каждого последующего блока в серии после seriesBlockBeginning
 
-    // Бонус за кол-во сильных ударов: +0.5 к урону за каждый сильный удар (на strenghtStrikeMin) после strenghtStrikeBeginning (+0.5 к третьему, +1 к четвертому ...)
+    // Бонус за кол-во сильных ударов: +1.5 к урону за каждый сильный удар (на strenghtStrikeMin) после strenghtStrikeBeginning (+1.5 к третьему, +3 к четвертому ...)
     private int strongStrikesNum = 0;                    // Количество сильных ударов общее
     [SerializeField]
     private bool hasStrongStrikesSeries = false;        // уже набрано
@@ -67,33 +67,35 @@ public class Series : MonoBehaviour
     }
 
     // Слайдеры-звезды для отображения серий
-    [SerializeField]
-    private Slider m_StrengthStrikesStarSlider;
-    [SerializeField]
-    private Image m_StrengthStrikesStarFillImage;
-    [SerializeField]
-    private Slider m_SeriesOfBlocksStarSlider;
-    [SerializeField]
-    private Image m_SeriesOfBlocksStarFillImage;
-    [SerializeField]
-    private Slider m_SeriesOfStrikesStarSlider;
-    [SerializeField]
-    private Image m_SeriesOfStrikesStarFillImage;
+    [SerializeField] private Slider m_StrengthStrikesStarSlider;
+    [SerializeField] private Image m_StrengthStrikesStarFillImage;
+    [SerializeField] private Slider m_SeriesOfBlocksStarSlider;
+    [SerializeField] private Image m_SeriesOfBlocksStarFillImage;
+    [SerializeField] private Slider m_SeriesOfStrikesStarSlider;
+    [SerializeField] private Image m_SeriesOfStrikesStarFillImage;
     
-    [SerializeField]
-    private AudioSource SFXAudio;               // аудио-сорс для звука достижения серии
-
-    [SerializeField]                            // может, как-то получить через GetComponent?
     private HeroManager heroManager;
+    private AudioClip _bonusSound;
+    private float _delay;
 
     private void Awake()
     {
         _HP = GetComponent("HP") as HP;
+        
+        //heroManager = GetComponent<PlayerManager>();
+        //if (heroManager.IsNull()) heroManager = GetComponent<EnemyManager>();
+        heroManager = GetComponent("HeroManager") as HeroManager;
 
         // Установим максимальные значения слайдеров-подсказок серий
         m_StrengthStrikesStarSlider.maxValue = StrongStrikeSeriesBeginning;
         m_SeriesOfBlocksStarSlider.maxValue = SeriesBlockBeginning;
         m_SeriesOfStrikesStarSlider.maxValue = SeriesStrikeBeginning;
+    }
+
+    private void Start()
+    {
+        _bonusSound = SoundsContainer.GetAudioClip(SoundTypes.Bonus, heroManager.heroType);
+        _delay = heroManager.heroType == Heroes.Player ? 0.2f : 0.5f;
     }
 
 
@@ -112,8 +114,7 @@ public class Series : MonoBehaviour
         // проверить, достигнута ли серия: сыграть звук достижения серии и выставить меркер
         if (!hasStrongStrikesSeries && (strongStrikesNum == StrongStrikeSeriesBeginning))
         {
-            //Debug.Log("STRONG YEE");
-            SFXAudio.PlayDelayed(0.2f);
+            SoundsManager.Instance.PlaySound(_bonusSound, _delay);
             hasStrongStrikesSeries = true;
         }
 
@@ -140,7 +141,7 @@ public class Series : MonoBehaviour
 
         if (!hasSeriesOfStrikes && (seriesOfStrikesNum == SeriesStrikeBeginning))
         {
-            SFXAudio.PlayDelayed(0.2f);
+            SoundsManager.Instance.PlaySound(_bonusSound, _delay);
             hasSeriesOfStrikes = true;
         }
 
@@ -168,7 +169,7 @@ public class Series : MonoBehaviour
 
         if (diff == 0)
         {
-            SFXAudio.PlayDelayed(0.2f);
+            SoundsManager.Instance.PlaySound(_bonusSound, _delay);
             hasSeriesOfBlocks = true;
         }
         else if ((diff > 0) && (where != null))

@@ -7,6 +7,18 @@ namespace EF.Sounds
     public enum SoundTypes 
     {
         ButtonClick,
+        Hurt,
+        Parry,
+        TwoVsShield,
+        Block,
+        Evade,
+        Death,
+        Bonus,
+        Step,
+        Run,
+        BackgroundMusic,
+        Grenade,
+        GameOver,
         None
     }
     
@@ -22,12 +34,21 @@ namespace EF.Sounds
             Value = value;
         }
     }
+
+    [Serializable]
+    public class HeroSounds
+    {
+        public Heroes Token;
+        public List<SoundTypePair> Sounds;
+    }
+    
     
     [CreateAssetMenu(fileName = "SoundsContainer", menuName = "_EF/Sounds container", order = 1)]
     public class SoundsContainer : ScriptableObject
     {
         [SerializeField] private List<SoundTypePair> _sounds;
-
+        [SerializeField] private List<HeroSounds> _heroSounds;
+        
         private static SoundsContainer _instance;
         
         public static SoundsContainer Instance
@@ -43,6 +64,12 @@ namespace EF.Sounds
         public static AudioClip GetAudioClip(SoundTypes soundType)
         {
             return Instance._sounds.Find(m => m.Key == soundType)?.Value;
+        }
+        
+        public static AudioClip GetAudioClip(SoundTypes soundType, Heroes hero)
+        {
+            return Instance._heroSounds.Find(hs => hs.Token == hero).Sounds.
+                Find(sp=> sp.Key == soundType)?.Value;
         }
     }
 }

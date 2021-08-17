@@ -13,7 +13,7 @@ namespace EF.UI
 
     public class EFButton : EFBaseUI
 {
-    public Action Listener { get; set; }                    // конкретно для этой кнопки (пока что дополнительно к листенеру unity)
+    public Action Listener { get; set; }                    // пока что дополнительно к листенеру unity
     public static event Action<SoundTypes> ClickSound;      // звук для всех кнопок
     //public static event Action<EFButton> TutorialAction;  // еще что-нибудь для всех кнопок, но с передачей своего инстанса, например, можно добавить туториал
     
@@ -110,32 +110,5 @@ namespace EF.UI
         if (_localizationToken.IsNullOrEmpty()) return;
         Text = _localizationToken.Localize();
     }
-    
-    /*
-        public void SetTextColor(Color color)
-        {
-            _TMPtext.color = color;
-        }
-        
-        public void SetTextFont(TMP_FontAsset font)
-        {
-            _TMPtext.font = font;
-        }
-        
-        public void SetImage(Image image)
-        {
-            _image = image;
-        }
-        
-        public void SetImageColor(Color color)
-        {
-            _image.color = color;
-        }
-        
-        public void SetSprite(Sprite image)
-        {
-            _image.sprite = image;
-        }
-*/
 }
 }

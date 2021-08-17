@@ -7,4 +7,6 @@ public class SaveSnapshot /*: ISerializationCallbackReceiver*/
     {
         public Language language;
         public int tournamentsWon;
+        public float SFXLvl;
+        public float musicLvl;
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EF.Sounds;
+using UnityEngine;
 
 public class EnemyManager : HeroManager
 {
@@ -41,6 +42,7 @@ public class EnemyManager : HeroManager
 
         base.Awake();                                              
 
+        heroType = Heroes.Enemy;
     }
 
     protected override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)

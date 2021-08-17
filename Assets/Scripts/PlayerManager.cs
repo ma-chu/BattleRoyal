@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using EF.Sounds;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -36,6 +37,8 @@ public class PlayerManager : HeroManager
         base.Awake();                                               
 
         inventory.CloseItemDescription();                           // Cкрыть описание инвентаря 
+
+        heroType = Heroes.Player;
     }
 
     protected override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)

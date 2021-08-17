@@ -15,3 +15,38 @@ MonoBehaviour:
   _sounds:
   - Key: 0
     Value: {fileID: 8300000, guid: 5dd20d80142938c4fb64e57dc60120d6, type: 3}
+  - Key: 2
+    Value: {fileID: 8300000, guid: 8c66bf890ea26844ab4f96b356410b68, type: 3}
+  - Key: 3
+    Value: {fileID: 8300000, guid: 1d487c8109276714f81a64a0ceb75aed, type: 3}
+  - Key: 4
+    Value: {fileID: 8300000, guid: 5a3d44b67cbfce54f8bb64bbddfe1be9, type: 3}
+  - Key: 5
+    Value: {fileID: 8300000, guid: 5e6ac44d240721940b1b2d1589751c05, type: 3}
+  - Key: 8
+    Value: {fileID: 8300000, guid: efe09ce0464448e4e9654b981437e04c, type: 3}
+  - Key: 9
+    Value: {fileID: 8300000, guid: 6eb2baf2a310caf4f8ad0b44dccc11ea, type: 3}
+  - Key: 10
+    Value: {fileID: 8300000, guid: 06f38dd0cbdeccb4eb5c02f1788d204a, type: 3}
+  - Key: 11
+    Value: {fileID: 8300000, guid: 972175ce9fa18aa46a16fa782fcd6dbc, type: 3}
+  - Key: 12
+    Value: {fileID: 8300000, guid: 5050947494b51c74a91ed3bfbe9370b2, type: 3}
+  _heroSounds:
+  - Token: 0
+    Sounds:
+    - Key: 1
+      Value: {fileID: 8300000, guid: bef1684a639f8e6469d09de13e3d7148, type: 3}
+    - Key: 6
+      Value: {fileID: 8300000, guid: ab713985ae0b3dd47b8403abb3a0bcce, type: 3}
+    - Key: 7
+      Value: {fileID: 8300000, guid: 3446970b5afbbe0448aeb6667ca819be, type: 3}
+  - Token: 1
+    Sounds:
+    - Key: 1
+      Value: {fileID: 8300000, guid: 89af8ef94c8ca8e4f979069e9a508e8b, type: 3}
+    - Key: 6
+      Value: {fileID: 8300000, guid: 75d37f0250ca9a74f85468cba001b7b3, type: 3}
+    - Key: 7
+      Value: {fileID: 8300000, guid: 03826d87cfde35348b7b976259c2bd49, type: 3}
