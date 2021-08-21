@@ -7338,8 +7338,8 @@ MonoBehaviour:
   stupitidyChangeDelay: 0
   doServerExchange: 0
   doClientExchange: 0
-  m_myNameText: {fileID: 221482035}
-  m_enemyNameText: {fileID: 234527708}
+  myNameText: {fileID: 221482035}
+  enemyNameText: {fileID: 234527708}
 --- !u!4 &1401016894
 Transform:
   m_ObjectHideFlags: 0

@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 namespace EF.UI
 {
-
     public class EFButton : EFBaseUI
 {
     public Action Listener { get; set; }                    // пока что дополнительно к листенеру unity
@@ -98,7 +97,7 @@ namespace EF.UI
 			
         _localizationToken = Text.ToLower();
 
-        foreach (var smb in new[] {" ", ":", ","})
+        foreach (var smb in new[] {" ", ",", ":"})
         {
             if (!_localizationToken.Contains(smb)) continue;
             _localizationToken = "";

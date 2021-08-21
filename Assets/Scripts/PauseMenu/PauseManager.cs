@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.Audio;        // пространство имен для аудио-миксеров и их снимков
+using UnityEngine.Audio;        
 using EF.Tools;
 using UnityEngine.UI;
 #if UNITY_EDITOR                // скрипт запущен из редактора (не как приложение)
@@ -8,10 +8,10 @@ using UnityEditor;
 
 public class PauseManager : MonoBehaviour {
 	
-	[SerializeField] private AudioMixerSnapshot startPaused;                         // ссылки на снимки состояний миксера
+	[SerializeField] private AudioMixerSnapshot startPaused;  
 	[SerializeField] private AudioMixerSnapshot startUnpaused;
 	
-	Canvas canvas;
+	private Canvas _canvas;
 
 	private AudioMixerSnapshot _paused;
 	private AudioMixerSnapshot _unpaused;
@@ -19,13 +19,13 @@ public class PauseManager : MonoBehaviour {
 	[SerializeField] private Slider sFXSlider;
 	[SerializeField] private Slider musicSlider;
 
-	void Start()
+	private void Start()
 	{
 		_paused = startPaused;
 		_unpaused = startUnpaused;
 		
-		canvas = GetComponent<Canvas>();
-        canvas.enabled = false;
+		_canvas = GetComponent<Canvas>();
+        _canvas.enabled = false;
         
         var snapshot = GameSave.LastLoadedSnapshot ?? GameSave.Load();
         if (!snapshot.IsNull())
@@ -43,37 +43,37 @@ public class PauseManager : MonoBehaviour {
         }
 	}
 	
-	void Update()
+	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))                // равно нажатию "назад" на телефоне
+		if (Input.GetKeyDown(KeyCode.Escape))               // равно нажатию "назад" на телефоне
 		{
-			Pause();                                         // эта же функция вызывается по нажатию кнопки resume доп. меню при помощи UnityEvents
+			Pause();                                         
 		}
 	}
 	
 	public void Pause()
 	{
-        canvas.enabled = !canvas.enabled;
+        _canvas.enabled = !_canvas.enabled;
         Time.timeScale = Time.timeScale == 0 ? 1 : 0;       // заморозить/разморозить движение объектов в игре - тут не очень актуально
-		Lowpass ();                                         // уменьшить звуки до уровня снимка "Paused"
+		Lowpass ();                                         
 		
 	}
 	
-	void Lowpass()
+	private void Lowpass()
 	{
 		if (Time.timeScale == 0)
 		{
-			/*startPaused*/_paused.TransitionTo(.01f);                     // достичь уровнем звуков состояния этого снимка за 0.01 сек
+			_paused.TransitionTo(.01f);                     // достичь уровнем звуков состояния этого снимка за 0.01 сек
 		}
 		
 		else
 			
 		{
-			/*startUnpaused*/_unpaused.TransitionTo(.01f);
+			_unpaused.TransitionTo(.01f);
 		}
 	}
 	
-	public void Quit()                                      // функция вызывается по нажатию кнопки quit доп. меню при помощи UnityEvents
+	public void Quit()                                      
     {
 		#if UNITY_EDITOR 
 		EditorApplication.isPlaying = false;

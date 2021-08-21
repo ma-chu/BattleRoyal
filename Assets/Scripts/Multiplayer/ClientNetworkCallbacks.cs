@@ -74,8 +74,9 @@ public class ClientNetworkCallbacks : GlobalEventListener
        }
    }
 
-   /* public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
-     {
-         GameManager.ClientConnected = false;
-     }*/
+   public override void Disconnected(BoltConnection connection)
+   {
+       GameManager.ClientConnected = false;
+       GameManager.ClientDisconnected = true;
+   } 
 }

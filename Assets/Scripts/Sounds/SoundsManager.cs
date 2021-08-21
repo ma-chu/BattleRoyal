@@ -1,8 +1,6 @@
-﻿using System;
-using EF.Tools;
+﻿using EF.Tools;
 using UnityEngine;
 using EF.UI;
-using DG.Tweening;
 using UnityEngine.Audio;
 
 // только для общих звуков
@@ -27,7 +25,6 @@ namespace EF.Sounds
 
         private void OnEnable()
         {
-            //PlayerSettings.SoundSettingsChanged += UpdateSettings;
             EFButton.ClickSound += OnAction;
         }
 
@@ -40,7 +37,6 @@ namespace EF.Sounds
 
         private void OnDisable()
         {
-            //PlayerSettings.SoundSettingsChanged -= UpdateSettings;
             EFButton.ClickSound -= OnAction;
         }
 
@@ -65,26 +61,6 @@ namespace EF.Sounds
             musicAudioSource.loop = loop;
             musicAudioSource.time = 0f;
             musicAudioSource.Play();
-
-            if (fadeLengths > 0)
-            {
-                var duration = clip.length - fadeLengths;
-                var a = 0f;
-                DOTween.To(() => a, value => a = value, 1f, duration).onComplete =
-                    () =>
-                    {
-                        FadeMusic(fadeLengths);
-                    };
-            }
-        }
-        
-        public void FadeMusic(float delay, Action onComplete = null)
-        {
-            DOTween.To(() => musicAudioSource.volume, value => musicAudioSource.volume = value, 0f, delay).onComplete =
-                () =>
-                {
-                    onComplete?.Invoke();
-                };
         }
 
         public void StopMusic()
@@ -102,7 +78,7 @@ namespace EF.Sounds
             masterMixer.SetFloat ("musicVolume", _snapshot.musicLvl);
         }
 
-        private void OnAction(SoundTypes type)    // для глобальных звуков
+        private void OnAction(SoundTypes type)  
         {
             if (type == SoundTypes.None) return;
 

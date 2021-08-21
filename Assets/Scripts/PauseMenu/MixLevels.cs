@@ -3,15 +3,13 @@ using EF.Sounds;
 
 public class MixLevels : MonoBehaviour {
 
-	private static MixLevels _instance;
+	/*private static MixLevels _instance;
 	public static MixLevels Instance => _instance;
-	
-	///*public*/private AudioMixer masterMixer;                          // ссылка на главный миксер
 
 	private void Awake()
 	{
 		_instance = this;
-	}
+	}*/
 	
 	public void SetSfxLvl(float sfxLvl)
 	{

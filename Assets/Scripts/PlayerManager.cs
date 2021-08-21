@@ -11,18 +11,13 @@ public class PlayerManager : HeroManager
     const float stockXposition = 2.2f;      // начальная позиция героя (позиция склада)
 
     // UI-элементы
-    [SerializeField]
-    private GameObject weaponSetButtonsObject;
-    [SerializeField]
-    private Button swordSwordButton;
-    [SerializeField]
-    private Button swordShieldButton;
-    [SerializeField]
-    private Button twoHandedSwordButton;
+    [SerializeField] private GameObject weaponSetButtonsObject;
+    [SerializeField] private Button swordSwordButton;
+    [SerializeField] private Button swordShieldButton;
+    [SerializeField] private Button twoHandedSwordButton;
 
     public GameObject restartButtonObject;
-    [SerializeField]
-    private Slider tacticSlider;            // ссылка на слайдер тактики 
+    [SerializeField] private Slider tacticSlider;            // ссылка на слайдер тактики 
     public Canvas m_PlayersControlsCanvas;  // компонент Canvas холста, содержащего в себе кнопки управления игрока
     // отключаем именно компонент холста Canvas, чтобы не помечать сам объект-подканвас (элемент родительского канваса) как dirty с перестройкой род. канваса
 
@@ -64,12 +59,6 @@ public class PlayerManager : HeroManager
         m_PlayersControlsCanvas.enabled = false;
         base.OnExchange2();
     }
-
-    /*protected override void OnExchangeEnded()
-    {
-        m_PlayersControlsCanvas.enabled = false;
-        base.OnExchangeEnded();
-    }*/
 
     public void AttackPressed()                    
     {
@@ -122,12 +111,8 @@ public class PlayerManager : HeroManager
         swordSwordButton.enabled = true;
         twoHandedSwordButton.enabled = true;
     }
-    /*public override void CalculatePreCoeffs()
-    {
-        base.CalculatePreCoeffs();
-    }*/
 
-    public void SetDefencePart()
+    public void SetDefencePart()                // вызывается по изменению значения слайдера
     {
         defencePart = tacticSlider.value * m_Tweakers.MaxDefencePart + m_Tweakers.ParryChance;
     }

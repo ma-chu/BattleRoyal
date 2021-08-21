@@ -48,7 +48,7 @@ public class LocalizationManager : MonoBehaviour
         UpdateLocalization();
     }
     
-    public virtual void UpdateLocalization()
+    private void UpdateLocalization()
     {
         foreach (var button in _buttons) button.UpdateLocalization();
         foreach (var autoLocalization in _autoLocalizations) autoLocalization.UpdateLocalization();

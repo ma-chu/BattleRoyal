@@ -72,14 +72,13 @@ public class GameManager : MonoBehaviour {
     public static BoltEntity myBoltEntity;           
     public static BoltEntity enemyBoltEntity;
     public static bool ClientConnected = false;
-
+    public static bool ClientDisconnected = false;
     [HideInInspector] public bool doServerExchange;
     [HideInInspector] public bool doClientExchange;
-
     private IEFPlayerState _enemyState;
     
-    [SerializeField] private Text m_myNameText;  
-    [SerializeField] private Text m_enemyNameText;
+    [SerializeField] private Text myNameText;  
+    [SerializeField] private Text enemyNameText;
 
     private void Awake()
     {
@@ -104,7 +103,10 @@ public class GameManager : MonoBehaviour {
     private IEnumerator GameLoop()                              // основная петля поединка
     {
         // выход из этих yeild-ов происходит по усоловию - выдаче соотв. функциями true
-        if ((gameType == GameType.Server)||(gameType == GameType.Client)) yield return StartCoroutine(WaitForNetworkPartner());
+        if ((gameType == GameType.Server) || (gameType == GameType.Client))
+            yield return StartCoroutine(WaitForNetworkPartner());
+        //else ClientConnected = true;
+        
         if (m_roundNumber == 0) yield return StartCoroutine(GameStarting());    // начало игры - обозначить цель
 
         yield return StartCoroutine(RoundStarting());   // начало раунда: вывод номера раунда и количества побед у бойцов. Стартовая пауза
@@ -166,8 +168,8 @@ public class GameManager : MonoBehaviour {
     private IEnumerator RoundStarting()                 // начало раунда
     {
         //0. Имена
-        m_myNameText.text = PlayerPrefs.GetString("username");
-        m_enemyNameText.text = _enemyState?.Username ?? "enemyBot";        
+        myNameText.text = PlayerPrefs.GetString("username");
+        enemyNameText.text = _enemyState?.Username ?? "enemyBot";        
         //1. Увеличить номер раунда.
         m_roundNumber++;
         //2. Сформировать и вывести информационное сообщение.
@@ -384,16 +386,12 @@ public class GameManager : MonoBehaviour {
             if (m_Player.HasSeriesOfStrikes)
             {
                 m_Enemy.decision = (m_Enemy.weaponSet != WeaponSet.SwordShield) ? Decision.ChangeSwordShield : Decision.Attack;
-                /*if (m_Enemy.weaponSet != WeaponSet.SwordShield) m_Enemy.decision = Decision.ChangeSwordShield;
-                else m_Enemy.decision = Decision.Attack;*/
                 m_Enemy.defencePart = m_Enemy.m_Tweakers.MaxDefencePart + m_Enemy.m_Tweakers.ParryChance;
                 return;
             }
             if (m_Player.HasSeriesOfBlocks)
             {
                 m_Enemy.decision = (m_Enemy.weaponSet != WeaponSet.TwoHandedSword) ? Decision.ChangeTwoHandedSword : Decision.Attack;
-                /*if (m_Enemy.weaponSet != WeaponSet.TwoHandedSword) m_Enemy.decision = Decision.ChangeTwoHandedSword;
-                else m_Enemy.decision = Decision.Attack;*/
                 m_Enemy.defencePart = m_Enemy.m_Tweakers.ParryChance;
                 return;
             }
@@ -559,5 +557,15 @@ public class GameManager : MonoBehaviour {
         fireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
         fireExplodeParticles.Play();
         SoundsManager.Instance.PlaySound(grenadeSound);
+    }
+
+    private void Update()
+    {
+        if (ClientDisconnected)
+        {
+            StopAllCoroutines();
+            m_resultText.text = "Partner Disconnected!";
+            m_Player.RestartPressed();
+        }
     }
 }

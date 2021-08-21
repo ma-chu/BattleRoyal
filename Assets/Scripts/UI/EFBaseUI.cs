@@ -1,7 +1,6 @@
 ﻿using System;
-using DG.Tweening;
-using EF.Tools;
 using UnityEngine;
+using DG.Tweening;
 
 namespace EF.UI
 {
@@ -11,16 +10,6 @@ namespace EF.UI
         
         private bool _rectTransIsCached;
         private RectTransform _cachedRectTrans;
-        private Vector2 _startPosition;
-        
-        public Vector2 StartPosition
-        {
-            get
-            {
-                if (!_rectTransIsCached) CacheRectTrans();
-                return _startPosition;
-            }
-        }
         
         public Vector2 LocalPosition
         {
@@ -33,7 +22,7 @@ namespace EF.UI
         
         public void AnimateScale(float value, float duration)
         {
-            var tw=RectTrans.DOScale(value * Vector3.one, duration).From();
+            var tw= RectTrans.DOScale(value * Vector3.one, duration).From();
             //Debug.Log("Scale animated!!!" + RectTrans.localScale + " " + tw);
         }
 
@@ -55,10 +44,6 @@ namespace EF.UI
             if (_rectTransIsCached) return _cachedRectTrans;
 
             _cachedRectTrans = GetComponent<RectTransform>();
-            if (!_cachedRectTrans.IsNull())
-            {
-                _startPosition = _cachedRectTrans.anchoredPosition;
-            }
 
             _rectTransIsCached = true;
 

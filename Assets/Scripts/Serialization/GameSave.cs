@@ -1,4 +1,5 @@
-﻿using EF.Localization;
+﻿using System;
+using EF.Localization;
 using EF.Sounds;
 using UnityEngine;
 
@@ -20,9 +21,10 @@ using UnityEngine;
 
 			var json = PlayerPrefs.GetString(_SaveKey);
 			LastLoadedSnapshot = JsonUtility.FromJson<SaveSnapshot>(json);
-
-			Debug.Log("Load() done. Lang = "+ LastLoadedSnapshot.language + ". CUPS = " + LastLoadedSnapshot.tournamentsWon
-			          + ". SFXlvl = " + LastLoadedSnapshot.SFXLvl + ". MusLvl = " + LastLoadedSnapshot.musicLvl);
+			
+			Debug.Log(String.Format("Load() done. Lang = {0}. CUPS = {1}. SFXlvl = {2}. MusLvl = {3}.",
+				LastLoadedSnapshot.language, LastLoadedSnapshot.tournamentsWon, LastLoadedSnapshot.SFXLvl, LastLoadedSnapshot.musicLvl));
+			
 			return LastLoadedSnapshot;
 		}
 		
@@ -43,8 +45,9 @@ using UnityEngine;
 			snapshot.musicLvl = mus;
 				
 			Save(snapshot);
-			Debug.Log("Save() done. Lang = " + snapshot.language + ". CUPS = " + snapshot.tournamentsWon
-			          + ". SFXlvl = " + snapshot.SFXLvl + ". MusLvl = " + snapshot.musicLvl);
+
+			Debug.Log(String.Format("Save() done. Lang = {0}. CUPS = {1}. SFXlvl = {2}. MusLvl = {3}.",
+				snapshot.language, snapshot.tournamentsWon, snapshot.SFXLvl, snapshot.musicLvl));
 		}
 		
 		

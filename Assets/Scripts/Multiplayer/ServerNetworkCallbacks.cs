@@ -14,7 +14,7 @@ using System.Linq;
 public class ServerNetworkCallbacks : Bolt.GlobalEventListener
 {
     /* Регистрировать токены либо так, либо Bolt / Protocol Tokens Registry / Refresh
-       Не использую токены
+       Нф тек момент не использую токены
      public override void BoltStartBegin()
       {
           BoltNetwork.RegisterTokenClass<PlayerClientToken>();
@@ -23,8 +23,8 @@ public class ServerNetworkCallbacks : Bolt.GlobalEventListener
    */
 
  private GameManager _gameManager;
- private HeroManager _playerManager;
- private HeroManager _enemyManager;
+ private PlayerManager _playerManager;
+ private EnemyManager _enemyManager;
 
  private void Awake()
     {
@@ -35,17 +35,10 @@ public class ServerNetworkCallbacks : Bolt.GlobalEventListener
     {
         PlayerObjectRegisty.CreateClientPlayer(connection);
     }
-    
 
-    public override void Disconnected(BoltConnection connection)
-    {
-        GameManager.ClientConnected = false;
-    }
-    
-    // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
+   // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
     public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
     {
-        
         var playerObject= PlayerObjectRegisty.GetPlayer(connection);
         playerObject.Spawn();        // если сущность клиента успешна передана в токене, сервер не порождает сущность сам, а берет из токена
         
@@ -141,5 +134,11 @@ public class ServerNetworkCallbacks : Bolt.GlobalEventListener
             if (item != null) _enemyManager.SetInventory(item);
         }
     }
+    
+    public override void Disconnected(BoltConnection connection)
+    {
+        GameManager.ClientConnected = false;
+        GameManager.ClientDisconnected = true;
+    } 
 }
 

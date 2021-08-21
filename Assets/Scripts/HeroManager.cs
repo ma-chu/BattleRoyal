@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System;
-using EF.Sounds; // for Events
+using System;                // for Events
 
 public class HeroManager : MonoBehaviour
 {
@@ -11,9 +10,8 @@ public class HeroManager : MonoBehaviour
     private Series series;                                          // Серии ударов и блоков
     protected HeroAnimation m_HeroAnimation;                        // Анимация
 
-    [SerializeField]
-    protected Inventory inventory;                                  // Инвенторий
-    [HideInInspector]
+    [SerializeField] protected Inventory inventory;                 // Инвенторий
+
     protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)
     
     public Tweakers m_Tweakers;                                     // Настройки балланса боёвки
@@ -204,9 +202,6 @@ public class HeroManager : MonoBehaviour
 
     public virtual void CalculatePreCoeffs()
     {
-        //preCoeffs[0].exchangeResult = ExchangeResult.No;    //28.05.21
-        //preCoeffs[1].exchangeResult = ExchangeResult.No;    //28.05.21
-
         preCoeffs[0].parry = (UnityEngine.Random.value <= defencePart);
         preCoeffs[1].parry = (UnityEngine.Random.value <= defencePart);
 
@@ -295,7 +290,7 @@ public class HeroManager : MonoBehaviour
         series.ResetSeriesOfStrikes();
     }
 
-    public /*string*/Item GiveOutPrize()
+    public Item GiveOutPrize()
     {
         int item;
         do item = inventory.AddItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
@@ -303,7 +298,7 @@ public class HeroManager : MonoBehaviour
         if (item != -1)                                    // и чтоб не был полный инвенторий (т.е. мы выиграли 4 раунд, т.е. игру)
         {
             inventory.ShowItemDescription(item);           // отобразить описание выданного инвентаря
-            return inventory.items[item]/*.Name*/;
+            return inventory.items[item];
         }
         else return null;
     }

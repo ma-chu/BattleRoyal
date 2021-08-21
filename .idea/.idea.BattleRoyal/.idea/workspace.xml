@@ -20,17 +20,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d25125c-dfd5-47c0-882e-bf4f691bab92" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BattleRoyal/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Global.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Global.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EFBaseUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EFBaseUI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BattleRoyal08092020.apk" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +48,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/21246C4F-5DC8-4459-84CC-83527DB4738E/32/9cf72c80/IEnumerator.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -50,7 +58,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerClientToken.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerObject.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Network Player/PlayerEntityController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/MonoBehaviour/Inventory.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/Localization.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationsContainer.cs" />
@@ -58,26 +65,27 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/EFButton.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Localization/ExtensionMethods.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/SpriteContainer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFBaseUI.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/SpritesContainer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inventory/Editor/InventoryEditor.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsContainer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/StartLoader.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Series.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/SaveSnapshot.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/Menu.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Serialization/GameSave.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFBaseUI.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/EFButton.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/MixLevels.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HeroManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PauseMenu/PauseManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Localization/LocalizationManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/HeroAudio.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Sounds/SoundsManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ClientNetworkCallbacks.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Multiplayer/ServerNetworkCallbacks.cs" />
       </list>
     </option>
   </component>
@@ -143,7 +151,7 @@
       <workItem from="1628708954660" duration="9695000" />
       <workItem from="1628862217862" duration="5074000" />
       <workItem from="1628884137953" duration="41626000" />
-      <workItem from="1629184825455" duration="5146000" />
+      <workItem from="1629184825455" duration="21070000" />
     </task>
     <servers />
   </component>
