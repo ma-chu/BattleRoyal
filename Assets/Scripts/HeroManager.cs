@@ -80,9 +80,9 @@ public class HeroManager : MonoBehaviour
 
     protected virtual void Awake()                             
     {
-        _HP = GetComponent("HP") as HP;
-        series = GetComponent("Series") as Series;
-        m_HeroAnimation = GetComponent("HeroAnimation") as HeroAnimation;
+        _HP = GetComponent<HP>() /*as HP*/;
+        series = GetComponent<Series>() /*as Series*/;
+        m_HeroAnimation = GetComponent<HeroAnimation>() /*as HeroAnimation*/;
 
         m_Tweakers = new Tweakers();
 

@@ -11,12 +11,12 @@ using UnityEngine.SceneManagement;
 
 // #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
 
-public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
+public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                             // варианты сетов оружия у героя
 public enum Heroes : short { Player, Enemy, Nobody };                                                  // варианты героев (победителей раундов и игры)
 
-public enum Decision : short {No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword}; // варианты действий героя - импульс на 1 такт
-public enum ExchangeResult : short { No, Evade, Parry, BlockVs2Handed, Block, GetHit };                 // варианты исхода размена ударами для каждого противника
-public enum GameType : short { Single, Server, Client };                                                // тип игры
+public enum Decision : short {No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword};  // варианты действий героя - импульс на 1 такт
+public enum ExchangeResult : short { No, Evade, Parry, BlockVs2Handed, Block, GetHit };                // варианты исхода размена ударами для каждого удара противника
+public enum GameType : short { Single, Server, Client };                                               // тип игры
 
 [System.Serializable]
 public struct PreCoeffs
@@ -69,13 +69,13 @@ public class GameManager : MonoBehaviour {
     
     // Multiplayer staff
     public static GameType gameType;      
-    public static BoltEntity myBoltEntity;           
-    public static BoltEntity enemyBoltEntity;
+    public static Photon.Bolt.BoltEntity myBoltEntity;           
+    public static Photon.Bolt.BoltEntity enemyBoltEntity;
     public static bool ClientConnected = false;
     public static bool ClientDisconnected = false;
     [HideInInspector] public bool doServerExchange;
     [HideInInspector] public bool doClientExchange;
-    private IEFPlayerState _enemyState;
+    private Photon.Bolt.IEFPlayerState _enemyState;
     
     [SerializeField] private Text myNameText;  
     [SerializeField] private Text enemyNameText;
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour {
     {
         if (gameType != GameType.Single)
         {
-            _enemyState = enemyBoltEntity?.GetState<IEFPlayerState>();
+            _enemyState = enemyBoltEntity?.GetState<Photon.Bolt.IEFPlayerState>();
         }
 
         m_resultText.text = "Defeat".Localize() + m_NumRoundsToWin.ToString() + "to_win".Localize();
@@ -331,7 +331,7 @@ public class GameManager : MonoBehaviour {
             // Добавим инвентарь в state
             if (gameType != GameType.Single && a != null)
             {
-                myBoltEntity.GetState<IEFPlayerState>().InventoryItem = a;
+                myBoltEntity.GetState<Photon.Bolt.IEFPlayerState>().InventoryItem = a;
             }
         }
         yield return m_EndWait;

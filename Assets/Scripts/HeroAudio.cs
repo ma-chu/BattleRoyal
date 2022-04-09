@@ -16,7 +16,7 @@ public class HeroAudio : MonoBehaviour
     {
         //heroManager = GetComponent<PlayerManager>();
         //if (heroManager.IsNull()) heroManager = GetComponent<EnemyManager>();
-        heroManager = GetComponent("HeroManager") as HeroManager;
+        heroManager = GetComponent<HeroManager>() as HeroManager;
 
         m_WoundParticles = Instantiate(m_GetWoundPrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба раны и берем компонент этого инстанса
         m_WoundAudio = m_WoundParticles.GetComponent<AudioSource>();                        // берём другой компонент (можно ссылаться на объект по его компоненту)

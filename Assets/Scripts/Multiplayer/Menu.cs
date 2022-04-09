@@ -2,11 +2,11 @@
 using System;
 using  System.Collections.Generic;
 using System.Linq; // для List
-using Bolt;
-using Bolt.Matchmaking;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UdpKit;
 using UdpKit.Platform.Photon;
-using UnityEngine.Experimental.UIElements;
+//using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
@@ -40,12 +40,12 @@ public class Menu : GlobalEventListener
     public void ChangeUsername()
     {
         setUsernamePanel.SetActive(true);
+        setUsernamePanel.GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("username");
     }
 
     public void OnSetUsernameValueChanged()
     {
-        string input = setUsernamePanel.GetComponentInChildren<InputField>().text;
-        print(input);
+        var input = setUsernamePanel.GetComponentInChildren<InputField>().text;
         PlayerPrefs.SetString("username", input);
         setUsernamePanel.SetActive(false);
     }
@@ -76,28 +76,28 @@ public class Menu : GlobalEventListener
     public void StartServer()
     {
         GameManager.gameType = GameType.Server;
-        BoltLauncher.StartServer();
+        BoltLauncher.StartServer();                // AI. Запуск Сервера
     }
     
     public void StartClient()
     {
         ClientGO.SetActive(true);
-        BoltLauncher.StartClient();
+        BoltLauncher.StartClient();                // BI. Запуск Клиента
     }
 
-    // ф-ия-событие, когда сервер болта стартанул: будет загружать всем клиентам сцену Start
-    public override void BoltStartDone()
+    // ф-ия-событие, когда сервер болта стартанул: будет загружать всем клиентам сцену Main
+    public override void BoltStartDone()           // AII. Событие на сервере "Сервер Стартанул"
     {
         _userName =  PlayerPrefs.GetString("username") ?? "Joe Doe";
         if (BoltNetwork.IsServer)
         {
             Debug.LogWarning("connections max = " + BoltMatchmaking.CurrentSession.ConnectionsMax);
-            BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");
+            BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");    // AIII. Создать сессию (матч, room?)
         }
     }
     
     // ф-ия вызывается (на клиенте?), когда создается/разрушается сессия (room) и затем каждые несколько секунд
-    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
+    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)    // BII. Событие на клиенте "список сессий обновился"
     {
         ClearSessions();
 
@@ -112,17 +112,16 @@ public class Menu : GlobalEventListener
         serverListDropdown.RefreshShownValue();
     }
 
-    public void JoinSession(int photonSession)
+    public void JoinSession(int photonSession)    // BIII. Присоединиться к матчу
     {
         GameManager.gameType = GameType.Client;
         
-        var clientToken = new PlayerClientToken();
-        clientToken.username = _userName;
+        var clientToken = new PlayerClientToken {username = _userName};
         // clientToken.entity почему-то не принимается...
         /*var entity = BoltNetwork.Instantiate(BoltPrefabs.HeroBoltEntity, Vector3.zero, Quaternion.identity);
         clientToken.entity = entity;*/
         
-        Debug.Log("JoinSession: " + clientToken.username/* + " " + clientToken.entity*/);
+        Debug.Log("JoinSession: me, " + clientToken.username + ", to host " + sessionList[photonSession].HostName);
         BoltMatchmaking.JoinSession(sessionList[photonSession], clientToken);
         /*Если надо аутентификацию, используем методы
          1 BoltNetwork.Connect(UdpEndPoint endpoint, IProtocolToken token);  клиент; с передачей в токене username, password

@@ -8,6 +8,18 @@ using EF.Tools;
 
 public class LocalizationManager : MonoBehaviour
 {
+    //-->
+    private static Action UpdateLoc;
+    private void OnEnable()
+    {
+        UpdateLoc += UpdateLocalization;
+    }
+    private void OnDisable()
+    {
+        UpdateLoc -= UpdateLocalization;
+    }
+    //<--
+
     private AutoLocalization[] _autoLocalizations = new AutoLocalization[0];
     private  EFButton[] _buttons = new EFButton[0];
     
@@ -45,7 +57,9 @@ public class LocalizationManager : MonoBehaviour
     public void ChangeLanguage(int language)
     {
         Localization.ApplyLanguage((Language)language);
-        UpdateLocalization();
+        
+        //UpdateLocalization();
+        UpdateLoc?.Invoke();
     }
     
     private void UpdateLocalization()

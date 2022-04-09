@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Bolt;
+using Photon.Bolt;
 using UdpKit;
 using System.Linq;
 

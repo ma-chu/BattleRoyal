@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6330340967858392341}
-  - component: {fileID: 3645159370139078076}
-  - component: {fileID: 114436513625025286}
+  - component: {fileID: 6754793262616458551}
+  - component: {fileID: -3013908983040671528}
   m_Layer: 0
   m_Name: HeroBoltEntity
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3645159370139078076
+--- !u!114 &6754793262616458551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3395901260800942027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -36112512, guid: 5b00bf8b25851d440940a40ec23344f4, type: 3}
+  m_Script: {fileID: 155943207, guid: 5b00bf8b25851d440940a40ec23344f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneGuid: 
-  _serializerGuid: 99f8334b-fda4-4761-aa04-504c6d0a9ffc
+  _serializerGuid: 01f83d90-acc4-46ec-94b1-e09f1b2c21f2
   _prefabId: 1
   _updateRate: 1
   _autoFreezeProxyFrames: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
   _entityBehaviourQueryOption: 0
   _entityPriorityCalculatorQueryOption: 1
   _entityReplicationFilterQueryOption: 1
---- !u!114 &114436513625025286
+--- !u!114 &-3013908983040671528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

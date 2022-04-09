@@ -29,8 +29,8 @@ public class HeroAnimation : MonoBehaviour
 
     private void Awake()
     {
-        heroManager = GetComponent("HeroManager") as HeroManager;
-        m_Anim = GetComponentInChildren<Animator>() as Animator; 
+        heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
+        m_Anim = GetComponentInChildren<Animator>() /*as Animator*/; 
     }
 
     private void OnEnable()    

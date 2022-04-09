@@ -80,11 +80,11 @@ public class Series : MonoBehaviour
 
     private void Awake()
     {
-        _HP = GetComponent("HP") as HP;
+        _HP = GetComponent<HP>() /*as HP*/;
         
         //heroManager = GetComponent<PlayerManager>();
         //if (heroManager.IsNull()) heroManager = GetComponent<EnemyManager>();
-        heroManager = GetComponent("HeroManager") as HeroManager;
+        heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
 
         // Установим максимальные значения слайдеров-подсказок серий
         m_StrengthStrikesStarSlider.maxValue = StrongStrikeSeriesBeginning;

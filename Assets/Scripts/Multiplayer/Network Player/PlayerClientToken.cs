@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Bolt;
-using Bolt.Utils;
+using Photon.Bolt;
+using Photon.Bolt.Utils;
 using UnityEngine;
 
 public class PlayerClientToken : IProtocolToken

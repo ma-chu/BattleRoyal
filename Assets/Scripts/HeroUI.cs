@@ -16,8 +16,8 @@ public class HeroUI : MonoBehaviour
 
     private void Awake()
     {
-        heroManager = GetComponent("HeroManager") as HeroManager;
-        series = GetComponent("Series") as Series;
+        heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
+        series = GetComponent<Series>() /*as Series*/;
     }
 
     private void OnEnable()

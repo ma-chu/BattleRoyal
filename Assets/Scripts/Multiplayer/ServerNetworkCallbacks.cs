@@ -1,6 +1,6 @@
 ﻿using System;
-using Bolt;
-using Bolt.Matchmaking;
+using Photon.Bolt;
+using Photon.Bolt.Matchmaking;
 using UdpKit;
 using UnityEngine;
 using System.Linq;
@@ -11,10 +11,10 @@ using System.Linq;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "Main")]
 
-public class ServerNetworkCallbacks : Bolt.GlobalEventListener
+public class ServerNetworkCallbacks : GlobalEventListener
 {
     /* Регистрировать токены либо так, либо Bolt / Protocol Tokens Registry / Refresh
-       Нф тек момент не использую токены
+       На тек момент не использую токены
      public override void BoltStartBegin()
       {
           BoltNetwork.RegisterTokenClass<PlayerClientToken>();
@@ -33,12 +33,15 @@ public class ServerNetworkCallbacks : Bolt.GlobalEventListener
 
    public override void Connected(BoltConnection connection)
     {
+        Debug.LogWarning(this.name + ": Client Connected!"); 
         PlayerObjectRegisty.CreateClientPlayer(connection);
     }
 
    // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
     public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
     {
+        Debug.LogWarning(this.name + ": Client Scene Loaded!"); 
+
         var playerObject= PlayerObjectRegisty.GetPlayer(connection);
         playerObject.Spawn();        // если сущность клиента успешна передана в токене, сервер не порождает сущность сам, а берет из токена
         

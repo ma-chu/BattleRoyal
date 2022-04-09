@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Bolt;
+using UnityEngine;
 public class PlayerObject
 {
     public BoltEntity character;

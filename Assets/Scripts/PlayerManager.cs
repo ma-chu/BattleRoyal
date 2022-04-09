@@ -78,7 +78,7 @@ public class PlayerManager : HeroManager
     public void RestartPressed()
     {
         GameSave.Save();
-        if (GameManager.gameType != GameType.Single) BoltLauncher.Shutdown();
+        if (GameManager.gameType != GameType.Single) Photon.Bolt.BoltLauncher.Shutdown();
         SceneManager.LoadScene(0);                          // на перезагрузку сцены
     }
 

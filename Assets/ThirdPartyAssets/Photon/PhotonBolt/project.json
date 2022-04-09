@@ -1,9 +1,9 @@
 {
-  "$type": "Bolt.Compiler.Assets.BoltProject, bolt.compiler",
+  "$type": "Photon.Bolt.Compiler.Assets.BoltProject, bolt.compiler",
   "Filters": [],
   "Assets": [
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "transform",
@@ -12,7 +12,7 @@
           "Comment": "This is my transform! yay",
           "Priority": 2,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -79,7 +79,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 2,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -95,13 +95,13 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": 1,
             "MaxValue": 2,
             "CompressionEnabled": true
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -116,11 +116,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 16
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9
@@ -133,7 +133,7 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -100,
               "MaxValue": 100,
@@ -145,7 +145,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
@@ -160,11 +160,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -179,11 +179,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -197,11 +197,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -215,10 +215,10 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -233,11 +233,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -252,12 +252,12 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 100,
             "CompressionEnabled": true
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -271,7 +271,7 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2,
               "MaxValue": 2,
@@ -283,7 +283,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -299,7 +299,7 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2,
               "MaxValue": 2,
@@ -311,7 +311,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -327,10 +327,10 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -345,10 +345,10 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -363,10 +363,10 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.1,
             "_ExtrapolationCorrectionFrames": 3,
             "ExtrapolationMaxFrames": 9,
@@ -382,10 +382,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeProtocolToken, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeProtocolToken, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -468,17 +468,17 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
       "Input": [
         {
           "Name": "forward",
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -486,10 +486,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -497,10 +497,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -508,10 +508,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -519,10 +519,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -530,7 +530,7 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -512,
               "MaxValue": 512,
@@ -542,7 +542,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -550,7 +550,7 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -80,
               "MaxValue": 80,
@@ -562,7 +562,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -570,10 +570,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -581,10 +581,10 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -593,11 +593,11 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -607,7 +607,7 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -640,7 +640,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
             "SmoothCorrection": true,
             "SnapMagnitude": 1.0
           }
@@ -650,7 +650,7 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -683,7 +683,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
             "SmoothCorrection": true,
             "SnapMagnitude": 1.0
           }
@@ -693,11 +693,11 @@
           "Enabled": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MinValue": -1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -706,10 +706,10 @@
           "Expanded": true,
           "Comment": "",
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -722,7 +722,43 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Message",
+          "Enabled": true,
+          "Expanded": true,
+          "Comment": "",
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "MaxLength": 64,
+            "Encoding": 1
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "NetworkId",
+          "Enabled": true,
+          "Comment": "",
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeNetworkId, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "Name": "LogEvent",
+      "Guid": "010f4a6f-f158-45b4-a28e-a5e85b4ee04d",
+      "Comment": "\t\t",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "NewProperty",
@@ -730,7 +766,7 @@
           "Expanded": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -763,7 +799,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -845,7 +881,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -854,7 +890,7 @@
           "Comment": "",
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -920,7 +956,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -1003,353 +1039,15 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
-      "Input": [
-        {
-          "Name": "move",
-          "Enabled": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              }
-            ]
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "crouch",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "forward",
-          "Enabled": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
-            "Compression": {
-              "MinValue": -2048,
-              "MaxValue": 2048,
-              "Accuracy": 0.01,
-              "Pack": 100.0,
-              "Read": 0.01,
-              "Shift": 2048.0,
-              "BitsRequired": 19
-            }
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "turn",
-          "Enabled": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
-            "Compression": {
-              "MinValue": -2048,
-              "MaxValue": 2048,
-              "Accuracy": 0.01,
-              "Pack": 100.0,
-              "Read": 0.01,
-              "Shift": 2048.0,
-              "BitsRequired": 19
-            }
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "jump",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "Result": [
-        {
-          "Name": "position",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              }
-            ]
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
-            "SnapMagnitude": 1.0
-          }
-        },
-        {
-          "Name": "velocity",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              }
-            ]
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
-            "SnapMagnitude": 1.0
-          }
-        },
-        {
-          "Name": "isGrounded",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "jumpFrames",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "SmoothFrames": 30,
-      "Properties": [],
-      "Name": "TPCCommand",
-      "Guid": "e786aba6-309c-44b8-b0f1-78aa8d3ebf62",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
-      "Input": [
-        {
-          "Name": "click",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              }
-            ]
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "Result": [
-        {
-          "Name": "position",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
-            "Selection": 14,
-            "Compression": [
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              },
-              {
-                "MinValue": -1024,
-                "MaxValue": 1024,
-                "Accuracy": 0.01,
-                "Pack": 100.0,
-                "Read": 0.01,
-                "Shift": 1024.0,
-                "BitsRequired": 18
-              }
-            ]
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "Properties": [],
-      "Name": "ClickToMoveCommand",
-      "Guid": "875801cb-92ab-4b31-9fd7-45d2a9e7ba96",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
-          "Name": "Transform",
+          "Name": "transform",
           "Enabled": true,
-          "ReplicationMode": 1,
+          "Expanded": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -1415,7 +1113,643 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "SmoothingAlgorithm": 2,
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "forward",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "SmoothingAlgorithm": 1,
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "turn",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "SmoothingAlgorithm": 1,
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "crouch",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "grounded",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "jump",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "jumpleg",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "SmoothingAlgorithm": 1,
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
+      "PacketMaxBits": 512,
+      "PacketMaxProperties": 16,
+      "InitialPositionCompression": {
+        "Compression": [
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          }
+        ]
+      },
+      "InitialRotationCompression": {
+        "EulerCompression": [
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          }
+        ],
+        "QuaternionCompression": {
+          "MinValue": -1,
+          "MaxValue": 1,
+          "Accuracy": 0.01,
+          "Pack": 100.0,
+          "Read": 0.01,
+          "Shift": 1.0,
+          "BitsRequired": 8
+        }
+      },
+      "Name": "TPCstate",
+      "Guid": "497fe64d-054a-4e7d-827f-4f16cc80bda7",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "Input": [
+        {
+          "Name": "move",
+          "Enabled": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "Selection": 14,
+            "Compression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ]
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "crouch",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "forward",
+          "Enabled": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "turn",
+          "Enabled": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "jump",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        }
+      ],
+      "Result": [
+        {
+          "Name": "position",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "Selection": 14,
+            "Compression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ]
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
+            "SnapMagnitude": 1.0
+          }
+        },
+        {
+          "Name": "velocity",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "Selection": 14,
+            "Compression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ]
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler",
+            "SnapMagnitude": 1.0
+          }
+        },
+        {
+          "Name": "isGrounded",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "jumpFrames",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        }
+      ],
+      "SmoothFrames": 30,
+      "Properties": [],
+      "Name": "TPCCommand",
+      "Guid": "e786aba6-309c-44b8-b0f1-78aa8d3ebf62",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "Input": [
+        {
+          "Name": "click",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "Selection": 14,
+            "Compression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ]
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        }
+      ],
+      "Result": [
+        {
+          "Name": "position",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "Selection": 14,
+            "Compression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ]
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+          }
+        }
+      ],
+      "Properties": [],
+      "Name": "ClickToMoveCommand",
+      "Guid": "875801cb-92ab-4b31-9fd7-45d2a9e7ba96",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Transform",
+          "Enabled": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "PositionSelection": 14,
+            "RotationSelection": 14,
+            "PositionCompression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ],
+            "RotationCompression": [
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              }
+            ],
+            "RotationCompressionQuaternion": {
+              "MinValue": -1,
+              "MaxValue": 1,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 1.0,
+              "BitsRequired": 8
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -1430,10 +1764,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -1447,11 +1781,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -1533,7 +1867,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Color",
@@ -1542,10 +1876,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -1559,11 +1893,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -1577,10 +1911,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -1662,7 +1996,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
       "Input": [
         {
           "Name": "Color",
@@ -1671,10 +2005,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -1684,11 +2018,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -1698,10 +2032,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -1714,7 +2048,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Time",
@@ -1723,11 +2057,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 255
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         }
       ],
@@ -1738,7 +2072,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [],
       "Name": "LobbyPlayerKick",
       "Guid": "a812faeb-a700-4c06-b2e7-2f3d3864b084",
@@ -1747,7 +2081,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -1756,7 +2090,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -1822,7 +2156,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -1905,7 +2239,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "CubeTransform",
@@ -1913,7 +2247,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -1979,7 +2313,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -1993,10 +2327,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2010,15 +2344,15 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeArray, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeArray, bolt.compiler",
             "ElementCount": 3,
             "ElementType": {
-              "$type": "Bolt.Compiler.PropertyTypeObject, bolt.compiler",
+              "$type": "Photon.Bolt.Compiler.PropertyTypeObject, bolt.compiler",
               "StructGuid": "b0b61666-381d-47cb-be96-62ee2f895852"
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2032,11 +2366,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 255
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2118,7 +2452,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.ObjectDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.ObjectDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "WeaponId",
@@ -2127,11 +2461,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 255
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2145,11 +2479,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 255
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2164,7 +2498,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "FlashColor",
@@ -2173,10 +2507,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         }
       ],
@@ -2189,7 +2523,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "AngularSpeed",
@@ -2197,7 +2531,7 @@
           "Expanded": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2209,7 +2543,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2224,7 +2558,7 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2236,7 +2570,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2252,7 +2586,7 @@
           "ReplicationMode": 3,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2264,7 +2598,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2277,10 +2611,10 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2295,7 +2629,7 @@
           "ReplicationMode": 3,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2307,7 +2641,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2322,7 +2656,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -2388,7 +2722,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -2471,7 +2805,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -2480,7 +2814,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "Space": 1,
@@ -2547,7 +2881,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2561,10 +2895,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeColor, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeColor, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2646,7 +2980,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -2654,7 +2988,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -2720,7 +3054,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2732,7 +3066,7 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2744,7 +3078,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2757,7 +3091,7 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2769,7 +3103,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2782,10 +3116,10 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2798,10 +3132,10 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2814,7 +3148,7 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2826,7 +3160,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2839,7 +3173,7 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -2851,7 +3185,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -2934,7 +3268,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "hash",
@@ -2943,11 +3277,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         }
       ],
@@ -2958,7 +3292,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -2967,7 +3301,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -3033,7 +3367,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 1,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -3116,7 +3450,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "SceneName",
@@ -3125,11 +3459,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         },
         {
@@ -3139,10 +3473,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         }
       ],
@@ -3155,7 +3489,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "SceneName",
@@ -3164,11 +3498,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         },
         {
@@ -3178,10 +3512,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
           }
         }
       ],
@@ -3194,7 +3528,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Rotation",
@@ -3203,7 +3537,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeQuaternion, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeQuaternion, bolt.compiler",
             "Selection": 14,
             "EulerCompression": [
               {
@@ -3239,7 +3573,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3321,7 +3655,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Transform",
@@ -3329,7 +3663,7 @@
           "Expanded": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
             "PositionCompression": [
@@ -3395,7 +3729,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "SmoothingAlgorithm": 2,
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
@@ -3408,10 +3742,10 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3423,10 +3757,10 @@
           "Enabled": true,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTrigger, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3440,11 +3774,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 255
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3458,12 +3792,12 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
             "MaxValue": 100,
             "CompressionEnabled": true
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3545,7 +3879,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
       "Input": [
         {
           "Name": "Direction",
@@ -3553,7 +3887,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 10,
             "Compression": [
               {
@@ -3588,7 +3922,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -3597,7 +3931,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MaxValue": 360,
               "Accuracy": 0.1,
@@ -3608,7 +3942,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -3620,7 +3954,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -3653,7 +3987,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -3663,7 +3997,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -3696,7 +4030,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -3706,7 +4040,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MaxValue": 360,
               "Accuracy": 0.01,
@@ -3717,7 +4051,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -3729,7 +4063,7 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.CommandDefinition, bolt.compiler",
       "Input": [
         {
           "Name": "Type",
@@ -3738,10 +4072,10 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeBool, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyTypeBool, bolt.compiler"
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -3753,7 +4087,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -3786,7 +4120,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -3796,7 +4130,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MaxValue": 360,
               "Accuracy": 0.01,
@@ -3807,7 +4141,7 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         },
         {
@@ -3817,7 +4151,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeVector, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeVector, bolt.compiler",
             "Selection": 14,
             "Compression": [
               {
@@ -3850,7 +4184,7 @@
             ]
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
+            "$type": "Photon.Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
           }
         }
       ],
@@ -3862,7 +4196,478 @@
       ]
     },
     {
-      "$type": "Bolt.Compiler.StateDefinition, bolt.compiler",
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "HitData",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeProtocolToken, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "MoveAndShootHitEvent",
+      "Guid": "0c48c343-311d-4fa7-a3e1-e40100f66780",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Transform",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
+            "PositionSelection": 14,
+            "RotationSelection": 14,
+            "PositionCompression": [
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              },
+              {
+                "MinValue": -1024,
+                "MaxValue": 1024,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "Shift": 1024.0,
+                "BitsRequired": 18
+              }
+            ],
+            "RotationCompression": [
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              },
+              {
+                "MaxValue": 360,
+                "Accuracy": 0.01,
+                "Pack": 100.0,
+                "Read": 0.01,
+                "BitsRequired": 16
+              }
+            ],
+            "RotationCompressionQuaternion": {
+              "MinValue": -1,
+              "MaxValue": 1,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 1.0,
+              "BitsRequired": 8
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "VoicePlayerID",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 32,
+            "CompressionEnabled": true
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        }
+      ],
+      "PacketMaxBits": 512,
+      "PacketMaxProperties": 16,
+      "InitialPositionCompression": {
+        "Compression": [
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          },
+          {
+            "MinValue": -1024,
+            "MaxValue": 1024,
+            "Accuracy": 0.01,
+            "Pack": 100.0,
+            "Read": 0.01,
+            "Shift": 1024.0,
+            "BitsRequired": 18
+          }
+        ]
+      },
+      "InitialRotationCompression": {
+        "EulerCompression": [
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          },
+          {
+            "MaxValue": 360,
+            "Accuracy": 1.0,
+            "Pack": 1.0,
+            "Read": 1.0,
+            "BitsRequired": 9
+          }
+        ],
+        "QuaternionCompression": {
+          "MinValue": -1,
+          "MaxValue": 1,
+          "Accuracy": 0.01,
+          "Pack": 100.0,
+          "Read": 0.01,
+          "Shift": 1.0,
+          "BitsRequired": 8
+        }
+      },
+      "Name": "VoicePlayer",
+      "Guid": "a50fe4ab-13e5-4ced-834b-27b68b751cb2",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "ClientExchangeResult1",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ClientExchangeResult2",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ClientDamage1",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ClientDamage2",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ServerExchangeResult1",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ServerExchangeResult2",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ServerDamage1",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ServerDamage2",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "ServerDecision",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "EFExchangeResultsReady",
+      "Guid": "ddf92514-9505-47b0-a39e-7882cddfc242",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "ItemName",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "MaxLength": 1
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "Name": "EFInventoryItemAdded",
+      "Guid": "3aa0dd19-b439-4869-8596-8f517b8f422a",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [],
+      "GlobalSenders": 2,
+      "Name": "EFPLayerLeftEvent",
+      "Guid": "6e51b981-c5b3-4b28-9acf-9fe60234ffe0",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "Decision",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        },
+        {
+          "Name": "DefencePart",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "Compression": {
+              "MinValue": -2048,
+              "MaxValue": 2048,
+              "Accuracy": 0.01,
+              "Pack": 100.0,
+              "Read": 0.01,
+              "Shift": 2048.0,
+              "BitsRequired": 19
+            }
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "Name": "EFReadyForExchangeEvent",
+      "Guid": "94c10c6d-eb76-4db4-9a2d-2dceec311d69",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "clientEntity",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 2,
+      "Name": "EFStartBattleClientReplyEvent",
+      "Guid": "74c3b586-7204-473c-9f92-218c93d1d53b",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.EventDefinition, bolt.compiler",
+      "Properties": [
+        {
+          "Name": "EnemyEntity",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyEventSettings, bolt.compiler"
+          }
+        }
+      ],
+      "EntitySenders": 3,
+      "GlobalSenders": 1,
+      "Name": "EFStartBattleServerEvent",
+      "Guid": "93de6572-fea5-4736-915f-55324b4576e6",
+      "Groups": [
+        "samples"
+      ]
+    },
+    {
+      "$type": "Photon.Bolt.Compiler.StateDefinition, bolt.compiler",
       "Properties": [
         {
           "Name": "Username",
@@ -3871,12 +4676,12 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1,
             "Encoding": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3890,29 +4695,11 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeString, bolt.compiler",
             "MaxLength": 1
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
-            "ExtrapolationErrorTolerance": 0.25,
-            "_ExtrapolationCorrectionFrames": 6,
-            "ExtrapolationMaxFrames": 9,
-            "SnapMagnitude": 10.0
-          }
-        },
-        {
-          "Name": "Decision",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -3926,7 +4713,7 @@
           "ReplicationMode": 1,
           "Priority": 1,
           "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
             "Compression": {
               "MinValue": -2048,
               "MaxValue": 2048,
@@ -3938,7 +4725,25 @@
             }
           },
           "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
+            "ExtrapolationErrorTolerance": 0.25,
+            "_ExtrapolationCorrectionFrames": 6,
+            "ExtrapolationMaxFrames": 9,
+            "SnapMagnitude": 10.0
+          }
+        },
+        {
+          "Name": "Decision",
+          "Enabled": true,
+          "Expanded": true,
+          "ReplicationMode": 1,
+          "Priority": 1,
+          "PropertyType": {
+            "$type": "Photon.Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
+            "MaxValue": 255
+          },
+          "AssetSettings": {
+            "$type": "Photon.Bolt.Compiler.PropertyStateSettings, bolt.compiler",
             "ExtrapolationErrorTolerance": 0.25,
             "_ExtrapolationCorrectionFrames": 6,
             "ExtrapolationMaxFrames": 9,
@@ -4014,382 +4819,7 @@
         }
       },
       "Name": "EFPlayerState",
-      "Guid": "99f8334b-fda4-4761-aa04-504c6d0a9ffc",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [
-        {
-          "Name": "EnemyEntity",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        }
-      ],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "EFStartBattleServerEvent",
-      "Guid": "0d236b28-bb73-4ba9-a811-88cfd50500ff",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [],
-      "GlobalSenders": 2,
-      "Name": "EFPLayerLeftEvent",
-      "Guid": "b71a826b-530a-4ba1-9dd4-99bbfa39c062",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.CommandDefinition, bolt.compiler",
-      "Input": [
-        {
-          "Name": "Decision",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "DefencePart",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
-            "Compression": {
-              "MinValue": -2048,
-              "MaxValue": 2048,
-              "Accuracy": 0.01,
-              "Pack": 100.0,
-              "Read": 0.01,
-              "Shift": 2048.0,
-              "BitsRequired": 19
-            }
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "Result": [
-        {
-          "Name": "ExchangeResult1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ExchangeResult2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "Damage1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "Damage2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyCommandSettings, bolt.compiler"
-          }
-        }
-      ],
-      "Properties": [],
-      "Name": "EFReadyForExchangeCommand",
-      "Guid": "34ffe5ee-4811-4970-8573-773c5b965d63",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [
-        {
-          "Name": "Decision",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "DefencePart",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeFloat, bolt.compiler",
-            "Compression": {
-              "MinValue": -2048,
-              "MaxValue": 2048,
-              "Accuracy": 0.01,
-              "Pack": 100.0,
-              "Read": 0.01,
-              "Shift": 2048.0,
-              "BitsRequired": 19
-            }
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        }
-      ],
-      "EntitySenders": 3,
-      "Name": "EFReadyForExchangeEvent",
-      "Guid": "5f4001d8-a617-40b0-ad28-048cb8bd45dd",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [
-        {
-          "Name": "clientEntity",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeEntity, bolt.compiler"
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        }
-      ],
-      "EntitySenders": 3,
-      "GlobalSenders": 2,
-      "Name": "EFStartBattleClientReplyEvent",
-      "Guid": "decb3f5e-8382-4781-82c3-fa17b4ccaf90",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [
-        {
-          "Name": "ClientExchangeResult1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ClientExchangeResult2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ClientDamage1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ClientDamage2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ServerExchangeResult1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ServerExchangeResult2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ServerDamage1",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ServerDamage2",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        },
-        {
-          "Name": "ServerDecision",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeInteger, bolt.compiler",
-            "MaxValue": 255
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        }
-      ],
-      "EntitySenders": 3,
-      "GlobalSenders": 1,
-      "Name": "EFExchangeResultsReady",
-      "Guid": "26d18cb4-d753-4a24-902d-7c749cb706ab",
-      "Groups": [
-        "samples"
-      ]
-    },
-    {
-      "$type": "Bolt.Compiler.EventDefinition, bolt.compiler",
-      "Properties": [
-        {
-          "Name": "ItemName",
-          "Enabled": true,
-          "Expanded": true,
-          "ReplicationMode": 1,
-          "Priority": 1,
-          "PropertyType": {
-            "$type": "Bolt.Compiler.PropertyTypeString, bolt.compiler",
-            "MaxLength": 1
-          },
-          "AssetSettings": {
-            "$type": "Bolt.Compiler.PropertyEventSettings, bolt.compiler"
-          }
-        }
-      ],
-      "EntitySenders": 3,
-      "Name": "EFInventoryItemAdded",
-      "Guid": "b367d2d9-c08d-48cd-bea1-e822760be2b5",
+      "Guid": "01f83d90-acc4-46ec-94b1-e09f1b2c21f2",
       "Groups": [
         "samples"
       ]
