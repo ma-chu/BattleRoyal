@@ -423,6 +423,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  itemDescriptionObject: {fileID: 161651144}
+  seriesStar: {fileID: 21300000, guid: 623b4906ec7d4df44b8afb50098b960f, type: 3}
 --- !u!114 &103960624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,7 +758,7 @@ GameObject:
   - component: {fileID: 161651146}
   m_Layer: 5
   m_Name: ItemDescriptionCanvas
-  m_TagString: ItemDescription
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2211,6 +2213,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  itemDescriptionObject: {fileID: 161651144}
+  seriesStar: {fileID: 21300000, guid: 623b4906ec7d4df44b8afb50098b960f, type: 3}
 --- !u!1 &466460796
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,7 +2434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c739a3332cbc204ea2c833b1f045db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 622958596}
   _stringToken: offence
 --- !u!4 &470399343 stripped
 Transform:
@@ -4407,7 +4410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c739a3332cbc204ea2c833b1f045db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 622958596}
   _stringToken: defence
 --- !u!1 &804679851
 GameObject:
@@ -5471,7 +5473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c739a3332cbc204ea2c833b1f045db4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 622958596}
   _stringToken: restart_game
 --- !u!1 &997926922
 GameObject:
@@ -7469,18 +7470,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856caae8cbef94648a088bbc8bf9b1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Player: {fileID: 2120866711}
-  m_Enemy: {fileID: 1620955093}
-  m_NumRoundsToWin: 4
-  m_resultText: {fileID: 1823447947}
-  m_StartDelay: 3.5
-  m_EndDelay: 3
-  m_DeathDelay: 2.5
-  m_AttackDelay: 3
-  m_ChangeDelay: 7.5
-  m_gameOverAnimator: {fileID: 134977625}
-  m_FireExplodePrefab: {fileID: 199484, guid: bf27844d805522447933dc21e304c99b, type: 3}
-  m_ExplodesInterval: 1
+  player: {fileID: 2120866711}
+  enemy: {fileID: 1620955093}
+  numRoundsToWin: 4
+  resultText: {fileID: 1823447947}
+  startDelay: 3.5
+  endDelay: 5
+  deathDelay: 2.5
+  attackDelay: 3
+  changeDelay: 7.5
+  gameOverAnimator: {fileID: 134977625}
+  fireExplodePrefab: {fileID: 199484, guid: bf27844d805522447933dc21e304c99b, type: 3}
+  explodesInterval: 1
   stupitidyChangeDelay: 0
   doServerExchange: 0
   doClientExchange: 0
@@ -8334,18 +8335,22 @@ MonoBehaviour:
   hero2HandedSword: {fileID: 421253545}
   heroSword_2: {fileID: 514206028}
   enemiesItem1: {fileID: 11400000, guid: 384d4000f128f1943ab8713fc9593d1d, type: 2}
-  shieldMesh1: {fileID: 4300002, guid: 588cb1a3084bba747b81631d0c071523, type: 3}
-  shieldMaterial1: {fileID: 2100000, guid: da05e49adf02c134f88f541992ee78d2, type: 2}
-  shieldMesh2: {fileID: 4300000, guid: 554ae1c8d1293dd48bba375e25df54be, type: 3}
-  shieldMaterial2: {fileID: 2100000, guid: 5b94a1ed9c223424f9aea6da034396dc, type: 2}
-  twoHandedSwordMesh2: {fileID: 4300000, guid: ea689b6cc865a684599495af7e439020, type: 3}
-  twoHandedSwordMaterial2: {fileID: 2100000, guid: ab4ba12beb575fb4c94daeb68863f636,
-    type: 2}
-  shieldMesh3: {fileID: 4300000, guid: 84a993081fee65b44aad480a9789afde, type: 3}
-  shieldMaterial3: {fileID: 2100000, guid: db114c0f6b54ce749b5806d35504dd76, type: 2}
-  twoHandedSwordMesh3: {fileID: 4300000, guid: 3086667088ce9f144bf66559c1526d27, type: 3}
-  twoHandedSwordMaterial3: {fileID: 2100000, guid: 6b69b7ec8629ddc4f955e7b6407a31a6,
-    type: 2}
+  Weapons:
+  - shieldMesh: {fileID: 4300002, guid: 588cb1a3084bba747b81631d0c071523, type: 3}
+    shieldMat: {fileID: 2100000, guid: da05e49adf02c134f88f541992ee78d2, type: 2}
+    longMesh: {fileID: 0}
+    longMat: {fileID: 0}
+    color: {r: 1, g: 0, b: 0, a: 0}
+  - shieldMesh: {fileID: 4300000, guid: 554ae1c8d1293dd48bba375e25df54be, type: 3}
+    shieldMat: {fileID: 2100000, guid: 5b94a1ed9c223424f9aea6da034396dc, type: 2}
+    longMesh: {fileID: 4300000, guid: ea689b6cc865a684599495af7e439020, type: 3}
+    longMat: {fileID: 2100000, guid: ab4ba12beb575fb4c94daeb68863f636, type: 2}
+    color: {r: 0, g: 1, b: 0, a: 0}
+  - shieldMesh: {fileID: 4300000, guid: 84a993081fee65b44aad480a9789afde, type: 3}
+    shieldMat: {fileID: 2100000, guid: db114c0f6b54ce749b5806d35504dd76, type: 2}
+    longMesh: {fileID: 4300000, guid: 3086667088ce9f144bf66559c1526d27, type: 3}
+    longMat: {fileID: 2100000, guid: 6b69b7ec8629ddc4f955e7b6407a31a6, type: 2}
+    color: {r: 1, g: 1, b: 0, a: 0}
 --- !u!82 &1620955094
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11341,7 +11346,7 @@ GameObject:
   - component: {fileID: 2140636354}
   m_Layer: 5
   m_Name: Background
-  m_TagString: seriesStar
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

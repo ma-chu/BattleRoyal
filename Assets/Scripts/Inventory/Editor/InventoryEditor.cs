@@ -13,17 +13,25 @@ public class InventoryEditor : Editor
     private SerializedProperty itemNameProperty;                    
     private SerializedProperty itemImageProperty;                   
     private SerializedProperty itemDescriptionProperty;             
-    private SerializedProperty itemDescriptionObject;               
-
+    private SerializedProperty itemDescriptionObject;
+    
     // Соглашение об именах подобных констант: inventory - это член такого класса, Prop - это свойство,  ItemImages - свойство, на кот. ссылаемся, Name - это строка
     private const string inventoryPropItemImagesName = "itemImages";    // The name of the field that is an array of Image components.
     private const string inventoryPropItemsName = "items";              // The name of the field that is an array of Items.
 
+
+    private SerializedProperty seriesStarProperty;
+    private const string inventoryPropseriesStarName = "seriesStar";
+    private SerializedProperty itemDescriptionObjectProperty;
+    private const string inventoryPropitemDescriptionObjectName = "itemDescriptionObject";
+  
     private void OnEnable ()
     {
         // Cache the SerializedProperties.
         itemImagesProperty = serializedObject.FindProperty (inventoryPropItemImagesName);   // serializedObject указывает на класс Inventory
         itemsProperty = serializedObject.FindProperty (inventoryPropItemsName);
+        seriesStarProperty = serializedObject.FindProperty(inventoryPropseriesStarName);   
+        itemDescriptionObjectProperty = serializedObject.FindProperty(inventoryPropitemDescriptionObjectName);
     }
 
     // в редакторе по-умолчанию этот метод вызывается по умалчанию, а в кастомном нет /вызывается каждый фрейм/
@@ -37,6 +45,9 @@ public class InventoryEditor : Editor
         {
             ItemSlotGUI (i);
         }
+
+        EditorGUILayout.PropertyField(itemDescriptionObjectProperty); 
+        EditorGUILayout.PropertyField(seriesStarProperty);     
 
         // Push all the information from the serializedObject back into the target.
         serializedObject.ApplyModifiedProperties ();    // записать изменения в сериализованном объекте в исходный объект (runtime) - почти всегда хорошо делать в конце

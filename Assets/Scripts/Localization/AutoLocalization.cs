@@ -26,7 +26,7 @@ namespace EF.Localization
         
         [SerializeField] private string _stringToken;
 
-        public void UpdateLocalization()    // вызывается для всех button из массива _buttons и всех autoLocalizations из массива _autoLocalizations
+        public void UpdateLocalization()    // вызывается менеджером для всех button из массива _buttons и всех autoLocalizations из массива _autoLocalizations
         {
             if (Text.IsNull()) return;
             Text = _stringToken.Localize();

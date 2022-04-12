@@ -1,5 +1,4 @@
-﻿using EF.Sounds;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -24,9 +23,11 @@ public class PlayerManager : HeroManager
     protected override void Awake()
     {
         // определимся со ссылками на слоты инвентория
+        var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
         for (int i = 0; i < Inventory.numItemSlots; i++)
         {
-            itemSlots = GameObject.FindGameObjectsWithTag("itemSlot_player");
+            //itemSlots = GameObject.FindGameObjectsWithTag("itemSlot_player");
+            itemSlots[i] = eventTriggers[i].gameObject;
         }
 
         base.Awake();                                               
@@ -36,7 +37,7 @@ public class PlayerManager : HeroManager
         heroType = Heroes.Player;
     }
 
-    protected override void OnEnable()                                 // что мы делаем, когда герой снова жив (back on again, следующий раунд)
+    protected override void OnEnable()                                 // (back on again, следующий раунд)
     {
         weaponSetButtonsObject.SetActive(false);                    
         m_PlayersControlsCanvas.enabled = false;                    

@@ -3,21 +3,20 @@ using System;                // for Events
 
 public class HeroManager : MonoBehaviour
 {
+    private const int StrikesQuantity = 2;    // не доделано
     /* ССЫЛКИ НА ДРУГИЕ MonoBehaviour-классы, относящиеся к этому герою.
-     * Хотел сделать их вложенными классами, но косолапая реализация паттерна комповщика в Unity С#
+     * Хотел сделать их вложенными классами, но косолапая реализация паттерна комповщика в Unity (или все же недопонял?) С#
      * (отсутствие ссылки на внешний класс и инициализации полей вложенного класса редактором) мешает */
     private HP _HP;                                                 // Здоровье
     private Series series;                                          // Серии ударов и блоков
     protected HeroAnimation m_HeroAnimation;                        // Анимация
 
     [SerializeField] protected Inventory inventory;                 // Инвенторий
-
     protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)
     
     public Tweakers m_Tweakers;                                     // Настройки балланса боёвки
-
-    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                // Предв. значения для рассчета урона
-    public ExchangeResult[] exchangeResult = new ExchangeResult[2]; // Результаты ударов
+    public PreCoeffs[] preCoeffs = new PreCoeffs[StrikesQuantity];  // Предв. значения для рассчета урона
+    public ExchangeResult[] exchangeResult = new ExchangeResult[StrikesQuantity]; // Результаты ударов
     public float defencePart;                                       // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
     public int[] gotDamage;                                         // Возможный получаемый урон на текущий удар
 
@@ -25,19 +24,9 @@ public class HeroManager : MonoBehaviour
 
     [HideInInspector] public Heroes heroType;
 
-    public bool HasStrongStrikesSeries
-    {
-        get { return series.HasStrongStrikesSeries; }
-    }
-    public bool HasSeriesOfStrikes
-    {
-        get { return series.HasSeriesOfStrikes; }
-    }
-    public bool HasSeriesOfBlocks
-    {
-        get { return series.HasSeriesOfBlocks; }
-    }
-
+    public bool HasStrongStrikesSeries => series.HasStrongStrikesSeries;
+    public bool HasSeriesOfStrikes => series.HasSeriesOfStrikes;
+    public bool HasSeriesOfBlocks => series.HasSeriesOfBlocks;
 
     // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений
     public event Action DeathEvent;                     
@@ -97,7 +86,7 @@ public class HeroManager : MonoBehaviour
         shieldMeshRenderer = heroShield.GetComponent<MeshRenderer>();
         twoHandedSwordMeshRenderer = hero2HandedSword.GetComponent<MeshRenderer>();
         
-        gotDamage = new int[2];        // Так и не понял, почему нельзя писать при определении массива public int[] gotDamage = new int[2]; 
+        gotDamage = new int[StrikesQuantity];        // Так и не понял, почему нельзя писать при определении массива public int[] gotDamage = new int[StrikesQuantity]; 
     }
 
     protected virtual void OnEnable()                          // что мы делаем, когда герой снова жив (back on again, следующий раунд)
@@ -307,5 +296,4 @@ public class HeroManager : MonoBehaviour
     {
         inventory.AddItem(item);
     }
-
 }

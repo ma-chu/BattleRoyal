@@ -15,18 +15,17 @@ public class ClientNetworkCallbacks : GlobalEventListener
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
    {
        _gameManager = GameManager.Instance;
-       _playerManager = GameManager.Instance.m_Player;
-       _enemyManager = GameManager.Instance.m_Enemy;
+       _playerManager = GameManager.Instance.player;
+       _enemyManager = GameManager.Instance.enemy;
    }
-   
-   
+    
    // Отслеживаем посланное сервером событие
    public override void OnEvent(EFStartBattleServerEvent evnt)
    {
-       if ((evnt?.EnemyEntity) != null)
+       if (evnt?.EnemyEntity != null)
        {
            GameManager.enemyBoltEntity = evnt?.EnemyEntity;
-           Debug.LogWarning(this.name + " Server entity recieved. Name = " + GameManager.enemyBoltEntity.GetState<IEFPlayerState>().Username); 
+           Debug.Log(this.name + " Server entity recieved. Name = " + GameManager.enemyBoltEntity.GetState<IEFPlayerState>().Username); 
        }
 
        var evnt1 = EFStartBattleClientReplyEvent.Create();   
@@ -36,7 +35,6 @@ public class ClientNetworkCallbacks : GlobalEventListener
        evnt1.Send();
        
        GameManager.myBoltEntity = entity;
-       
        GameManager.ClientConnected = true;
    }
 

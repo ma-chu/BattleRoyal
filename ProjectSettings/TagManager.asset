@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ItemDescription
   - Enemy
   - itemSlot_player
   - sword_enemy
@@ -17,7 +16,6 @@ TagManager:
   - shield
   - sword_2
   - PlayerSeriesHUD
-  - seriesStar
   layers:
   - Default
   - TransparentFX

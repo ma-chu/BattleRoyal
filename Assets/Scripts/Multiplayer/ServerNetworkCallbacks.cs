@@ -40,7 +40,7 @@ public class ServerNetworkCallbacks : GlobalEventListener
    // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
     public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
     {
-        Debug.LogWarning(this.name + ": Client Scene Loaded!"); 
+        Debug.Log(this.name + ": Client Scene Loaded!"); 
 
         var playerObject= PlayerObjectRegisty.GetPlayer(connection);
         playerObject.Spawn();        // если сущность клиента успешна передана в токене, сервер не порождает сущность сам, а берет из токена
@@ -87,8 +87,8 @@ public class ServerNetworkCallbacks : GlobalEventListener
         poEntity.GetComponent<PlayerEntityController>().SetLinks();
         
         _gameManager = GameManager.Instance;
-        _playerManager = GameManager.Instance.m_Player;
-        _enemyManager = GameManager.Instance.m_Enemy;
+        _playerManager = GameManager.Instance.player;
+        _enemyManager = GameManager.Instance.enemy;
     }
 
 
@@ -104,8 +104,7 @@ public class ServerNetworkCallbacks : GlobalEventListener
         {
             _gameManager.MakeMultiplayerEnemyDecision(_enemyManager.decision, _enemyManager.defencePart,
                 out int[] clientExchangeResult, out int[] clientDamage, out int[] serverExchangeResult,
-                out int[] serverDamage
-            );
+                out int[] serverDamage);
 
             var evnt1 = EFExchangeResultsReady.Create();
 
