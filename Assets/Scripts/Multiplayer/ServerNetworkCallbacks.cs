@@ -1,64 +1,62 @@
-﻿using System;
-using Photon.Bolt;
-using Photon.Bolt.Matchmaking;
-using UdpKit;
+﻿using Photon.Bolt;
 using UnityEngine;
 using System.Linq;
+using Photon.Bolt.Matchmaking;
+using UdpKit;
 
 // Типа GameManager'а, прикрепляем к постоянному объекту на сцене
 // [BoltGlobalBehaviour(BoltNetworkModes.Host, "Level2")] - если указать такой атрибут, то Bolt породит инстанс скрипта самостоятельно без прикрепления к объекту сцены
 // (только на сервере и только для сцены Level2)
 
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "Main")]
-
 public class ServerNetworkCallbacks : GlobalEventListener
 {
-    /* Регистрировать токены либо так, либо Bolt / Protocol Tokens Registry / Refresh
-       На тек момент не использую токены
+    /* Регистрировать токены либо Bolt->Protocol Tokens Registry->Refresh, либо так: 
      public override void BoltStartBegin()
       {
           BoltNetwork.RegisterTokenClass<PlayerClientToken>();
           BoltNetwork.RegisterTokenClass<PlayerServerToken>();
       }
-   */
+     //На тек. момент  токены не используются */
 
- private GameManager _gameManager;
- private PlayerManager _playerManager;
- private EnemyManager _enemyManager;
-
- private void Awake()
+    private GameManager _gameManager;
+    private PlayerManager _playerManager;
+    private EnemyManager _enemyManager;
+    
+    private void Awake()
     {
         PlayerObjectRegisty.CreateServerPlayer();
     }
-
-   public override void Connected(BoltConnection connection)
+    
+    public override void Connected(BoltConnection connection)
     {
         Debug.LogWarning(this.name + ": Client Connected!"); 
         PlayerObjectRegisty.CreateClientPlayer(connection);
     }
 
-   // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
+    // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
     public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
     {
-        Debug.Log(this.name + ": Client Scene Loaded!"); 
-
-        var playerObject= PlayerObjectRegisty.GetPlayer(connection);
-        playerObject.Spawn();        // если сущность клиента успешна передана в токене, сервер не порождает сущность сам, а берет из токена
+        Debug.Log(this.name + ": Client Scene Loaded!");
         
-        // В качестве противника передаем клиенту себя (в событии пока не получается, см. PlayerEntityController / Attached)
+        var playerObject= PlayerObjectRegisty.GetPlayer(connection);
+        playerObject.Spawn();                                // А если сущность клиента передать в токене (зачем?)
+        
         connection.SetCanReceiveEntities(true);
         var evnt = EFStartBattleServerEvent.Create(connection);          // Создаем событие только для этого соединения
-        evnt.EnemyEntity = PlayerObjectRegisty.ServerPlayer.character;
+        evnt.EnemyEntity = PlayerObjectRegisty.ServerPlayer.character;   // В качестве противника передаем клиенту себя
+        // evnt.YourEntity = playerObject.character; // так бы можно передать клиенту его entity уже с сервера, но PlayerEntityController.SimulateOwner потребует ссылок на GameManager сразу
         evnt.Send();
         
-        // Так было бы с токеном
         /*
+        // Так было бы с токеном
+        connection.SetCanReceiveEntities(true);
         var serverToken = new PlayerServerToken();
         serverToken.enemyEntity = PlayerObjectRegisty.ServerPlayer.character;
-        var evnt = EFStartBattleEvent.Create(connection);          
-        evnt.EnemyEntity = serverToken;
+        var evnt = EFStartBattleEVE.Create(connection);          
+        evnt.ServerToken = serverToken;
         evnt.Send();  
-        */   
+        */
     }
 
     public override void OnEvent(EFStartBattleClientReplyEvent evnt)
@@ -139,8 +137,18 @@ public class ServerNetworkCallbacks : GlobalEventListener
     
     public override void Disconnected(BoltConnection connection)
     {
-        GameManager.ClientConnected = false;
-        GameManager.ClientDisconnected = true;
-    } 
+        BoltLauncher.Shutdown();
+        //GameManager.ClientConnected = false;
+        //GameManager.ClientDisconnected = true;
+    }
+    public override void BoltShutdownBegin(AddCallback registerDoneCallback, 
+        UdpConnectionDisconnectReason disconnectReason = UdpConnectionDisconnectReason.Disconnected)
+    {
+        registerDoneCallback(() =>
+        {
+            GameManager.ClientConnected = false;
+            GameManager.ClientDisconnected = true;
+        });
+    }
 }
 

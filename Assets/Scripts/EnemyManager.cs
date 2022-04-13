@@ -23,6 +23,8 @@ public class EnemyManager : HeroManager
     [SerializeField] private Item enemiesItem1;                     // что выдавать врагу на последний раунд
     [SerializeField] private WeaponChanges[] Weapons;               // изменения мешей и материалов оружия врага
 
+    private bool _rotated;
+    
     protected override void Awake()
     {
         // определимся со ссылками на слоты инвентория
@@ -57,17 +59,16 @@ public class EnemyManager : HeroManager
     private void ChangeWeaponsView(int winsZeroBased)
     {
         // меш и материал щита и лонга
-        if (!Weapons[winsZeroBased].shieldMesh.IsNull()) 
+        shieldMeshFilter.mesh = Weapons[winsZeroBased].shieldMesh;                                         
+        shieldMeshRenderer.material = Weapons[winsZeroBased].shieldMat;
+        if (!_rotated && winsZeroBased == 1)
         {
-            shieldMeshFilter.mesh = Weapons[winsZeroBased].shieldMesh;                                         
-            shieldMeshRenderer.material = Weapons[winsZeroBased].shieldMat;                                   
+            heroShield.transform.Rotate(Vector3.forward, 180);        // перевернуть щит один раз на 3 раунде для моделей 2 и 3
+            _rotated = true;
         }
-        if (winsZeroBased == 1) heroShield.transform.Rotate(Vector3.forward, 180);                      // перевернуть щит один раз на 3 раунде для моделей 2 и 3
-        if (!Weapons[winsZeroBased].longMesh.IsNull()) 
-        {
-            twoHandedSwordMeshFilter.mesh = Weapons[winsZeroBased].longMesh;                                         
-            twoHandedSwordMeshRenderer.material = Weapons[winsZeroBased].longMat;                                  
-        }
+        twoHandedSwordMeshFilter.mesh = Weapons[winsZeroBased].longMesh;                                         
+        twoHandedSwordMeshRenderer.material = Weapons[winsZeroBased].longMat;
+        
         // цвет меча, щита и лонга
         //shieldMeshRenderer.material.SetColor("Color", Weapons[round].color);  // так было до URP
         shieldMeshRenderer.material.color = Weapons[winsZeroBased].color;

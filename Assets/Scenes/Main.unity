@@ -1210,7 +1210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: EnemyName
+  m_Text: 
 --- !u!222 &234527709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8338,8 +8338,8 @@ MonoBehaviour:
   Weapons:
   - shieldMesh: {fileID: 4300002, guid: 588cb1a3084bba747b81631d0c071523, type: 3}
     shieldMat: {fileID: 2100000, guid: da05e49adf02c134f88f541992ee78d2, type: 2}
-    longMesh: {fileID: 0}
-    longMat: {fileID: 0}
+    longMesh: {fileID: 4300000, guid: 8542650168563d1459a14a88e297ab9d, type: 3}
+    longMat: {fileID: 2100000, guid: 19948be4c43c2e147aa8ae1ed7a36cff, type: 2}
     color: {r: 1, g: 0, b: 0, a: 0}
   - shieldMesh: {fileID: 4300000, guid: 554ae1c8d1293dd48bba375e25df54be, type: 3}
     shieldMat: {fileID: 2100000, guid: 5b94a1ed9c223424f9aea6da034396dc, type: 2}

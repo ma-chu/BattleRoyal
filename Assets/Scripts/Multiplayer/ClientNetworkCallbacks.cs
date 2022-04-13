@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon.Bolt;
-using UdpKit;
 using System.Linq;
 
 [BoltGlobalBehaviour(BoltNetworkModes.Client, "Main")]
@@ -19,12 +16,44 @@ public class ClientNetworkCallbacks : GlobalEventListener
        _enemyManager = GameManager.Instance.enemy;
    }
     
-   // Отслеживаем посланное сервером событие
    public override void OnEvent(EFStartBattleServerEvent evnt)
    {
        if (evnt?.EnemyEntity != null)
        {
            GameManager.enemyBoltEntity = evnt?.EnemyEntity;
+           Debug.Log(this.name + " Server entity recieved. Name = " + GameManager.enemyBoltEntity.GetState<IEFPlayerState>().Username); 
+       }
+
+       /* Так бы можно передать клиенту его entity уже с сервера, но PlayerEntityController.SimulateOwner потребует ссылок на GameManager сразу
+       Photon.Bolt.BoltEntity myEntity;
+       if (evnt?.YourEntity != null)
+       {
+           myEntity = evnt?.YourEntity;
+           myEntity.GetState<IEFPlayerState>().Username = PlayerPrefs.GetString("username");
+           Debug.Log(this.name + " My entity recieved. Name = " + myEntity.GetState<IEFPlayerState>().Username); 
+           GameManager.myBoltEntity = myEntity;
+       }
+       */
+       
+       var evnt1 = EFStartBattleClientReplyEvent.Create();   
+       var entity = BoltNetwork.Instantiate(BoltPrefabs.HeroBoltEntity, Vector3.zero, Quaternion.identity); 
+       entity.GetState<IEFPlayerState>().Username = PlayerPrefs.GetString("username");
+       evnt1.clientEntity = entity;
+       evnt1.Send();
+       
+       GameManager.myBoltEntity = entity;
+       GameManager.ClientConnected = true;
+   }
+  
+   
+   /*
+   // Неудачная попытка принять токен
+   public override void OnEvent(EFStartBattleEVE evnt)
+   {
+       if (evnt?.ServerToken != null)
+       {
+           PlayerServerToken tok = evnt.ServerToken as PlayerServerToken;
+           GameManager.enemyBoltEntity = tok.enemyEntity;
            Debug.Log(this.name + " Server entity recieved. Name = " + GameManager.enemyBoltEntity.GetState<IEFPlayerState>().Username); 
        }
 
@@ -37,6 +66,8 @@ public class ClientNetworkCallbacks : GlobalEventListener
        GameManager.myBoltEntity = entity;
        GameManager.ClientConnected = true;
    }
+    */
+
 
    public override void OnEvent(EFExchangeResultsReady evnt)
    {

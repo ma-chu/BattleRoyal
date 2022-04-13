@@ -153,19 +153,16 @@ public class GameManager : MonoBehaviour {
     
     private IEnumerator GameStarting()                  // начало игры
     {
-        if (gameType != GameType.Single)
-        {
-            _enemyState = enemyBoltEntity?.GetState<Photon.Bolt.IEFPlayerState>();
-        }
-
-        resultText.text = "Defeat".Localize() + numRoundsToWin + "to_win".Localize();
-            
+        resultText.text = String.Format("{0} {1} {2}", "Defeat".Localize(), numRoundsToWin, "to_win".Localize());
+        
         yield return _startWait;                        
     }
 
     private IEnumerator RoundStarting()                 // начало раунда
     {
         //0. Имя врага
+        if (gameType != GameType.Single)
+            _enemyState = enemyBoltEntity?.GetState<Photon.Bolt.IEFPlayerState>();
         enemyNameText.text = _enemyState?.Username ?? "enemyBot";        
         //1. Увеличить номер раунда.
         _roundNumber++;
@@ -184,7 +181,7 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator RoundPlaying()
     {        
-        resultText.text = string.Empty;                       // 1. Очистить информационное сообщение
+        resultText.text = string.Empty;                         // 1. Очистить информационное сообщение
         
         
         while (!OneHeroLeft())                                  // 2. Играем раунд (пропускаем такты), пока кто-то не умрет
@@ -304,7 +301,7 @@ public class GameManager : MonoBehaviour {
         yield return _deathWait;                           // используем m_DeathWait ( 2.5 сек), чтоб не плодить сущности
         
         //2. Вывести информационное сообщение.
-        resultText.text = "round".Localize() + _roundNumber.ToString() + " " + "ended".Localize() + _roundWinner.ToString().Localize() + "win".Localize();
+        resultText.text = "round".Localize() + _roundNumber + " " + "ended".Localize() + _roundWinner.ToString().Localize() + "win".Localize();
         
         //3. ждём еще одну m_DeathWait, ибо будем выдавать инвентарь
         if (_roundWinner == Heroes.Player || gameType != GameType.Single)
@@ -324,9 +321,11 @@ public class GameManager : MonoBehaviour {
         }
         yield return _endWait;
 
+        enemyNameText.text = string.Empty;
+        
         player.m_dead = false;
         enemy.m_dead = false;
-        
+
         doClientExchange = false;
         doServerExchange = false;
     }
@@ -542,6 +541,7 @@ public class GameManager : MonoBehaviour {
         {
             StopAllCoroutines();
             resultText.text = "Partner Disconnected!";
+            // остановить болт
             player.RestartPressed();
         }
     }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Photon.Bolt;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+﻿using Photon.Bolt;
 
 public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
 {
@@ -15,38 +8,21 @@ public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
 
     public override void Attached() // аналог Start()
     {
-        // !!!Не ясно почему, но entity.HasControl не встает на сервере после выполнения ф-ии character.TakeControl() в PlayerObject/Spawn!!!
+        // !!!Не ясно почему, но entity.HasControl не встает на сервере после выполнения ф-ии character.TakeControl() в PlayerObject.Spawn()!!!
         /*Debug.LogWarning(this.name + " BoltNetwork.IsClient = " + BoltNetwork.IsClient + " BoltNetwork.IsServer = " + BoltNetwork.IsServer +
                          " entity.IsOwner = " + entity.IsOwner + " entity.HasControl = " + entity.HasControl);*/
 
-        // Если сервер, то присваивание enemy (плюс вызов SetLinks) произойдет в ServerNetworkCallbacks/OnConnected (SceneLoadLocalDone)
-        // Если клиент, то здесь
+        // Если сервер, то присваивание своего entity (плюс вызов SetLinks) произойдет в ServerNetworkCallbacks.SceneLoadLocalDone
+        // Если клиент, то присваивание своего entity произойдет в ClientNetworkCallbacks.OnEvent(EFStartBattleServerEvent evnt), а SetLinks здесь
         if (BoltNetwork.IsClient)
-        {
             if (entity.IsOwner)
             {
-                if (GameManager.myBoltEntity == null) GameManager.myBoltEntity = entity;            //страховка. null не должно быть                                                                                 
+                // (GameManager.myBoltEntity == null) GameManager.myBoltEntity = entity;            // страховка. null не должно быть                                                                                 
                 SetLinks();
             }
-            
-            // так, пока не научусь передавать ссылку на сущность соперника через событие (EFStartBattleEvent в SceneLoadRemoteDone) --> научился
-            else
-            {
-                if (GameManager.enemyBoltEntity == null) GameManager.enemyBoltEntity = entity;     //страховка. null не должно быть 
-            }
-        }
-        else    //server
-        {
-            // так, пока не научусь передавать ссылку на сущность соперника через clientToken (ServerNetworkCallbacks / SceneLoadRemoteDone) --> научился
-            if (!entity.IsOwner)
-            {
-                PlayerObjectRegisty.GetPlayer(entity.Source).character = entity;
-                if (GameManager.enemyBoltEntity == null) GameManager.enemyBoltEntity = entity;     //страховка. null не должно быть 
-            }
-        }
     }
 
-    public override void SimulateOwner()        // одинаково для игрока-клиента и игрока-сервера
+    public override void SimulateOwner()        // Аналог Update. Одинаково для игрока-клиента и игрока-сервера
     {
         if (!_gameManager.doClientExchange && !_gameManager.doServerExchange)
         {
@@ -64,7 +40,7 @@ public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
         state.AddCallback("InventoryItem", InventoryCallback);
     }
 
-    private void DecisionCallback()    
+    private void DecisionCallback()            // Callback вызывается, когда меняется св-во стейта Desicion (типа UniRx)
     {
         if (state.Decision != 0)
         {
