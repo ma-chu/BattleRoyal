@@ -53,10 +53,11 @@ public class Menu : GlobalEventListener
     // used from buttons
     public void StartSinglePlayer()
     {
-        GameManager.gameType = GameType.Single;
-        //SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex*/0);
+        /*GameManager.gameType = GameType.Single;
+        //SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex /*0);
         SceneManager.LoadScene (2, LoadSceneMode.Single); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
-        //SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main"));
+        //SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main"));*/
+        GameManager.Instance.StartGame(GameType.Single);
     }
     
     public void StartMultiPlayer()
@@ -75,8 +76,9 @@ public class Menu : GlobalEventListener
     
     public void StartServer()
     {
-        GameManager.gameType = GameType.Server;
-        BoltLauncher.StartServer();                // A1. Запуск Сервера
+        /*GameManager.gameType = GameType.Server;
+        BoltLauncher.StartServer();                // A1. Запуск Сервера*/
+        GameManager.Instance.StartGame(GameType.Server);
     }
     
     public void StartClient()

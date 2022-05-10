@@ -12,16 +12,20 @@ public class ClientNetworkCallbacks : GlobalEventListener
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
    {
        _gameManager = GameManager.Instance;
+       /* ВЕРНУТЬСЯ при фотоне
        _playerManager = GameManager.Instance.player;
        _enemyManager = GameManager.Instance.enemy;
+       */
    }
     
    public override void OnEvent(EFStartBattleServerEvent evnt)
    {
        if (evnt?.EnemyEntity != null)
        {
+           /* ВЕРНУТЬСЯ при фотоне
            GameManager.enemyBoltEntity = evnt?.EnemyEntity;
            Debug.Log(this.name + " Server entity recieved. Name = " + GameManager.enemyBoltEntity.GetState<IEFPlayerState>().Username); 
+           */
        }
 
        /* Так бы можно передать клиенту его entity уже с сервера, но PlayerEntityController.SimulateOwner потребует ссылок на GameManager сразу
@@ -39,10 +43,11 @@ public class ClientNetworkCallbacks : GlobalEventListener
        var entity = BoltNetwork.Instantiate(BoltPrefabs.HeroBoltEntity, Vector3.zero, Quaternion.identity); 
        entity.GetState<IEFPlayerState>().Username = PlayerPrefs.GetString("username");
        evnt1.clientEntity = entity;
-       evnt1.Send();
-       
+       evnt1.Send(); 
+       /* ВЕРНУТЬСЯ при фотоне    
        GameManager.myBoltEntity = entity;
        GameManager.ClientConnected = true;
+*/
    }
   
    
@@ -68,7 +73,8 @@ public class ClientNetworkCallbacks : GlobalEventListener
    }
     */
 
-
+/*    ВЕРНУТЬСЯ при фотоне
+ 
    public override void OnEvent(EFExchangeResultsReady evnt)
    {
        _playerManager.exchangeResult[0] = (ExchangeResult) evnt.ClientExchangeResult1;
@@ -91,7 +97,7 @@ public class ClientNetworkCallbacks : GlobalEventListener
        
        _gameManager.doClientExchange = true;
    }
-   
+*/  
    public override void OnEvent(EFInventoryItemAdded evnt)
    {
        if (!evnt.FromSelf)
@@ -105,7 +111,9 @@ public class ClientNetworkCallbacks : GlobalEventListener
 
    public override void Disconnected(BoltConnection connection)
    {
+       /* ВЕРНУТЬСЯ при фотоне
        GameManager.ClientConnected = false;
        GameManager.ClientDisconnected = true;
+       */
    } 
 }

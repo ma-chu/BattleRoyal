@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 //  ДВИЖЕНИЕ И АНИМАЦИЯ ГЕРОЯ
 public class HeroAnimation : MonoBehaviour
 {
@@ -79,7 +77,7 @@ public class HeroAnimation : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, startRotation, 0f);           // установить начальное вращение
     }
 
-    private void OnHit(int strikeNumber = 0)        // всё равно, какой удар
+    private void OnHit(int strikeNumber = 0, int gotDamage = 0)        // всё равно, какой удар и на сколько
     {
         m_Anim.SetBool("GetHit", true);                            
     }
@@ -234,7 +232,7 @@ public class HeroAnimation : MonoBehaviour
 
     private void Update()
     {
-        if (m_change && (!heroManager.m_dead)) ChangeWeapon();
+        if (m_change && (!heroManager.dead)) ChangeWeapon();
 
         if (m_rotateToCenter) RotateToCenter();
 

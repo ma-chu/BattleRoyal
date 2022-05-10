@@ -56,7 +56,7 @@ public class HeroAudio : MonoBehaviour
         }
     }
 
-    private void OnHit(int strikeNumber)
+    private void OnHit(int strikeNumber, int gotDamage = 0)
     {
         float delay = 0f;
         if (strikeNumber == 2) delay = 0.3f;
@@ -91,7 +91,7 @@ public class HeroAudio : MonoBehaviour
         m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Parry);
         m_FirstStrikeHeroAudio.PlayDelayed(delay);
     }
-    private void OnBlockVs2Handed()
+    private void OnBlockVs2Handed(int gotDamage = 0)
     {
         m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.TwoVsShield);
         m_FirstStrikeHeroAudio.Play();

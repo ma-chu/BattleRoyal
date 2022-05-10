@@ -24,7 +24,7 @@ public class Tweakers                                      // Настройки
     [SerializeField]
     private float parryChance;                          // шанс парировать удар противника
     [SerializeField]
-    private float startingHealth = 100f;                // начальное здоровье
+    private int startingHealth;                         // начальное здоровье
 
     public int DamageBaseMin                            // 1. Полная запись свойства (с именнованным полем)
     {
@@ -48,7 +48,7 @@ public class Tweakers                                      // Настройки
     public float EvadeOnChangeChance => evadeOnChangeChance;
     public float MaxDefencePart => maxDefencePart;
     public float ParryChance => parryChance;
-    public float StartingHealth => startingHealth;
+    public int StartingHealth => startingHealth;
 
     public Tweakers()                                          // значения по-умолчанию
     {
@@ -61,32 +61,32 @@ public class Tweakers                                      // Настройки
         evadeOnChangeChance = 0.33f;
         maxDefencePart = 0.33f;
         parryChance = 0f;
-        startingHealth = 100f;
+        startingHealth = 100;
     }
 
-    public void AddInventoryTweakers(Inventory inventory)     // Пересчитать твикеры с учетом модификаторов инвентаря
+    public void AddInventoryTweakers(Item[] items)     // Пересчитать твикеры с учетом модификаторов инвентаря
     {
-        for (int i = 0; i < inventory.items.Length; i++)
+        for (int i = 0; i < items.Length; i++)
         {
-            if (inventory.items[i] != null)
+            if (items[i] != null)
             {
-                damageBaseMin += inventory.items[i].DamageModifierAdd;
-                damageBaseMax += inventory.items[i].DamageModifierAdd;
+                damageBaseMin += items[i].DamageModifierAdd;
+                damageBaseMax += items[i].DamageModifierAdd;
 
-                coef2HandedSword *= 1 + inventory.items[i].Coef2HandSwordModifier / 100f;
+                coef2HandedSword *= 1 + items[i].Coef2HandSwordModifier / 100f;
 
-                coefSecondSword *= 1 + inventory.items[i].CoefSecondSwordModifier / 100f;
+                coefSecondSword *= 1 + items[i].CoefSecondSwordModifier / 100f;
 
-                blockChance *= 1 + inventory.items[i].BlockChanceModifier / 100f;
+                blockChance *= 1 + items[i].BlockChanceModifier / 100f;
 
-                part2HandedThroughShield *= 1 + inventory.items[i].Part2HandedThroughShieldModifier / 100f;
+                part2HandedThroughShield *= 1 + items[i].Part2HandedThroughShieldModifier / 100f;
 
-                evadeOnChangeChance *= 1 + inventory.items[i].EvadeOnChangeChanceModifier / 100f;
+                evadeOnChangeChance *= 1 + items[i].EvadeOnChangeChanceModifier / 100f;
 
-                parryChance += inventory.items[i].ParringChanceModifier / 100f;
+                parryChance += items[i].ParringChanceModifier / 100f;
 
-                startingHealth += inventory.items[i].StartHealthModifierAdd;
-                startingHealth *= 1 + inventory.items[i].StartHealthModifierMul / 100f;
+                startingHealth += items[i].StartHealthModifierAdd;
+                startingHealth = Mathf.RoundToInt(startingHealth*(1 + items[i].StartHealthModifierMul / 100f));
             }
         }
     }

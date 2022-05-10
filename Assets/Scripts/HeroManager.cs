@@ -1,38 +1,39 @@
 ﻿using UnityEngine;
-using System;                // for Events
-
+using System;
+using System.Linq; 
+// Смена сетов оружия, инвенторий и изменение цвета/формы оружия
 public class HeroManager : MonoBehaviour
 {
-    private const int StrikesQuantity = 2;    // не доделано
+    //private const int StrikesQuantity = 2;    // не доделано
     /* ССЫЛКИ НА ДРУГИЕ MonoBehaviour-классы, относящиеся к этому герою.
      * Хотел сделать их вложенными классами, но косолапая реализация паттерна комповщика в Unity (или все же недопонял?) С#
      * (отсутствие ссылки на внешний класс и инициализации полей вложенного класса редактором) мешает */
-    private HP _HP;                                                 // Здоровье
-    private Series series;                                          // Серии ударов и блоков
-    protected HeroAnimation m_HeroAnimation;                        // Анимация
+    //private HP _HP;                                                 // Здоровье
+    //private Series series;                                          // Серии ударов и блоков
+    //protected HeroAnimation m_HeroAnimation;                        // Анимация
 
     [SerializeField] protected Inventory inventory;                 // Инвенторий
     protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)
     
-    public Tweakers m_Tweakers;                                     // Настройки балланса боёвки
-    public PreCoeffs[] preCoeffs = new PreCoeffs[StrikesQuantity];  // Предв. значения для рассчета урона
-    public ExchangeResult[] exchangeResult = new ExchangeResult[StrikesQuantity]; // Результаты ударов
-    public float defencePart;                                       // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
-    public int[] gotDamage;                                         // Возможный получаемый урон на текущий удар
+    //public Tweakers m_Tweakers;                                     // Настройки балланса боёвки
+    //public PreCoeffs[] preCoeffs = new PreCoeffs[StrikesQuantity];  // Предв. значения для рассчета урона
+    //public ExchangeResult[] exchangeResult = new ExchangeResult[StrikesQuantity]; // Результаты ударов
+    //public float defencePart;                                       // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
+    //public int[] gotDamage;                                         // Возможный получаемый урон на текущий удар
 
-    public bool m_dead;                                             // герой мёртв 
+    public bool dead;                                             // герой мёртв 
 
     [HideInInspector] public Heroes heroType;
 
-    public bool HasStrongStrikesSeries => series.HasStrongStrikesSeries;
+    /*public bool HasStrongStrikesSeries => series.HasStrongStrikesSeries;
     public bool HasSeriesOfStrikes => series.HasSeriesOfStrikes;
-    public bool HasSeriesOfBlocks => series.HasSeriesOfBlocks;
+    public bool HasSeriesOfBlocks => series.HasSeriesOfBlocks;*/
 
     // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений
     public event Action DeathEvent;                     
-    private void InvokeDeathEvent()                         // Вызываем из HP           
+    private void InvokeDeathEvent()                                
     {
-        m_dead = true;
+        dead = true;
         DeathEvent?.Invoke();
     }
     public event Action AttackEvent;
@@ -42,17 +43,19 @@ public class HeroManager : MonoBehaviour
     {
         ToPositionEvent?.Invoke();
     }
-    public event Action<int> GetHitEvent;
+    public event Action<int, int> GetHitEvent;
     public event Action<int> ParryEvent;
-    public event Action BlockVs2HandedEvent;
+    public event Action<int> BlockVs2HandedEvent;
     public event Action<int> BlockEvent;
     public event Action<int> EvadeEvent;                                              
+    public event Action ExchangeEndedEvent;
 
-    public static int player_countRoundsWon = 0;                // Сколько раундов выиграл игрок
-    public static int enemy_countRoundsWon = 0;                 // Сколько раундов выиграл враг
 
-    public WeaponSet weaponSet = WeaponSet.SwordShield;         // Какой набор оружия использовать
-    public Decision decision;                                   // Решение на этот ход
+    //public static int player_countRoundsWon = 0;                // Сколько раундов выиграл игрок
+    //public static int enemy_countRoundsWon = 0;                 // Сколько раундов выиграл враг
+
+    public WeaponSet weaponSet = WeaponSet.SwordShield;           // Какой набор оружия использовать
+    //public Decision decision;                                   // Решение на этот ход
 
     // ссылки на объекты-оружие 
     public GameObject heroSword;
@@ -69,14 +72,14 @@ public class HeroManager : MonoBehaviour
 
     protected virtual void Awake()                             
     {
-        _HP = GetComponent<HP>() /*as HP*/;
-        series = GetComponent<Series>() /*as Series*/;
-        m_HeroAnimation = GetComponent<HeroAnimation>() /*as HeroAnimation*/;
+        //_HP = GetComponent<HP>() /*as HP*/;
+        //series = GetComponent<Series>() /*as Series*/;
+        //m_HeroAnimation = GetComponent<HeroAnimation>() /*as HeroAnimation*/;
 
-        m_Tweakers = new Tweakers();
+        //m_Tweakers = new Tweakers();
 
-        player_countRoundsWon = 0;
-        enemy_countRoundsWon = 0;
+        //player_countRoundsWon = 0;
+        //enemy_countRoundsWon = 0;
 
         // получаем ссылки на компоненты оружия
         shieldMeshFilter = heroShield.GetComponent<MeshFilter>();
@@ -86,49 +89,47 @@ public class HeroManager : MonoBehaviour
         shieldMeshRenderer = heroShield.GetComponent<MeshRenderer>();
         twoHandedSwordMeshRenderer = hero2HandedSword.GetComponent<MeshRenderer>();
         
-        gotDamage = new int[StrikesQuantity];        // Так и не понял, почему нельзя писать при определении массива public int[] gotDamage = new int[StrikesQuantity]; 
+        //gotDamage = new int[StrikesQuantity];        // Так и не понял, почему нельзя писать при определении массива public int[] gotDamage = new int[StrikesQuantity]; 
     }
 
     protected virtual void OnEnable()                          // что мы делаем, когда герой снова жив (back on again, следующий раунд)
     {
-        GameManager.ExchangeEvent1 += OnExchange1;
+        /*GameManager.ExchangeEvent1 += OnExchange1;
         GameManager.ExchangeEvent2 += OnExchange2;
-        GameManager.ExchangeEndedEvent += OnExchangeEnded;
+        GameManager.ExchangeEndedEvent += OnExchangeEnded;*/
 
-        if (!m_HeroAnimation.enabled) m_HeroAnimation.enabled = true;   // переинициализируем движетеля героя
-
+        //if (!m_HeroAnimation.enabled) m_HeroAnimation.enabled = true;   // переинициализируем движетеля героя
+/*
         m_Tweakers = new Tweakers();                                    // переинициализируем твикеры героя на дефолтные
-        m_Tweakers.AddInventoryTweakers(inventory);                     
+        m_Tweakers.AddInventoryTweakers(inventory.items);                     
 
         _HP.SetStartHealth(m_Tweakers.StartingHealth);                  // здоровье на максимум
-
-        // Обнулим серии героя
-        series.ResetStrongStrikesSeries();
-        series.ResetSeriesOfBlocks();
-        series.ResetSeriesOfStrikes();
-        // Обнулим подсказки серий
-        series.UpdateStrongStrikesSeries();
+*/
+        // Обнулим подсказки серий героя (это все про SeriesView - отображение серий)
+/*      series.UpdateStrongStrikesSeries();
         series.UpdateSeriesOfBlocks();
         series.UpdateSeriesOfStrikes();
+*/
         // убираем лишние объекты-оружия, кроме начальных щит-меч
         hero2HandedSword.SetActive(false);
         heroSword_2.SetActive(false);
         heroSword.SetActive(true);
         heroShield.SetActive(true);
 
-        weaponSet = WeaponSet.SwordShield;                              // набор оружия по умолчанию - щит-меч
+        weaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
 
-        decision = Decision.No;
+        //decision = Decision.No;
     }
 
     private void OnDisable()
     {
-        GameManager.ExchangeEvent1 -= OnExchange1;
+        /*GameManager.ExchangeEvent1 -= OnExchange1;
         GameManager.ExchangeEvent2 -= OnExchange2;
-        GameManager.ExchangeEndedEvent -= OnExchangeEnded;
-        m_HeroAnimation.enabled = false;
+        GameManager.ExchangeEndedEvent -= OnExchangeEnded;*/
+        //m_HeroAnimation.enabled = false;
     }
-
+    
+    /*
     public virtual void SetSwordSword()                                 // по нажатию кнопки, например, меч-меч 
     {
         weaponSet = WeaponSet.SwordSword;
@@ -143,129 +144,62 @@ public class HeroManager : MonoBehaviour
     {
         weaponSet = WeaponSet.TwoHandedSword;
     }
-
-    // Функции-запускатели событий этого класса, что подписываются на GameManager.ExchangeEvent1-2
-    private void OnExchange1()
+    */
+    public void Exchange(ExchangeResult[] exchangeResults, int[] gotDamages, Decision decision, int hp)
     {
-        if ((exchangeResult[0] == ExchangeResult.GetHit) || (exchangeResult[0] == ExchangeResult.BlockVs2Handed))
+        // Функции-запускатели событий этого класса, что подписываются на GameManager.ExchangeEvent1-2
+        //public void OnExchange1()
+        //{
+        if ((exchangeResults[0] == ExchangeResult.GetHit) || (exchangeResults[0] == ExchangeResult.BlockVs2Handed))
         {
-            GetHitEvent?.Invoke(1);
-            if (_HP.TakeDamage(gotDamage[0])) InvokeDeathEvent();
+            GetHitEvent?.Invoke(1, gotDamages[0]);
+            // HPView отобразить gotDamages[0]
         }
 
         if (decision == Decision.Attack)
         {
-            if (exchangeResult[0] == ExchangeResult.Parry) ParryEvent?.Invoke(1);
-            if (exchangeResult[0] == ExchangeResult.Block) BlockEvent?.Invoke(1);
-            if (exchangeResult[0] == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke();
+            if (exchangeResults[0] == ExchangeResult.Parry) ParryEvent?.Invoke(1);
+            if (exchangeResults[0] == ExchangeResult.Block) BlockEvent?.Invoke(1);
+            if (exchangeResults[0] == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke(gotDamages[0]);
         }
 
-        if (exchangeResult[0] == ExchangeResult.Evade) EvadeEvent?.Invoke(1);
-    }
+        if (exchangeResults[0] == ExchangeResult.Evade) EvadeEvent?.Invoke(1);
+        //}
 
-    protected virtual void OnExchange2()
-    {
+        //public /*virtual*/ void OnExchange2()
+        //{
         if (decision == Decision.Attack) AttackEvent?.Invoke();
 
-        if ((exchangeResult[1] == ExchangeResult.GetHit) && !m_dead)    // если не помер после первого удара
+        if ((exchangeResults[1] == ExchangeResult.GetHit) && !dead)   
         {
-            GetHitEvent?.Invoke(2);                                               // то принимаем второй
-            if (_HP.TakeDamage(gotDamage[1])) InvokeDeathEvent();  
+            GetHitEvent?.Invoke(2, gotDamages[1]);
+            // HPView отобразить gotDamages[1]
         }
+        if (hp <= 0) InvokeDeathEvent(); 
 
         if (((decision == Decision.ChangeSwordShield) || (decision == Decision.ChangeSwordSword) || (decision == Decision.ChangeTwoHandedSword))
-            && !m_dead) ChangeEvent?.Invoke();
+            && !dead) ChangeEvent?.Invoke();
         else
         {        
-            if (exchangeResult[1] == ExchangeResult.Parry) ParryEvent?.Invoke(2);
-            if (exchangeResult[1] == ExchangeResult.Block) BlockEvent?.Invoke(2);
+            if (exchangeResults[1] == ExchangeResult.Parry) ParryEvent?.Invoke(2);
+            if (exchangeResults[1] == ExchangeResult.Block) BlockEvent?.Invoke(2);
         }
 
-        if (exchangeResult[1] == ExchangeResult.Evade) EvadeEvent?.Invoke(2);
+        if (exchangeResults[1] == ExchangeResult.Evade) EvadeEvent?.Invoke(2);
+        //}
     }
 
-    protected void  OnExchangeEnded()
-    {
-        decision = Decision.No;
-    }
+    public void ExchangeEnded() => ExchangeEndedEvent?.Invoke();
 
-    public virtual void CalculatePreCoeffs()
-    {
-        preCoeffs[0].parry = (UnityEngine.Random.value <= defencePart);
-        preCoeffs[1].parry = (UnityEngine.Random.value <= defencePart);
 
-        // Предварительные коэффициенты на основе текущего набора оружия
-        switch (weaponSet)
+        /*public void  OnExchangeEnded()
         {
-            case WeaponSet.SwordShield:
-                preCoeffs[0].damage = UnityEngine.Random.Range(m_Tweakers.DamageBaseMin, m_Tweakers.DamageBaseMax + 1);
-                preCoeffs[0].damage += series.AddSeriesDamage();
-                preCoeffs[1].damage = 0f;
-                preCoeffs[0].block = (UnityEngine.Random.Range(0f, 1f) <= m_Tweakers.BlockChance);
-                preCoeffs[1].block = (UnityEngine.Random.Range(0f, 1f) <= m_Tweakers.BlockChance);
-                break;
-            case WeaponSet.SwordSword:
-                preCoeffs[0].damage = UnityEngine.Random.Range(m_Tweakers.DamageBaseMin, m_Tweakers.DamageBaseMax + 1);
-                preCoeffs[0].damage += series.AddSeriesDamage();
-                preCoeffs[1].damage = UnityEngine.Random.Range(m_Tweakers.DamageBaseMin * m_Tweakers.CoefSecondSword, m_Tweakers.DamageBaseMax * m_Tweakers.CoefSecondSword);
-                preCoeffs[1].damage += series.AddSeriesDamage();
-                preCoeffs[0].block = false;
-                preCoeffs[1].block = false;
-                preCoeffs[0].blockVs2Handed = false;
-                break;
-            case WeaponSet.TwoHandedSword:
-                preCoeffs[0].damage = UnityEngine.Random.Range(m_Tweakers.DamageBaseMin * m_Tweakers.Coef2HandedSword, m_Tweakers.DamageBaseMax * m_Tweakers.Coef2HandedSword);
-                preCoeffs[0].damage += series.AddSeriesDamage();
-                preCoeffs[1].damage = 0f;
-                preCoeffs[0].block = false;
-                preCoeffs[1].block = false;
-                preCoeffs[0].blockVs2Handed = false;
-                break;
-        }
-        // А также предварительные коэффициенты на основе решения
-        switch (decision)
-        {
-            case Decision.Attack:
-                preCoeffs[0].evade = false;
-                preCoeffs[1].evade = false;
-                break;
-            default:                                                    // точно какая-то смена
-                preCoeffs[0].evade = (UnityEngine.Random.Range(0f, 1f) <= m_Tweakers.EvadeOnChangeChance);
-                preCoeffs[1].evade = (UnityEngine.Random.Range(0f, 1f) <= m_Tweakers.EvadeOnChangeChance);
-                preCoeffs[0].block = false;
-                preCoeffs[1].block = false;
-                preCoeffs[0].blockVs2Handed = false;
-                preCoeffs[0].parry = false;
-                preCoeffs[1].parry = false;
-                break;
-        }
-    }
+            decision = Decision.No;
+        }*/
 
-    public ExchangeResult CalculateExchangeResult(int strikeNumber)
-    {
-        if (preCoeffs[strikeNumber - 1].parry)                                        // А. парирование
-        {
-            return ExchangeResult.Parry;
-        }
-        else if (preCoeffs[strikeNumber - 1].blockVs2Handed)                          // Б. пробитие щита двуручником
-        {
-            return ExchangeResult.BlockVs2Handed;
-        }
-        else if (preCoeffs[strikeNumber - 1].block)                                   // В. блок
-        {
-            return ExchangeResult.Block;
-        }
-        else if (preCoeffs[strikeNumber - 1].evade)                                   // Г. уворот на смене
-        {
-            return ExchangeResult.Evade;
-        }
-        else
-        {
-            return ExchangeResult.GetHit;                                            // Д. принять полный первый удар
-        }
-    }
+    
 
-    public void AddStrongSeries(int strikeNumber)
+    /*public void AddStrongSeries(int strikeNumber)
     {
         series.AddStrongSeries(strikeNumber);
     }
@@ -277,9 +211,9 @@ public class HeroManager : MonoBehaviour
     public void ResetStrikesSeries()
     {
         series.ResetSeriesOfStrikes();
-    }
+    }*/
 
-    public Item GiveOutPrize()
+    /*public Item GiveOutPrize()        // уйдет в сервер
     {
         int item;
         do item = inventory.AddItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
@@ -290,9 +224,16 @@ public class HeroManager : MonoBehaviour
             return inventory.items[item];
         }
         else return null;
+    }*/
+    public Item AddPrize(string name, bool showDesc = true) // все проверки выполнены на сервере
+    {
+        if (name.Equals(String.Empty)) return null;
+        int item = inventory.AddItem(AllItems.Instance.items.First(i => i.Name == name));
+        if (showDesc) inventory.ShowItemDescription(item);           
+        return inventory.items[item];
     }
-
-    public void SetInventory(Item item)
+    
+    public void SetInventory(Item item)    // очень похоже, что дублирует AddPrize
     {
         inventory.AddItem(item);
     }

@@ -24,16 +24,18 @@ public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
 
     public override void SimulateOwner()        // Аналог Update. Одинаково для игрока-клиента и игрока-сервера
     {
+/* ВЕРНУТЬСЯ при фотоне
         if (!_gameManager.doClientExchange && !_gameManager.doServerExchange)
         {
             state.Decision = (int) _playerManager.decision;
             state.defencePart = _playerManager.defencePart;
         }
+*/
     }
 
     public void SetLinks()                     // установить ссылки на свои GameManager & PlayerManager
     {
-        _playerManager = GameManager.Instance.player;
+//  ВЕРНУТЬСЯ при фотоне        _playerManager = GameManager.Instance.player;
         _gameManager = GameManager.Instance;
 
         state.AddCallback("Decision", DecisionCallback);

@@ -26,6 +26,7 @@ public class Inventory : MonoBehaviour
         itemCanvas = itemDescriptionObject.GetComponent<Canvas>();
     }
     
+    // Уйдет в сервер? Нет, там своя аналогичная ф-ия
     public int AddItem(Item itemToAdd)                     // поместить пункт в слот инвентория
     {
         // Go through all the item slots...

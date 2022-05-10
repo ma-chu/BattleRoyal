@@ -4,27 +4,31 @@ using UnityEngine;
 using UnityEngine.UI;
 using EF.Localization; 
 
-// Пока только тексты для вывода урона
+// Пока здесь только тексты для вывода урона
 public class HeroUI : MonoBehaviour
 {
+    [SerializeField] private new Text name;     
+    public string Name { get => name.text; set => name.text = value; }
+
+
     // тексты для вывода полученного урона
     public Text m_GetHit1Text;
     public Text m_GetHit2Text;
 
     private HeroManager heroManager;
-    private Series series;
+    //private Series series;
 
     private void Awake()
     {
         heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
-        series = GetComponent<Series>() /*as Series*/;
+        //series = GetComponent<Series>() /*as Series*/;
     }
 
     private void OnEnable()
     {
-        GameManager.ExchangeEndedEvent += OnExchangeEnded;
         if (heroManager != null)
         {
+            heroManager.ExchangeEndedEvent += OnExchangeEnded;
             heroManager.GetHitEvent += OnHit;
             heroManager.ParryEvent += OnParry;
             heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
@@ -36,9 +40,9 @@ public class HeroUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        GameManager.ExchangeEndedEvent -= OnExchangeEnded;
         if (heroManager != null)
         {
+            heroManager.ExchangeEndedEvent -= OnExchangeEnded;
             heroManager.GetHitEvent -= OnHit;
             heroManager.ParryEvent -= OnParry;
             heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
@@ -53,18 +57,18 @@ public class HeroUI : MonoBehaviour
         m_GetHit2Text.text = string.Empty;
     }
 
-    private void OnHit(int strikeNumber)
+    private void OnHit(int strikeNumber, int gotDamage)
     {
         switch (strikeNumber)
         {
             case 1:
-                m_GetHit1Text.text = "-" + heroManager.gotDamage[0];  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
+                m_GetHit1Text.text = "-" + gotDamage;  // Если не использовать метод примитива .ToString(), а просто передать concat-у heroManager.damage1, будет производиться его упаковка, что менее эффективно
                 break;
             case 2:
-                m_GetHit2Text.text = "-" + heroManager.gotDamage[1];
+                m_GetHit2Text.text = "-" + gotDamage;
                 break;
         }
-        series.ResetSeriesOfBlocks();
+        //series.ResetSeriesOfBlocks();
     }
 
     private void OnParry(int strikeNumber)
@@ -73,19 +77,19 @@ public class HeroUI : MonoBehaviour
         {
             case 1:
                 m_GetHit1Text.text = "parried".Localize();
-                series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
+                //series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
                 m_GetHit2Text.text = "parried".Localize();
-                series.AddSeriesOfBlocks(m_GetHit2Text);
+                //series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
     }
 
-    private void OnBlockVs2Handed()
+    private void OnBlockVs2Handed(int gotDamage)
     {
-        m_GetHit1Text.text = "shield".Localize() + heroManager.gotDamage[0];
-        series.ResetSeriesOfBlocks();
+        m_GetHit1Text.text = "shield".Localize() + gotDamage;
+        //series.ResetSeriesOfBlocks();
     }
 
 
@@ -95,11 +99,11 @@ public class HeroUI : MonoBehaviour
         {
             case 1:
                 m_GetHit1Text.text = "blocked".Localize();
-                series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
+                //series.AddSeriesOfBlocks(m_GetHit1Text);           // проверить, достигнута ли серия, и начислить здоровья за серию блоков
                 break;
             case 2:
                 m_GetHit2Text.text = "blocked".Localize();
-                series.AddSeriesOfBlocks(m_GetHit2Text);
+                //series.AddSeriesOfBlocks(m_GetHit2Text);
                 break;
         }
     }

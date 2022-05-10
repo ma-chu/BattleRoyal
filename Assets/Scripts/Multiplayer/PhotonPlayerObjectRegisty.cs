@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using Photon.Bolt;
 
-public static class PlayerObjectRegisty
+public static class PhotonPlayerObjectRegisty
 {
-    // keeps a list of all the players
-    private static List<PlayerObject> players = new List<PlayerObject>();
+    private static List<PhotonPlayerObject> players = new List<PhotonPlayerObject>();
 
     // create a player for a connection
     // note: connection can be null
-    private static PlayerObject CreatePlayer(BoltConnection connection)
+    private static PhotonPlayerObject CreatePlayer(BoltConnection connection)
     {
-        PlayerObject player;
+        PhotonPlayerObject player;
 
         // create a new player object, assign the connection property
         // of the object to the connection was passed in
-        player = new PlayerObject();
+        player = new PhotonPlayerObject();
         player.connection = connection;
 
         // if we have a connection, assign this player
@@ -23,8 +22,8 @@ public static class PlayerObjectRegisty
         // for a connection
         if (player.connection != null)
         {
-            player.connection.UserData = player;
-        }
+            player.connection.UserData = player;                    // Еще раз: в PlayerObject есть поле BoltConnection,
+        }                                                           // теперь мы и в св-ва BoltConnection помещаем ссылку на PlayerObject
 
         // add to list of all players
         players.Add(player);
@@ -35,26 +34,26 @@ public static class PlayerObjectRegisty
     // this simply returns the 'players' list cast to
     // an IEnumerable<T> so that we hide the ability
     // to modify the player list from the outside.
-    public static IEnumerable<PlayerObject> AllPlayers
+    public static IEnumerable<PhotonPlayerObject> AllPlayers
     {
         get { return players; }
     }
 
     // finds the server player by checking the
     // .IsServer property for every player object.
-    public static PlayerObject ServerPlayer
+    public static PhotonPlayerObject ServerPhotonPlayer
     {
         get { return players.Find(player => player.IsServer); }
     }
 
     // utility function which creates a server player
-    public static PlayerObject CreateServerPlayer()
+    public static PhotonPlayerObject CreateServerPlayer()
     {
         return CreatePlayer(null);
     }
 
     // utility that creates a client player object.
-    public static PlayerObject CreateClientPlayer(BoltConnection connection)
+    public static PhotonPlayerObject CreateClientPlayer(BoltConnection connection)
     {
         return CreatePlayer(connection);
     }
@@ -62,13 +61,13 @@ public static class PlayerObjectRegisty
     // utility function which lets us pass in a
     // BoltConnection object (even a null) and have
     // it return the proper player object for it.
-    public static PlayerObject GetPlayer(BoltConnection connection)
+    public static PhotonPlayerObject GetPlayer(BoltConnection connection)
     {
         if (connection == null)
         {
-            return ServerPlayer;
+            return ServerPhotonPlayer;
         }
 
-        return (PlayerObject) connection.UserData;
+        return (PhotonPlayerObject) connection.UserData;
     }
 }

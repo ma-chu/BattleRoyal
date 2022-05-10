@@ -1,6 +1,6 @@
 ﻿using Photon.Bolt;
 using UnityEngine;
-public class PlayerObject
+public class PhotonPlayerObject
 {
     public BoltEntity character;
     public BoltConnection connection;        // null, если игрок подключается к серверу с сервера же

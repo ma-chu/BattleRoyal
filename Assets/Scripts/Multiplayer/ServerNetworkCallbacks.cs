@@ -25,13 +25,13 @@ public class ServerNetworkCallbacks : GlobalEventListener
     
     private void Awake()
     {
-        PlayerObjectRegisty.CreateServerPlayer();
+        PhotonPlayerObjectRegisty.CreateServerPlayer();
     }
     
     public override void Connected(BoltConnection connection)
     {
         Debug.LogWarning(this.name + ": Client Connected!"); 
-        PlayerObjectRegisty.CreateClientPlayer(connection);
+        PhotonPlayerObjectRegisty.CreateClientPlayer(connection);
     }
 
     // ф-ия-событие, когда удаленная сцена (клиента) болта стартанула
@@ -39,12 +39,12 @@ public class ServerNetworkCallbacks : GlobalEventListener
     {
         Debug.Log(this.name + ": Client Scene Loaded!");
         
-        var playerObject= PlayerObjectRegisty.GetPlayer(connection);
+        var playerObject= PhotonPlayerObjectRegisty.GetPlayer(connection);
         playerObject.Spawn();                                // А если сущность клиента передать в токене (зачем?)
         
         connection.SetCanReceiveEntities(true);
         var evnt = EFStartBattleServerEvent.Create(connection);          // Создаем событие только для этого соединения
-        evnt.EnemyEntity = PlayerObjectRegisty.ServerPlayer.character;   // В качестве противника передаем клиенту себя
+        evnt.EnemyEntity = PhotonPlayerObjectRegisty.ServerPhotonPlayer.character;   // В качестве противника передаем клиенту себя
         // evnt.YourEntity = playerObject.character; // так бы можно передать клиенту его entity уже с сервера, но PlayerEntityController.SimulateOwner потребует ссылок на GameManager сразу
         evnt.Send();
         
@@ -61,22 +61,22 @@ public class ServerNetworkCallbacks : GlobalEventListener
 
     public override void OnEvent(EFStartBattleClientReplyEvent evnt)
     {
-        GameManager.enemyBoltEntity = evnt?.clientEntity;
+// ВЕРНУТЬСЯ при фотоне         GameManager.enemyBoltEntity = evnt?.clientEntity;
         var enemyState = evnt?.clientEntity.GetState<IEFPlayerState>();
 
         Debug.LogWarning(this.name + " Client entity recieved. Name = " + enemyState.Username); 
         
-        GameManager.ClientConnected = true; 
+// ВЕРНУТЬСЯ при фотоне         GameManager.ClientConnected = true; 
     }
     
 
     // ф-ия-событие, когда локальныая сцена (здесь сервера)  (или сервера/клиента, если бы не было флага BoltNetworkModes.Server) болта стартанула
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
     {
-        var playerObject = PlayerObjectRegisty.ServerPlayer;
+        var playerObject = PhotonPlayerObjectRegisty.ServerPhotonPlayer;
         playerObject.Spawn();
         var poEntity = playerObject.character;                                            
-        GameManager.myBoltEntity = poEntity;
+// ВЕРНУТЬСЯ при фотоне         GameManager.myBoltEntity = poEntity;
         var myState = poEntity.GetState<IEFPlayerState>();
         myState.Username = PlayerPrefs.GetString("username");            
         
@@ -85,8 +85,8 @@ public class ServerNetworkCallbacks : GlobalEventListener
         poEntity.GetComponent<PlayerEntityController>().SetLinks();
         
         _gameManager = GameManager.Instance;
-        _playerManager = GameManager.Instance.player;
-        _enemyManager = GameManager.Instance.enemy;
+// ВЕРНУТЬСЯ при фотоне         _playerManager = GameManager.Instance.player;
+// ВЕРНУТЬСЯ при фотоне         _enemyManager = GameManager.Instance.enemy;
     }
 
 
@@ -94,10 +94,12 @@ public class ServerNetworkCallbacks : GlobalEventListener
     {
         if (!evnt.FromSelf)
         {
+/* ВЕРНУТЬСЯ при фотоне 
             _enemyManager.decision = (Decision) evnt.Decision;
             _enemyManager.defencePart = evnt.DefencePart;
+*/
         }
-
+/* ВЕРНУТЬСЯ при фотоне 
         if ((_enemyManager.decision != Decision.No) && (_playerManager.decision != Decision.No))
         {
             _gameManager.MakeMultiplayerEnemyDecision(_enemyManager.decision, _enemyManager.defencePart,
@@ -122,6 +124,7 @@ public class ServerNetworkCallbacks : GlobalEventListener
             
             _gameManager.doServerExchange = true;
         }
+*/
     }
 
     public override void OnEvent(EFInventoryItemAdded evnt)
@@ -146,8 +149,8 @@ public class ServerNetworkCallbacks : GlobalEventListener
     {
         registerDoneCallback(() =>
         {
-            GameManager.ClientConnected = false;
-            GameManager.ClientDisconnected = true;
+// ВЕРНУТЬСЯ при фотоне             GameManager.ClientConnected = false;
+// ВЕРНУТЬСЯ при фотоне             GameManager.ClientDisconnected = true;
         });
     }
 }

@@ -2988,8 +2988,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: SetTwoHandedSword
         m_Mode: 1
         m_Arguments:
@@ -3157,8 +3157,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: AttackPressed
         m_Mode: 1
         m_Arguments:
@@ -3571,8 +3571,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: SetSwordShield
         m_Mode: 1
         m_Arguments:
@@ -4984,8 +4984,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: SetSwordSword
         m_Mode: 1
         m_Arguments:
@@ -5844,8 +5844,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: ChangeWeaponPressed
         m_Mode: 1
         m_Arguments:
@@ -7450,6 +7450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401016894}
+  - component: {fileID: 1401016895}
   - component: {fileID: 1401016893}
   m_Layer: 0
   m_Name: GameManagerObject
@@ -7467,26 +7468,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1401016892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 856caae8cbef94648a088bbc8bf9b1d8, type: 3}
+  m_Script: {fileID: 11500000, guid: da74162009508424ea35110e06b6eaab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2120866711}
-  enemy: {fileID: 1620955093}
-  numRoundsToWin: 4
   resultText: {fileID: 1823447947}
-  startDelay: 3.5
-  endDelay: 5
-  deathDelay: 2.5
-  attackDelay: 3
-  changeDelay: 7.5
+  restartButton: {fileID: 994452833}
+  restartButtonGameObject: {fileID: 1377204697}
+  weaponSetButtonsObject: {fileID: 1395164703}
+  swordSwordButton: {fileID: 915617894}
+  swordShieldButton: {fileID: 629407741}
+  twoHandedSwordButton: {fileID: 542043974}
+  tacticSlider: {fileID: 1851444811}
+  playersControlsCanvas: {fileID: 1097054333}
   gameOverAnimator: {fileID: 134977625}
   fireExplodePrefab: {fileID: 199484, guid: bf27844d805522447933dc21e304c99b, type: 3}
   explodesInterval: 1
-  stupitidyChangeDelay: 0
-  doServerExchange: 0
-  doClientExchange: 0
-  myNameText: {fileID: 221482035}
-  enemyNameText: {fileID: 234527708}
 --- !u!4 &1401016894
 Transform:
   m_ObjectHideFlags: 0
@@ -7501,6 +7497,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1401016895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1401016892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a487e85b9789c644cbc44f6d53805121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2120866709}
+  enemy: {fileID: 1620955091}
 --- !u!1 &1404101178
 GameObject:
   m_ObjectHideFlags: 0
@@ -8301,35 +8311,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 103960623}
-  m_Tweakers:
-    damageBaseMin: 5
-    damageBaseMax: 15
-    coef2HandedSword: 1.54
-    coefSecondSword: 0.7
-    blockChance: 0.5
-    part2HandedThroughShield: 0.5
-    evadeOnChangeChance: 0.33
-    maxDefencePart: 0.33
-    parryChance: 0
-    startingHealth: 100
-  preCoeffs:
-  - damage: 0
-    evade: 0
-    block: 0
-    parry: 0
-    blockVs2Handed: 0
-  - damage: 0
-    evade: 0
-    block: 0
-    parry: 0
-    blockVs2Handed: 0
-  exchangeResult: 00000000
-  defencePart: 0
-  gotDamage: 
-  m_dead: 0
+  dead: 0
   heroType: 0
   weaponSet: 0
-  decision: 0
   heroSword: {fileID: 1694805568}
   heroShield: {fileID: 1065900116}
   hero2HandedSword: {fileID: 421253545}
@@ -8658,7 +8642,6 @@ MonoBehaviour:
   m_FillImage: {fileID: 316990242}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  m_CurrentHealth: 0
 --- !u!114 &1620955099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8707,6 +8690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5318274713882ff4994c2f8c7a4b49ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: {fileID: 234527708}
   m_GetHit1Text: {fileID: 468706620}
   m_GetHit2Text: {fileID: 2132725531}
 --- !u!114 &1620955102
@@ -8721,22 +8705,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strongStrikeMin: 14
-  strongStrikeSeriesBeginning: 2
-  seriesStrikeBeginning: 3
-  seriesBlockBeginning: 3
-  strongStrikeSeriesStepValue: 1.5
-  seriesStrikeStepValue: 0.5
-  seriesBlockStepValue: 1
-  hasStrongStrikesSeries: 0
-  hasSeriesOfStrikes: 0
-  hasSeriesOfBlocks: 0
   m_StrengthStrikesStarSlider: {fileID: 1395736646}
   m_StrengthStrikesStarFillImage: {fileID: 1701587420}
   m_SeriesOfBlocksStarSlider: {fileID: 728703250}
   m_SeriesOfBlocksStarFillImage: {fileID: 599530977}
   m_SeriesOfStrikesStarSlider: {fileID: 830487290}
   m_SeriesOfStrikesStarFillImage: {fileID: 721237644}
+  heroType: 0
 --- !u!1 &1633097690
 GameObject:
   m_ObjectHideFlags: 0
@@ -9808,8 +9783,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2120866711}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+      - m_Target: {fileID: 1401016893}
+        m_TargetAssemblyTypeName: CommonView, Assembly-CSharp
         m_MethodName: SetDefencePart
         m_Mode: 1
         m_Arguments:
@@ -10798,46 +10773,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 458740784}
-  m_Tweakers:
-    damageBaseMin: 5
-    damageBaseMax: 15
-    coef2HandedSword: 1.54
-    coefSecondSword: 0.7
-    blockChance: 0.5
-    part2HandedThroughShield: 0.5
-    evadeOnChangeChance: 0.33
-    maxDefencePart: 0.33
-    parryChance: 0
-    startingHealth: 100
-  preCoeffs:
-  - damage: 0
-    evade: 0
-    block: 0
-    parry: 0
-    blockVs2Handed: 0
-  - damage: 0
-    evade: 0
-    block: 0
-    parry: 0
-    blockVs2Handed: 0
-  exchangeResult: 00000000
-  defencePart: 0
-  gotDamage: 
-  m_dead: 0
+  dead: 0
   heroType: 0
   weaponSet: 0
-  decision: 0
   heroSword: {fileID: 10300748}
   heroShield: {fileID: 1853256115}
   hero2HandedSword: {fileID: 940922056}
   heroSword_2: {fileID: 451346111}
-  weaponSetButtonsObject: {fileID: 1395164703}
-  swordSwordButton: {fileID: 915617894}
-  swordShieldButton: {fileID: 629407741}
-  twoHandedSwordButton: {fileID: 542043974}
-  restartButtonObject: {fileID: 1377204697}
-  tacticSlider: {fileID: 1851444811}
-  m_PlayersControlsCanvas: {fileID: 1097054333}
 --- !u!82 &2120866712
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11145,7 +11087,6 @@ MonoBehaviour:
   m_FillImage: {fileID: 729311512}
   m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
   m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
-  m_CurrentHealth: 0
 --- !u!114 &2120866717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11194,6 +11135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5318274713882ff4994c2f8c7a4b49ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: {fileID: 221482035}
   m_GetHit1Text: {fileID: 2050560245}
   m_GetHit2Text: {fileID: 2002763508}
 --- !u!114 &2120866720
@@ -11208,22 +11150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  strongStrikeMin: 14
-  strongStrikeSeriesBeginning: 2
-  seriesStrikeBeginning: 3
-  seriesBlockBeginning: 3
-  strongStrikeSeriesStepValue: 1.5
-  seriesStrikeStepValue: 0.5
-  seriesBlockStepValue: 1
-  hasStrongStrikesSeries: 0
-  hasSeriesOfStrikes: 0
-  hasSeriesOfBlocks: 0
   m_StrengthStrikesStarSlider: {fileID: 969643363}
   m_StrengthStrikesStarFillImage: {fileID: 1899394391}
   m_SeriesOfBlocksStarSlider: {fileID: 1314367199}
   m_SeriesOfBlocksStarFillImage: {fileID: 1731763948}
   m_SeriesOfStrikesStarSlider: {fileID: 256784508}
   m_SeriesOfStrikesStarFillImage: {fileID: 1175669554}
+  heroType: 0
 --- !u!1 &2131448202
 GameObject:
   m_ObjectHideFlags: 0

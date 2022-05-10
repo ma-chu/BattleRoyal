@@ -15,13 +15,13 @@ public struct WeaponChanges
 
 public class EnemyManager : HeroManager
 {
-    const float zeroZposition = 1.35f;      // позиция героя на ристалище  
-    const float zeroYrotation = -180f;      // вращение героя на ристалище  
-    const float stockXposition = -2.2f;     // начальное вращение героя 
-    const float startRotation = 90f;        // начальная позиция героя (позиция склада)
+    public const float zeroZposition = 1.35f;      // позиция героя на ристалище - в HEROManager (readonly var)!!! 
+    public const float zeroYrotation = -180f;      // вращение героя на ристалище  
+    public const float stockXposition = -2.2f;     // начальное вращение героя 
+    public const float startRotation = 90f;        // начальная позиция героя (позиция склада)
 
-    [SerializeField] private Item enemiesItem1;                     // что выдавать врагу на последний раунд
-    [SerializeField] private WeaponChanges[] Weapons;               // изменения мешей и материалов оружия врага
+    [SerializeField] private Item enemiesItem1;                     // что выдавать врагу на последний раунд - в HEROManager!!! 
+    [SerializeField] private WeaponChanges[] Weapons;               // изменения мешей и материалов оружия врага - в HEROManager!!!
 
     private bool _rotated;
     
@@ -37,26 +37,26 @@ public class EnemyManager : HeroManager
 
         base.Awake();                                              
 
-        heroType = Heroes.Enemy;
+        heroType = Heroes.Enemy; //- в конструкторе в идеале, но пока и здесь норм
     }
 
-    protected override void OnEnable()                                 // when the enemy is back on again, следующий раунд)
+/*    protected override void OnEnable()                                 // when the enemy is back on again, следующий раунд)
     {
         // Установить начальное положение героя, задать исходное на ристалище 
-        m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
+        //m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
   
-        if (GameManager.gameType == GameType.Single) inventory.RemoveItem(enemiesItem1);    // убираем инвентарь врага с прошлого раунда (если был, то максимум один)
+        //if (GameManager.gameType == GameType.Single) inventory.RemoveItem(enemiesItem1);    // убираем инвентарь врага с прошлого раунда (если был, то максимум один)
         
         // 1. Изменения в зависимости от количества выигранных игроком раундов: цвет и форма оружия врага, инвентарь врага
-        if (player_countRoundsWon!=0) ChangeWeaponsView(player_countRoundsWon-1);
-        if (player_countRoundsWon == 3 && GameManager.gameType == GameType.Single) inventory.AddItem(enemiesItem1);  // даем врагу кольцо
+        //if (player_countRoundsWon!=0) ChangeWeaponsView(player_countRoundsWon-1);
+        //if (player_countRoundsWon == 3 && GameManager.gameType == GameType.Single) inventory.AddItem(enemiesItem1);  // даем врагу кольцо
         base.OnEnable();                           
 
         //2. Усложнить игру базовым уроном в зависимости от кол-ва выигранных раундов
-        if (GameManager.gameType == GameType.Single) m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);
+        //if (GameManager.gameType == GameType.Single) m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);
     }
-
-    private void ChangeWeaponsView(int winsZeroBased)
+*/
+    public void ChangeWeaponsView(int winsZeroBased)
     {
         // меш и материал щита и лонга
         shieldMeshFilter.mesh = Weapons[winsZeroBased].shieldMesh;                                         
