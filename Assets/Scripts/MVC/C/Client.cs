@@ -21,7 +21,6 @@ using UnityEngine;
            --> PlayerClient: + ViewModel, реализация OnTurnInDataReady с кнопок (PlayerUI->ViewModel)
 */
 
-
 // Интерфейс между сервером и клиентом. Его должен реализовать сервер
 public interface IServer
 {
@@ -80,13 +79,12 @@ public struct TurnOutInfo
 public class Client
 {
     private IServer _server;
-    protected TurnOutInfo _currentResults;
-    //private TurnOutInfo _previousResults;
-    
-    public const int numRoundsToWin = 4;                // правильнее получать от сервера в начале матча
+    protected TurnOutInfo currentResults;
+
+    public const int NumRoundsToWin = 4;                // правильнее получать от сервера в начале матча
     protected int RoundNumber;
-    protected int _roundsWon;
-    public int _roundsLost;
+    public int roundsWon;
+    protected int roundsLost;
     
     public string PlayerName { get; private set; }
 
@@ -128,12 +126,15 @@ public class Client
 
     protected virtual void OnStartMatch(object o, StartMatchInfo startMatchInfo)
     {
-        _roundsWon = _roundsLost = 0;
+        if (!startMatchInfo.PlayerName.Equals(PlayerName)) return;
+
+        roundsWon = roundsLost = 0;
     }
-    protected void OnResultsReady(object o, TurnOutInfo results)
+    protected virtual void OnResultsReady(object o, TurnOutInfo results)
     {
         if (!results.PlayerName.Equals(PlayerName)) return;
-        _currentResults = results;
+        
+        currentResults = results;
 
         // обработать результаты хода
         // 1. При смене оружия врагом поменять его weaponSet (а свой поменяем при вводе с кнопок)
@@ -154,16 +155,16 @@ public class Client
         CheckForSeries();
         
         // 3. Сам процесс хода
-        // AI: Определиться с действием бота/игрока (nicety - уровень интеллекта врага) /+ вызвать SendDataToServer()/
-        // Player:  через ViewModel отображает анимации и звуки, ожидает TurnInInfo с кнопок
-        MakeTurn(_roundsWon);
+        MakeTurn(roundsLost);
+        // AI: Определяется с действие бота (nicety - уровень интеллекта врага) /+ вызвать SendDataToServer()/
+        // Player:  через ViewModel отображает анимации, звуки и пр., ожидает TurnInInfo с кнопок
     }
 
     protected virtual void CheckForSeries() { }
     
     protected virtual void MakeTurn(int nicety) { }
 
-    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t);   // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeDesition у AI
+    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t);   // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeTurn AI
 
     protected virtual void OnStartRound(object o, StartRoundInfo startRoundInfo)
     {
@@ -176,11 +177,8 @@ public class Client
         if (!endRoundInfo.PlayerName.Equals(PlayerName)) return;
 
         if (endRoundInfo.roundWinner == PlayerName)
-        {
-            _roundsWon++;
-            // выдать пункт инвентаря - это сделано во ViewModel
-        }
-        else _roundsLost++;
+            roundsWon++;
+        else if (!endRoundInfo.roundWinner.Equals(string.Empty)) roundsLost++;
         
         // обнулить серии
         PlayerStrongStrikesSeries = PlayerSeriesOfBlocks = PlayerSeriesOfStrikes = false;

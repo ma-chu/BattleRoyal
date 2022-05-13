@@ -18,7 +18,7 @@ public class CommonView : MonoBehaviour
     public string ResultText { get => resultText.text; set => resultText.text = value; }
 
     [SerializeField] private Button restartButton;
-    public Button RestartButton => restartButton;                                 // кнопка рестарт
+    public Button RestartButton => restartButton;                                 
     [SerializeField] private GameObject restartButtonGameObject;
     public GameObject RestartButtonGameObject => restartButtonGameObject;
     

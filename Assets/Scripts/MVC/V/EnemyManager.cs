@@ -1,5 +1,4 @@
 ﻿using System;
-using EF.Tools;
 using UnityEngine;
 
 [Serializable]
@@ -12,50 +11,19 @@ public struct WeaponChanges
     public Color color;
 }
 
-
 public class EnemyManager : HeroManager
 {
-    public const float zeroZposition = 1.35f;      // позиция героя на ристалище - в HEROManager (readonly var)!!! 
-    public const float zeroYrotation = -180f;      // вращение героя на ристалище  
-    public const float stockXposition = -2.2f;     // начальное вращение героя 
-    public const float startRotation = 90f;        // начальная позиция героя (позиция склада)
-
-    [SerializeField] private Item enemiesItem1;                     // что выдавать врагу на последний раунд - в HEROManager!!! 
     [SerializeField] private WeaponChanges[] Weapons;               // изменения мешей и материалов оружия врага - в HEROManager!!!
 
     private bool _rotated;
     
     protected override void Awake()
     {
-        // определимся со ссылками на слоты инвентория
-        var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
-        for (int i = 0; i < Inventory.numItemSlots; i++)
-        {
-            //itemSlots = GameObject.FindGameObjectsWithTag("itemSlot_enemy");
-            itemSlots[i] = eventTriggers[i].gameObject;
-        }
-
         base.Awake();                                              
 
         heroType = Heroes.Enemy; //- в конструкторе в идеале, но пока и здесь норм
     }
-
-/*    protected override void OnEnable()                                 // when the enemy is back on again, следующий раунд)
-    {
-        // Установить начальное положение героя, задать исходное на ристалище 
-        //m_HeroAnimation.SetStartPositions(zeroZposition, zeroYrotation, stockXposition, startRotation);
-  
-        //if (GameManager.gameType == GameType.Single) inventory.RemoveItem(enemiesItem1);    // убираем инвентарь врага с прошлого раунда (если был, то максимум один)
-        
-        // 1. Изменения в зависимости от количества выигранных игроком раундов: цвет и форма оружия врага, инвентарь врага
-        //if (player_countRoundsWon!=0) ChangeWeaponsView(player_countRoundsWon-1);
-        //if (player_countRoundsWon == 3 && GameManager.gameType == GameType.Single) inventory.AddItem(enemiesItem1);  // даем врагу кольцо
-        base.OnEnable();                           
-
-        //2. Усложнить игру базовым уроном в зависимости от кол-ва выигранных раундов
-        //if (GameManager.gameType == GameType.Single) m_Tweakers.AddLevelTweakers(HeroManager.player_countRoundsWon);
-    }
-*/
+    
     public void ChangeWeaponsView(int winsZeroBased)
     {
         // меш и материал щита и лонга
@@ -86,5 +54,4 @@ public class EnemyManager : HeroManager
         twoHandedSwordMeshRenderer.material.SetColor("_EmissionColor", Weapons[winsZeroBased].color);
         twoHandedSwordMeshRenderer.material.SetTexture("_EmissionMap", twoHandedSwordMeshRenderer.material.mainTexture);
     }
-
 }

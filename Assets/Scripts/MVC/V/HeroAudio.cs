@@ -7,52 +7,50 @@ public class HeroAudio : MonoBehaviour
     [SerializeField] private AudioSource m_MovementHeroAudio;    // аудио-источник для перемещений
    
     [SerializeField] private GameObject m_GetWoundPrefab;        // ссылка на объект получения раны (префаб, состоящий из particle system и звука)
-    private AudioSource m_WoundAudio;
-    private ParticleSystem m_WoundParticles;
+    private AudioSource _woundAudio;
+    private ParticleSystem _woundParticles;
     
-    private HeroManager heroManager;
+    private HeroManager _heroManager;
 
     private void Awake() 
     {
-        //heroManager = GetComponent<PlayerManager>();
-        //if (heroManager.IsNull()) heroManager = GetComponent<EnemyManager>();
-        heroManager = GetComponent<HeroManager>() as HeroManager;
+        _heroManager = GetComponent<HeroManager>() as HeroManager;
 
-        m_WoundParticles = Instantiate(m_GetWoundPrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба раны и берем компонент этого инстанса
-        m_WoundAudio = m_WoundParticles.GetComponent<AudioSource>();                        // берём другой компонент (можно ссылаться на объект по его компоненту)
+        _woundParticles = Instantiate(m_GetWoundPrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба раны и берем компонент этого инстанса
+        _woundAudio = _woundParticles.GetComponent<AudioSource>();                        // берём другой компонент (можно ссылаться на объект по его компоненту)
         // отправляем объект  в пассив... Наверное, так надо делать, если у нас есть компоненты "Play on Awake", чтобы они не отобразились сразу. Сейчас не надобно
         //m_WoundParticles.gameObject.SetActive(false);   
         //цвет материала крови красный
-        m_WoundParticles.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-        m_WoundParticles.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
+        _woundParticles.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        _woundParticles.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
     }
 
     private void OnEnable()                 
     {
-        if (heroManager != null)
+        if (_heroManager != null)
         {
-            heroManager.GetHitEvent += OnHit;
-            heroManager.DeathEvent += OnDeath;
-            heroManager.ChangeEvent += OnChange;
-            heroManager.ToPositionEvent += OnToPosition;
-            heroManager.ParryEvent += OnParry;
-            heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-            heroManager.BlockEvent += OnBlock;
-            heroManager.EvadeEvent += OnEvade;
+            _heroManager.GetHitEvent += OnHit;
+            _heroManager.DeathEvent += OnDeath;
+            _heroManager.ChangeEvent += OnChange;
+            _heroManager.ToPositionEvent += OnToPosition;
+            _heroManager.ParryEvent += OnParry;
+            _heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+            _heroManager.BlockEvent += OnBlock;
+            _heroManager.EvadeEvent += OnEvade;
         }
     }
     private void OnDisable()    
     {
-        if (heroManager != null)
+        if (_heroManager != null)
         {
-            heroManager.GetHitEvent -= OnHit;
-            heroManager.DeathEvent -= OnDeath;
-            heroManager.ChangeEvent -= OnChange;
-            heroManager.ToPositionEvent -= OnToPosition;
-            heroManager.ParryEvent -= OnParry;
-            heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-            heroManager.BlockEvent -= OnBlock;
-            heroManager.EvadeEvent -= OnEvade;
+            _heroManager.GetHitEvent -= OnHit;
+            _heroManager.DeathEvent -= OnDeath;
+            _heroManager.ChangeEvent -= OnChange;
+            _heroManager.ToPositionEvent -= OnToPosition;
+            _heroManager.ParryEvent -= OnParry;
+            _heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+            _heroManager.BlockEvent -= OnBlock;
+            _heroManager.EvadeEvent -= OnEvade;
         }
     }
 
@@ -61,17 +59,17 @@ public class HeroAudio : MonoBehaviour
         float delay = 0f;
         if (strikeNumber == 2) delay = 0.3f;
         
-        m_WoundParticles.transform.position = heroManager.transform.position;   // перемещаем рану на героя
+        _woundParticles.transform.position = _heroManager.transform.position;   // перемещаем рану на героя
         //m_WoundParticles.gameObject.SetActive(true);                          // активируем
-        m_WoundParticles.Play();                                                // воспроизводим систему частиц
+        _woundParticles.Play();                                                // воспроизводим систему частиц
         
-        m_WoundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, heroManager.heroType);
-        m_WoundAudio.PlayDelayed(delay);                                       // воспроизводим аудио крика боли
+        _woundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, _heroManager.heroType);
+        _woundAudio.PlayDelayed(delay);                                       // воспроизводим аудио крика боли
 
     }
     private void OnDeath()
     {
-        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, heroManager.heroType);
+        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, _heroManager.heroType);
         m_FirstStrikeHeroAudio.PlayDelayed(1.2f);
     }
     private void OnChange()         

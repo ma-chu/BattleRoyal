@@ -12,8 +12,6 @@ public interface IViewModel
     //public event Action ExchangeEvent1;             // удар1 состоялся 
     //public event Action ExchangeEvent2;             // удар2 состоялся
     //public event Action ExchangeEndedEvent;         // весь сход закончен
-    
-    
     // Или интерфейс IViewModel должен описывать, как общаться с ним из клиента?
     void RestartPressed();
 }
@@ -36,9 +34,7 @@ public class ViewModel : IViewModel
     private WaitForSeconds _endWait;
     private WaitForSeconds _attackWait;
     private WaitForSeconds _changeWait;
-    
-    private string _enemyName;
-    
+
     private Client _client;
     // Views:
     private CommonView _commonView;           // общее: общий текст, кнопки ввода, салют
@@ -72,10 +68,9 @@ public class ViewModel : IViewModel
         _enemyAnim = MainGameManager.Instance.enemy.GetComponent<HeroAnimation>();
         _playerSeries = MainGameManager.Instance.player.GetComponent<SeriesView>();   
         _enemySeries = MainGameManager.Instance.enemy.GetComponent<SeriesView>();
+        
 
-        //SubscribeAllViews();
-
-        _deathWait = new WaitForSeconds(deathDelay);         // инициализируем задержки: переводим секунды в понятный сопрограмме вид. Затем будем использовать их yield-ом
+        _deathWait = new WaitForSeconds(deathDelay);         
         _startWait = new WaitForSeconds(startDelay);
         _endWait = new WaitForSeconds(endDelay);
         _attackWait = new WaitForSeconds(attackDelay);
@@ -89,24 +84,21 @@ public class ViewModel : IViewModel
         _enemyManager.weaponSet = _client.EnemyWeaponSet;
     }
 
-    /*private void SubscribeAllViews()
-    {
-        ExchangeEvent1 += _playerManager.OnExchange1;
-        ExchangeEvent1 += _enemyManager.OnExchange1;
-        ExchangeEvent2 += _playerManager.OnExchange2;
-        ExchangeEvent2 += _enemyManager.OnExchange2;
-        ExchangeEndedEvent += _playerManager.OnExchangeEnded;
-        ExchangeEndedEvent += _enemyManager.OnExchangeEnded;
-    }*/
-    
     public void OnTurnInDataReady(TurnInInfo turnInInfo)
     {
         _client.decision = turnInInfo.PlayerDecision;
-        
+
+        FitWeaponButtonsToWeaponSet();
+
+        _client.SendDataToServer(turnInInfo);
+    }
+
+    private void FitWeaponButtonsToWeaponSet()
+    {
         switch (_client.decision)
         {
             case Decision.ChangeSwordShield:
-                _client.PlayerWeaponSet = WeaponSet.SwordShield;        // надо бы избавиться от переменной HeroManager.weaponSet
+                _client.PlayerWeaponSet = WeaponSet.SwordShield;        
                 break;
             case Decision.ChangeSwordSword:
                 _client.PlayerWeaponSet = WeaponSet.SwordSword;
@@ -125,8 +117,6 @@ public class ViewModel : IViewModel
         if (_client.PlayerWeaponSet == WeaponSet.TwoHandedSword) _commonView.TwoHandedSwordButton.enabled = false;
         
         _commonView.WeaponSetButtonsObject.SetActive(false);
-        
-        _client.SendDataToServer(turnInInfo);
     }
 
     public void ChangeResultText(string value) => _commonView.ResultText = value;
@@ -139,12 +129,16 @@ public class ViewModel : IViewModel
         _playerSeries.UpdateStrongSeries(nums[0], sets[0]);
         _playerSeries.UpdateSeriesOfBlocks(nums[1], sets[1]);
         _playerSeries.UpdateSeriesOfStrikes(nums[2], sets[2]);
+
+        _playerUI.SetRegenValues(nums[1]);    // здесь же для регена
     }
     public void SetEnemySeries(int[] nums, bool[] sets)
     { 
         _enemySeries.UpdateStrongSeries(nums[0], sets[0]);
         _enemySeries.UpdateSeriesOfBlocks(nums[1], sets[1]);
         _enemySeries.UpdateSeriesOfStrikes(nums[2], sets[2]);
+        
+        _enemyUI.SetRegenValues(nums[1]);    // здесь же для регена
     }
 
     public IEnumerator GameOver(string matchWinner)
@@ -172,54 +166,15 @@ public class ViewModel : IViewModel
     {
         GameSave.Save();
         if (GameManager.gameType != GameType.Single) Photon.Bolt.BoltLauncher.Shutdown();
-        //SceneManager.UnloadSceneAsync(2);
+        // Как-то уничтожить компонент Server
+        SceneManager.UnloadSceneAsync(2, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
         SceneManager.LoadScene(0);                          
     }
 
     
-    // запускаем сам процесс боя как сопрограмму. Почему как сопрограмму? Потому что будем прерывать её директивой yield return
-    /*public IEnumerator MatchLoop()                              // основная петля поединка
-    {
-        // выход из yeild-ов-функций происходит по усоловию - выдаче соотв. функциями true
-        if (_roundNumber == 0) yield return StartCoroutine(GameStarting());    // начало игры - обозначить цель
-
-        yield return StartCoroutine(RoundStarting());   // начало раунда: вывод номера раунда и количества побед у бойцов. Стартовая пауза
-        yield return StartCoroutine(RoundPlaying());    // сам процесс боя
-        yield return StartCoroutine(RoundEnding());     // конец раунда: вывод победителя раунда, количества побед у бойцов и имени победителя. Конечная пауза
-        */
-        //_gameWinner = GameWinner();    Server
-        
-        /*if (_gameWinner != Heroes.Nobody)
-        {
-            var winner = _gameWinner.ToString().Localize();
-            if (GameManager.gameType != GameType.Single)
-            {
-                if (_gameWinner == Heroes.Player) winner = PlayerPrefs.GetString("username");
-                else winner = _enemyState.Username;
-            }
-            resultText.text = "game_over".Localize() + winner + "win".Localize();
-            
-            gameOverAnimator.SetTrigger("GameOver");
-            SoundsManager.Instance.PlaySound(SoundsContainer.GetAudioClip(SoundTypes.GameOver));
-
-            if (_gameWinner == Heroes.Player)
-            {
-                GameSave.LastLoadedSnapshot.tournamentsWon++;
-                yield return StartCoroutine(Salute());
-            }
-            yield return _endWait;
-            
-            player.restartButtonObject.SetActive(true);
-        }
-        else
-        {        
-            StartCoroutine(GameLoop());         // рекурсия: текущая GameLoop() завершается и начинается новая 
-        }
-    }*/
-
     public IEnumerator GameStarting()                  // начало игры
     {
-        _commonView.ResultText = String.Format("{0} {1} {2}", "Defeat".Localize(), Client.numRoundsToWin, "to_win".Localize());
+        _commonView.ResultText = String.Format("{0} {1} {2}", "Defeat".Localize(), Client.NumRoundsToWin, "to_win".Localize());
         SetStartPosition();
         yield return _startWait;                        
     }
@@ -231,34 +186,22 @@ public class ViewModel : IViewModel
         if (gameType != GameType.Single)       
             _enemyState = enemyBoltEntity?.GetState<Photon.Bolt.IEFPlayerState>();
         */
-        
-        //0. Имя врага
-        //enemyNameText.text = _enemyState?.Username ?? "enemyBot";        
-        //1. Увеличить номер раунда.
-        //_roundNumber++;
-        //2. Сформировать и вывести информационное сообщение.
 
-        //resultText.text="round".Localize() + _roundNumber.ToString();
-        //3. Установить стартовые параметры игроку и врагу: твикеры (с учетом инвентаря), здоровье, начальные позиции и пр. Заблокировать кнопки управления игроку.
-        // в самом начале игры инвентарь не сработает
-        // ВОЗМОЖНО, тут лучше вызвать событие, и принять его не только HeroManager-ом, но и HP и пр.
-        //player.enabled = true;
-        //enemy.enabled = true;
-        
         // кнопки управления выкл
-        _commonView.WeaponSetButtonsObject.SetActive(false);
+        FitWeaponButtonsToWeaponSet();
         _commonView.PlayersControlsCanvas.enabled = false;
         // набор оружия в исх. щит-меч
         _playerManager.enabled = true;
         _enemyManager.enabled = true;
-        //_playerManager.weaponSet = _client.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager
-        //_enemyManager.weaponSet = _client.EnemyWeaponSet;
-        
+        // не умирать
+        _playerManager.dead = _enemyManager.dead = false;
         // сообщение
         ChangeResultText("round".Localize() + roundNumber);
         // здоровье на максимум
         SetPlayerHP(playerStartHealth);
         SetEnemyHP(enemyStartHealth);
+        // изменяем вид врага
+        if (_client.roundsWon > 0) _enemyManager.ChangeWeaponsView(_client.roundsWon - 1);
         // анмацию в начало
         if (roundNumber != 1) SetStartPosition();
         // серии сбросить
@@ -267,7 +210,8 @@ public class ViewModel : IViewModel
 
         yield return _startWait;  
 
-        ChangeResultText(string.Empty);                         // 1. Очистить информационное сообщение
+        ChangeResultText(string.Empty); 
+        // кнопки управления вкл
         _commonView.PlayersControlsCanvas.enabled = true;
     }
 
@@ -275,22 +219,18 @@ public class ViewModel : IViewModel
     {
         if (!_playerAnim.enabled) _playerAnim.enabled = true;       
         if (!_enemyAnim.enabled) _enemyAnim.enabled = true; 
-        _playerAnim.SetStartPositions(PlayerManager.zeroZposition, PlayerManager.zeroYrotation, PlayerManager.stockXposition, PlayerManager.startRotation);
-        _enemyAnim.SetStartPositions(EnemyManager.zeroZposition, EnemyManager.zeroYrotation, EnemyManager.stockXposition, EnemyManager.startRotation);
+        _playerAnim.SetStartPositions();
+        _enemyAnim.SetStartPositions();
     }
     
     public IEnumerator RoundPlaying(TurnOutInfo currentResults)
-    {        
-        
-        
-        // From RoundPlaying here
+    {
         ChangeResultText(string.Empty);                         // 1. Очистить информационное сообщение
-        
         
         //while (!OneHeroLeft())                                  // 2. Играем раунд (пропускаем такты), пока кто-то не умрет
         //{
         //1. Разблокировать кнопки управления игроку       
-        /*фотон if (!doServerExchange && !doClientExchange)*/ _commonView.PlayersControlsCanvas.enabled = true;
+        /*фотон if (!doServerExchange && !doClientExchange)*/ //_commonView.PlayersControlsCanvas.enabled = true;
 
         
             //2. При одиночной игре определить решение врага: удар или смена оружия
@@ -307,110 +247,38 @@ public class ViewModel : IViewModel
                 yield return null;   // Решения еще нет - заканчиваем этот такт (и почему-то не переходим сразу к началу корутины, а проходим её тело до конца...)
                 //Debug.Log("Why am I displaying?"); // А вот так работает yield return null - такт проходится до конца
             }*/
-            //4. иначе рассчитать урон. (Плюс посмотреть, не умер ли кто. Если умер - идем на конец раунда)
-            //else
             {
-                // a. предварительные коэффициенты, результат схода и урон для одиночной игры (для сетевой это сделает сервер в ServerNetworkCallbacks по событию EFReadyForExchangeEvent)
-                //if (gameType == GameType.Single) ExchangeResultsAndDamages();
-
-                // b. Удар 1. Обновление коэфф. и добавление эффектов серий ударов (серия блоков ставится по событию HeroManager'а-->HeroUI-->Series).
-                /*
-                if ((enemy.exchangeResult[0] == ExchangeResult.GetHit) || (enemy.exchangeResult[0] == ExchangeResult.BlockVs2Handed))
-                    player.AddStrongSeries(1);
-                if ((player.exchangeResult[0] == ExchangeResult.GetHit) || (player.exchangeResult[0] == ExchangeResult.BlockVs2Handed))
-                    enemy.AddStrongSeries(1);
-                
-                if ((enemy.exchangeResult[0] == ExchangeResult.GetHit) || (enemy.exchangeResult[0] == ExchangeResult.BlockVs2Handed))
-                    player.AddStrikesSeries();
-                if ((player.exchangeResult[0] == ExchangeResult.GetHit) || (player.exchangeResult[0] == ExchangeResult.BlockVs2Handed))
-                    enemy.AddStrikesSeries();
-                */
-                
-                // I. Удар1 состоялся  - запустить событие. 
-                //ExchangeEvent1?.Invoke(currentResults); 
-
+                // обновляем впоследствии покойный heroManager.weaponSet
                 _playerManager.weaponSet = _client.PlayerWeaponSet;
                 _enemyManager.weaponSet = _client.EnemyWeaponSet;
-
+                // основной запускатель анимаций и звуков
                 _playerManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
                 _enemyManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
-                
+                // обновляем здоровье
                 _playerHP.SetHealth(currentResults.PlayerHP);
                 _enemyHP.SetHealth(currentResults.EnemyHP);
-
+                // кнопки выкл
                 _commonView.PlayersControlsCanvas.enabled = false;
-
-                // c. Удар 2. Обновление коэфф. и добавление эффектов серий ударов
-                /*if (enemy.exchangeResult[1] == ExchangeResult.GetHit)
-                    player.AddStrongSeries(2);
-                if (player.exchangeResult[1] == ExchangeResult.GetHit)
-                    enemy.AddStrongSeries(2);
-                
-                if (enemy.exchangeResult[1] == ExchangeResult.GetHit)
-                    player.AddStrikesSeries();
-                if (player.exchangeResult[1] == ExchangeResult.GetHit)
-                    enemy.AddStrikesSeries();
-                
-                // d. Коэффициенты серий ударов. Ресет.
-                if ((enemy.exchangeResult[0] != ExchangeResult.GetHit) && (enemy.exchangeResult[1] != ExchangeResult.GetHit) && (enemy.exchangeResult[0] != ExchangeResult.BlockVs2Handed))                    
-                    player.ResetStrikesSeries();
-                if ((player.exchangeResult[0] != ExchangeResult.GetHit)&&(player.exchangeResult[1] != ExchangeResult.GetHit)&&(player.exchangeResult[0] != ExchangeResult.BlockVs2Handed))                    
-                    enemy.ResetStrikesSeries();
-                */
-                // e. Смена оружия врага
-                /*if (enemy.decision != Decision.Attack)
-                {
-                    switch (enemy.decision)
-                    {
-                        case Decision.ChangeSwordShield:
-                            enemy.SetSwordShield();
-                            break;
-                        case Decision.ChangeSwordSword:
-                            enemy.SetSwordSword();
-                            break;
-                        case Decision.ChangeTwoHandedSword:
-                            enemy.SetTwoHandedSword();
-                            break;
-                    }
-                }*/
-                
-                // II. Удар2 состоялся  - запустить событие 
-                //ExchangeEvent2?.Invoke(currentResults);
-                
-                //5. Блокировка кнопок управления игрока и задержка на анимацию (атаки или смены)
-                if (currentResults.PlayerHP < 0 || currentResults.EnemyHP < 0) yield return _attackWait;
+                // задержка на анимацмю смерти/атаки/смены
+                var dead = currentResults.PlayerHP < 0 || currentResults.EnemyHP < 0;
+                if (dead) yield return _deathWait;
                 else if (_client.decision == Decision.Attack)
                 {
                     if (currentResults.EnemyDecision == Decision.Attack) yield return _attackWait;                       
                     else yield return _changeWait;                                                         
                 }
                 else yield return _changeWait;     //  точно какая-то смена
-
-
-                    //6. Уменьшить или обнулить задержку на тупизну
-                //if ((currentResults.EnemyDecision == Decision.Attack) && (_client.decision == Decision.Attack)) stupitidyChangeDelay -= 1;
-                //else if (currentResults.EnemyDecision != Decision.Attack) stupitidyChangeDelay = numRoundsToWin - HeroManager.player_countRoundsWon - 1;
-
-                // III. Сход закончен  - запустить событие 
-                //ExchangeEndedEvent?.Invoke(currentResults);
+                // основной запускатель - здесь обнуляет тексты, можно уже избавиться от _playerManager'ов
                 _playerManager.ExchangeEnded();
                 _enemyManager.ExchangeEnded();
 
-                _commonView.PlayersControlsCanvas.enabled = true;
-                
-                //7. снять меркеры сделанного хода на клиенте и сервере - вернуться при фотоне
-                /*if (gameType == GameType.Server)
+                if (dead) yield return true;
+                else 
                 {
-                    doServerExchange = false;
+                    _commonView.PlayersControlsCanvas.enabled = true;    // кнопки вкл
+                    yield return null;  // заканчиваем этот такт (и не переходим к концу корутины)
                 }
-                if (gameType == GameType.Client)
-                {
-                    doClientExchange = false;
-                }*/
-                
-                yield return null;  // заканчиваем этот такт (и не переходим к концу корутины)
             }
-        //}
     }
     
     public IEnumerator RoundEnding(int roundNumber, string winner, string prize)                       // конец раунда
@@ -419,21 +287,12 @@ public class ViewModel : IViewModel
         _enemyManager.enabled = false;
         _playerAnim.enabled = false;       
         _enemyAnim.enabled = false;  
-        
-        //1. Всех на переинициализацию.
-        //player.enabled = false;
-        //enemy.enabled = false;
+        //1. ждем анимацию смерти
         yield return _deathWait;                           // используем m_DeathWait ( 2.5 сек), чтоб не плодить сущности
-        
         //2. Вывести информационное сообщение.
-        //resultText.text = "round".Localize() + _roundNumber + " " + "ended".Localize() + _roundWinner.ToString().Localize() + "win".Localize();
-        ChangeResultText("round".Localize() + roundNumber + " " + "ended".Localize() + winner + "win".Localize());
-
-        //3. ждём еще одну m_DeathWait, ибо будем выдавать инвентарь
-        //if (prize != null)
-        //   yield return _deathWait;
-        
-        //4. Выдать игроку пункт инвентаря за победу в раунде
+        var w = !winner.Equals(string.Empty) ? winner : "nobody".Localize();
+        ChangeResultText("round".Localize() + roundNumber + " " + "ended".Localize() + w + "win".Localize());
+        //3. Выдать игроку пункт инвентаря за победу в раунде
         if (winner == _client.PlayerName)
         {
             yield return _deathWait;    //ждём еще одну m_DeathWait, ибо будем выдавать инвентарь
@@ -441,22 +300,19 @@ public class ViewModel : IViewModel
             var item = _playerManager.AddPrize(prize);
             if (item != null) ChangeResultText ("you_got".Localize() + prize.Localize());
             
+            // пока что так коряво, а надо бы от сервера писать полностью кому что
+            if (_enemyUI.Name.Equals("bot") && _client.roundsWon == 3) _enemyManager.AddPrize("ring_of_cunning", false);
+            
             /* //Добавим инвентарь в state - вернуться при фотоне
             if (gameType!=GameType.Single && a!=null)
             {
                 myBoltEntity.GetState<Photon.Bolt.IEFPlayerState>().InventoryItem = a;
             }*/
         }
-        
-        //5. Врагу тоже
-        if (winner == _enemyName) _enemyManager.AddPrize(prize, false);
-        
-        //6. Изменяем вид врага
-        if (_client._roundsLost > 0) _enemyManager.ChangeWeaponsView(_client._roundsLost - 1);
-        
-        yield return _endWait;
+        //4. Врагу тоже
+        if (winner == _enemyUI.Name) _enemyManager.AddPrize(prize, false);
 
-        //enemyNameText.text = string.Empty;    // не надо - меняем только  в начале матча
+        yield return _endWait;
         
         /* вернуться при фотоне
         player.m_dead = false;

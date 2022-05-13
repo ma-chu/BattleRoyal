@@ -25,44 +25,69 @@ public class PlayerClient : Client
 
     protected override void CheckForSeries()
     {
-        if (!PlayerStrongStrikesSeries && (_currentResults.PlayerSeries[0] == Series.StrongStrikeSeriesBeginning))
+        if (!PlayerStrongStrikesSeries && (currentResults.PlayerSeries[0] == Series.StrongStrikeSeriesBeginning))
         {
             PlayerStrongStrikesSeries = true;
             playerSeriesSet[0] = true;
         }
+        else playerSeriesSet[0] = false;
 
-        if (!EnemyStrongStrikesSeries && (_currentResults.EnemySeries[0] == Series.StrongStrikeSeriesBeginning))
+        if (!EnemyStrongStrikesSeries && (currentResults.EnemySeries[0] == Series.StrongStrikeSeriesBeginning))
         {
             EnemyStrongStrikesSeries = true;
             enemySeriesSet[0] = true;
         }
+        else enemySeriesSet[0] = false;
 
-        if (!PlayerSeriesOfStrikes && (_currentResults.PlayerSeries[2] == Series.SeriesStrikeBeginning))
+        
+        if (!PlayerSeriesOfStrikes && (currentResults.PlayerSeries[2] == Series.SeriesStrikeBeginning))
         {
             PlayerSeriesOfStrikes = true;
             playerSeriesSet[2] = true;
         }
-
-        if (!EnemySeriesOfStrikes && _currentResults.EnemySeries[2] == Series.SeriesStrikeBeginning)
+        else
+        {
+            playerSeriesSet[2] = false;
+            if (currentResults.PlayerSeries[2]==0) PlayerSeriesOfStrikes = false;
+        }
+        
+        if (!EnemySeriesOfStrikes && currentResults.EnemySeries[2] == Series.SeriesStrikeBeginning)
         {
             EnemySeriesOfStrikes = true;
             enemySeriesSet[2] = true;
         }
-
-        if (!PlayerSeriesOfBlocks && (_currentResults.PlayerSeries[1] == Series.SeriesBlockBeginning))
+        else
+        {
+            enemySeriesSet[2] = false;
+            if (currentResults.EnemySeries[2]==0) EnemySeriesOfStrikes = false;
+        }
+        
+        
+        if (!PlayerSeriesOfBlocks && (currentResults.PlayerSeries[1] == Series.SeriesBlockBeginning))
         {
             PlayerSeriesOfBlocks = true;
             playerSeriesSet[1] = true;
         }
-
-        if (!EnemySeriesOfBlocks && (_currentResults.EnemySeries[1] == Series.SeriesBlockBeginning))
+        else
+        {
+            playerSeriesSet[1] = false;
+            if (currentResults.PlayerSeries[1]==0) PlayerSeriesOfBlocks = false;
+        }
+        
+        if (!EnemySeriesOfBlocks && (currentResults.EnemySeries[1] == Series.SeriesBlockBeginning))
         {
             EnemySeriesOfBlocks = true;
             enemySeriesSet[1] = true;
         }
+        else
+        {
+            enemySeriesSet[1] = false;
+            if (currentResults.EnemySeries[1]==0) EnemySeriesOfBlocks = false;
+        }
+
         
-        _viewModel.SetPlayerSeries(_currentResults.PlayerSeries, playerSeriesSet);
-        _viewModel.SetEnemySeries(_currentResults.EnemySeries, enemySeriesSet);
+        _viewModel.SetPlayerSeries(currentResults.PlayerSeries, playerSeriesSet);
+        _viewModel.SetEnemySeries(currentResults.EnemySeries, enemySeriesSet);
     }
 
     protected override void OnStartMatch(object o, StartMatchInfo startMatchInfo)
@@ -70,25 +95,26 @@ public class PlayerClient : Client
         base.OnStartMatch(o, startMatchInfo);
         _viewModel.SetEnemyName(startMatchInfo.EnemyName);
         _viewModel.SetPlayerName(startMatchInfo.PlayerName);
-        MainGameManager.Instance.StartCoroutine(_viewModel.GameStarting());     // MainGameManager вызывает все корутины
-        // Каким-то образом надо дождаться конца корутины, прежде, чем реагировать на событие OnStartRound
+        MainGameManager.Instance.StartCoroutine(_viewModel.GameStarting());     // MainGameManager будет вызывать все корутины
     }
 
     protected override void OnStartRound(object o, StartRoundInfo startRoundInfo)
     {
+        if (!startRoundInfo.PlayerName.Equals(PlayerName)) return;
         base.OnStartRound(o, startRoundInfo);
         MainGameManager.Instance.StartCoroutine(_viewModel.RoundStarting(RoundNumber, startRoundInfo.PlayerStartHealth, startRoundInfo.EnemyStartHealth));
     }
     
     protected override void OnEndRound(object o, EndRoundInfo endRoundInfo)
     {
+        if (!endRoundInfo.PlayerName.Equals(PlayerName)) return;
         base.OnEndRound(o, endRoundInfo);
         MainGameManager.Instance.StartCoroutine(_viewModel.RoundEnding(RoundNumber, endRoundInfo.roundWinner, endRoundInfo.prize));
     }
     
     protected override void MakeTurn(int nicety)
     {
-        MainGameManager.Instance.StartCoroutine(_viewModel.RoundPlaying(_currentResults));
+        MainGameManager.Instance.StartCoroutine(_viewModel.RoundPlaying(currentResults));
     }
     
     protected override void OnEndMatch(object o, EndMatchInfo endMatchInfo)

@@ -28,7 +28,7 @@ public struct MatchInfo
     public MatchInfo(int numRoundsToWin, PlayerObject player1 = null, PlayerObject player2 = null)
     {
         this.numRoundsToWin = numRoundsToWin;
-        roundNumber = 0;
+        roundNumber = 1;
         this.player1 = player1;
         this.player2 = player2;
         roundWinner = null;
@@ -88,9 +88,6 @@ public class Server : MonoBehaviour, IServer
         match.roundNumber = 1;
         match.player1 = players[0];
         match.player2 = players[1];
-
-        //match.player1.Reset();
-        //match.player2.Reset();
 
         var player1MatchInfo = new StartMatchInfo();
         var player2MatchInfo = new StartMatchInfo();
@@ -198,7 +195,7 @@ public class Server : MonoBehaviour, IServer
                 prize = (match.roundWinner == match.player1 && prize != null)? prize.Name : string.Empty
             };
             if (match.roundWinner == match.player2 && match.player1.name == "bot" && match.player1.roundsLost == 3) 
-                match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "Ring of Cunning"));
+                match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "ring_of_cunning"));
             EndRoundAction?.Invoke(this, player1EndRoundInfo);
                 
             var player2EndRoundInfo = new EndRoundInfo()
@@ -211,12 +208,14 @@ public class Server : MonoBehaviour, IServer
             
             if (match.matchWinner != null)
             {
-                Invoke(nameof(EndMatch), 6);    // задержки согласовать с оными из ViewModel
+                Invoke(nameof(EndMatch), 7);    // задержки согласовать с оными из ViewModel
                 return;
-            } 
-            // Иначе новый раунд
-            match.roundNumber++;
-            Invoke(nameof(StartNewRound), 6);
+            }
+            else // Иначе новый раунд
+            {
+                match.roundNumber++;
+                Invoke(nameof(StartNewRound), 9);
+            }
         }
     }
 
@@ -225,6 +224,8 @@ public class Server : MonoBehaviour, IServer
         match.player1.Reset();
         match.player2.Reset();
         
+        Debug.Log("Локальный сервер: раунд " + match.roundNumber +" начинается");
+
         var player1StartRoundInfo = new StartRoundInfo()
         {
             PlayerName = match.player1.name,
@@ -239,8 +240,6 @@ public class Server : MonoBehaviour, IServer
         player1StartRoundInfo.EnemyStartHealth = player2StartRoundInfo.PlayerStartHealth = match.player2.Tweakers.StartingHealth;
         StartRoundAction?.Invoke(this, player1StartRoundInfo);
         StartRoundAction?.Invoke(this, player2StartRoundInfo);
-        
-        Debug.Log("Локальный сервер: раунд " + match.roundNumber +" начинается");
     }
 
     private void EndMatch()
@@ -320,33 +319,33 @@ public class Server : MonoBehaviour, IServer
             match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
         {
             match.player1.gotDamages[0] = (int) match.player2.preCoeffs[0].damage;
-            match.player1._dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[0]);
+            match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[0]);
         }
         //else match.player1.gotDamages[0] = 0;
         if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
         {
             match.player2.gotDamages[0] = (int) match.player1.preCoeffs[0].damage;
-            match.player2._dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[0]);
+            match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[0]);
         }
         //else match.player2.gotDamages[0] = 0;
         // Удар 2
         if (match.player1.exchangeResults[1] == ExchangeResult.GetHit)
         {
             match.player1.gotDamages[1] = (int) match.player2.preCoeffs[1].damage;
-            match.player1._dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[1]);
+            match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[1]);
         }
         //else match.player1.gotDamages[1] = 0;
         if (match.player2.exchangeResults[1] == ExchangeResult.GetHit)
         {
             match.player2.gotDamages[1] = (int) match.player1.preCoeffs[1].damage;
-            match.player2._dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[1]);
+            match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[1]);
         }
         //else match.player2.gotDamages[1] = 0;
     }
 
     private void AddSeries()
     { 
-        // Удар 1. Обновление коэфф. и добавление эффектов серий (Убрать: серия блоков ставится по событию HeroManager'а-->HeroUI-->Series).
+        // Удар 1. Обновление коэфф. и добавление эффектов серий
         if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
             match.player1.Series.AddStrongSeries(1);
         if (match.player1.exchangeResults[0] == ExchangeResult.GetHit || match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
@@ -404,9 +403,9 @@ public class Server : MonoBehaviour, IServer
 
     private bool OneHeroLeft()                          // кто-то умер
     {
-        if (match.player1._dead)
+        if (match.player1.dead)
         {
-            if (match.player2._dead)                          // ничья
+            if (match.player2.dead)                          // ничья
             {
                 match.roundWinner = null;
                 return true;
@@ -416,7 +415,7 @@ public class Server : MonoBehaviour, IServer
             match.roundWinner = match.player2;          
             return true;
         }
-        if (match.player2._dead)
+        if (match.player2.dead)
         {
             match.player1.roundsWon++;                   // мне +1 раунд
             match.player2.roundsLost++; 

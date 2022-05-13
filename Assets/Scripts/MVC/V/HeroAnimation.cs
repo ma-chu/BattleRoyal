@@ -2,7 +2,12 @@
 //  ДВИЖЕНИЕ И АНИМАЦИЯ ГЕРОЯ
 public class HeroAnimation : MonoBehaviour
 {
-    private HeroManager heroManager;
+    [SerializeField] private float zeroZposition = 1.35f;      // позиция героя на ристалище - в HEROManager (readonly var)!!! 
+    [SerializeField] private float zeroYrotation = -180f;      // вращение героя на ристалище  
+    [SerializeField] private float stockXposition = -2.2f;     // начальное вращение героя 
+    [SerializeField] private float startRotation = 90f;        // начальная позиция героя (позиция склада)
+    
+    private HeroManager _heroManager;
 
     // СОСТОЯНИЯ
     [SerializeField]
@@ -12,11 +17,11 @@ public class HeroAnimation : MonoBehaviour
     [SerializeField]
     private bool m_rotateToCenter;                       // Разворот после смены оружия
 
-    private float zeroZposition;                         // координата Z позиции на ристалище 
-    private float zeroYrotation;                         // вращение позиции на ристалище
-    private float stockXposition;                        // координата X позиции склада оружия
+    //private float zeroZposition;                         // координата Z позиции на ристалище 
+    //private float zeroYrotation;                         // вращение позиции на ристалище
+    //private float stockXposition;                        // координата X позиции склада оружия
 
-    private Animator m_Anim;                             // ссылка на компонент-аниматор этого героя
+    private Animator _anim;                             // ссылка на компонент-аниматор этого героя
     [SerializeField]
     private RuntimeAnimatorController m_ACSwordShield;   // ссылки на контроллеры анимации
     [SerializeField]
@@ -27,63 +32,59 @@ public class HeroAnimation : MonoBehaviour
 
     private void Awake()
     {
-        heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
-        m_Anim = GetComponentInChildren<Animator>() /*as Animator*/; 
+        _heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
+        _anim = GetComponentInChildren<Animator>() /*as Animator*/; 
     }
 
     private void OnEnable()    
     {
-        if (heroManager != null)
+        if (_heroManager != null)
         {
-            heroManager.GetHitEvent += OnHit;
-            heroManager.DeathEvent += OnDeath;
-            heroManager.AttackEvent += OnAttack;
-            heroManager.ChangeEvent += OnChange;
-            heroManager.ToPositionEvent += OnToPosition;
+            _heroManager.GetHitEvent += OnHit;
+            _heroManager.DeathEvent += OnDeath;
+            _heroManager.AttackEvent += OnAttack;
+            _heroManager.ChangeEvent += OnChange;
+            _heroManager.ToPositionEvent += OnToPosition;
         }
 
-        m_Anim.runtimeAnimatorController = m_ACSwordShield; // установим АС по умолчанию - щит-меч
-        m_Anim.Rebind();                                    // перезапустить АС, чтоб перешел в исходное состояние
+        _anim.runtimeAnimatorController = m_ACSwordShield; // установим АС по умолчанию - щит-меч
+        _anim.Rebind();                                    // перезапустить АС, чтоб перешел в исходное состояние
 
-        heroManager.InvokeToPositionEvent();                // надеюсь, HeroAudio успел подписаться на это событие...
+        _heroManager.InvokeToPositionEvent();                // надеюсь, HeroAudio успел подписаться на это событие...
     }
 
     // чтобы HeroAudio точно успел во время первого запуска, ибо не факт, что OnEnable HeroAnimator-а запустится раньше оного HeroAudio
     public void Start()
     {
-        heroManager.InvokeToPositionEvent();
+        _heroManager.InvokeToPositionEvent();
     }
 
     private void OnDisable()  
     {
-        if (heroManager != null)
+        if (_heroManager != null)
         {
-            heroManager.GetHitEvent -= OnHit;
-            heroManager.DeathEvent -= OnDeath;
-            heroManager.AttackEvent -= OnAttack;
-            heroManager.ChangeEvent -= OnChange;
-            heroManager.ToPositionEvent -= OnToPosition;
+            _heroManager.GetHitEvent -= OnHit;
+            _heroManager.DeathEvent -= OnDeath;
+            _heroManager.AttackEvent -= OnAttack;
+            _heroManager.ChangeEvent -= OnChange;
+            _heroManager.ToPositionEvent -= OnToPosition;
         }
     }
 
     // Установить начальное положение героя, задать исходное на ристалище 
-    public void SetStartPositions(float zeroZposition, float zeroYrotation, float stockXposition, float startRotation)  
+    public void SetStartPositions()  
     {
-        this.zeroZposition = zeroZposition;                                     // присваивание переменной zeroZposition этого инстанса класса
-        this.zeroYrotation = zeroYrotation;
-        this.stockXposition = stockXposition;
-
         transform.position = new Vector3(stockXposition, 0, zeroZposition);     // установить начальное положение
         transform.rotation = Quaternion.Euler(0f, startRotation, 0f);           // установить начальное вращение
     }
 
     private void OnHit(int strikeNumber = 0, int gotDamage = 0)        // всё равно, какой удар и на сколько
     {
-        m_Anim.SetBool("GetHit", true);                            
+        _anim.SetBool("GetHit", true);                            
     }
     private void OnDeath()
     {
-        m_Anim.SetBool("Die", true);
+        _anim.SetBool("Die", true);
         m_change = false;
     }
     private void OnChange()
@@ -92,7 +93,7 @@ public class HeroAnimation : MonoBehaviour
     }
     private void OnAttack()
     {
-        m_Anim.SetBool("Attack", true);                      
+        _anim.SetBool("Attack", true);                      
     }
     private void OnToPosition()
     {
@@ -111,18 +112,18 @@ public class HeroAnimation : MonoBehaviour
     public bool SmoothRotation(float newY)
     {
         float newYPE = newY + zeroYrotation;                                              // заданное вращение, противоположное для игрока и врага
-        float currentY = heroManager.transform.rotation.eulerAngles.y;                    // текущее вращение [0-360 градусов)
+        float currentY = _heroManager.transform.rotation.eulerAngles.y;                    // текущее вращение [0-360 градусов)
         if (currentY == newYPE) return true;                                              // поворот выполнен
-        Quaternion newRotation = Quaternion.Euler(0f, angle_speed * Time.deltaTime, 0f);
+        Quaternion newRotation = Quaternion.Euler(0f, angleSpeed * Time.deltaTime, 0f);
         if (currentY + newRotation.eulerAngles.y >= 360f)                                 // на этом шаге перешагнем через 0... Все остальное вращение произойдет мигом
         {
             currentY = newYPE;
         }
-        heroManager.transform.rotation *= newRotation;                                    // крутимся по часовой
+        _heroManager.transform.rotation *= newRotation;                                    // крутимся по часовой
         //transform.rotation *= Quaternion.Inverse(newRotation);                          // так было бы против часовой...
         if (currentY >= newYPE)                                                           // докрутились ли?
         {
-            heroManager.transform.rotation = Quaternion.Euler(0f, newYPE + 0.1f, 0f);     // подравнять вращение
+            _heroManager.transform.rotation = Quaternion.Euler(0f, newYPE + 0.1f, 0f);     // подравнять вращение
             return true;
         }
         else return false;
@@ -138,25 +139,25 @@ public class HeroAnimation : MonoBehaviour
     */
     public bool SmoothMotion(float X)
     {
-        if (heroManager.transform.position.x == X) return true;                                             // перемещение достигнуто
-        if (X > heroManager.transform.position.x)                                                           // Если координату X необходимо увеличивать
+        if (_heroManager.transform.position.x == X) return true;                                             // перемещение достигнуто
+        if (X > _heroManager.transform.position.x)                                                           // Если координату X необходимо увеличивать
         {
-            Vector3 Destination = new Vector3(X + 0.1f, 0, zeroZposition) - heroManager.transform.position; // то увеличиваем
-            heroManager.transform.position += Destination * line_speed * Time.deltaTime;
-            if (heroManager.transform.position.x >= X)                                                      // и сравниваем, не стало ли X больше задания
+            Vector3 Destination = new Vector3(X + 0.1f, 0, zeroZposition) - _heroManager.transform.position; // то увеличиваем
+            _heroManager.transform.position += Destination * lineSpeed * Time.deltaTime;
+            if (_heroManager.transform.position.x >= X)                                                      // и сравниваем, не стало ли X больше задания
             {
-                heroManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
+                _heroManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
                 return true;
             }
             else return false;
         }
         else                                                                                                // иначе координату X необходимо уменьшать
         {
-            Vector3 Destination = new Vector3(X - 0.1f, 0, zeroZposition) - heroManager.transform.position; // уменьшаем
-            heroManager.transform.position += Destination * line_speed * Time.deltaTime;
-            if (heroManager.transform.position.x <= X)                                                      // и сравниваем, не стало ли X меньше задания
+            Vector3 Destination = new Vector3(X - 0.1f, 0, zeroZposition) - _heroManager.transform.position; // уменьшаем
+            _heroManager.transform.position += Destination * lineSpeed * Time.deltaTime;
+            if (_heroManager.transform.position.x <= X)                                                      // и сравниваем, не стало ли X меньше задания
             {
-                heroManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
+                _heroManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
                 return true;
             }
             else return false;
@@ -169,7 +170,7 @@ public class HeroAnimation : MonoBehaviour
         if (SmoothRotation(270f))
         {
             m_rotateToCenter = false;                       // сбросим триггер - вращение на центр
-            heroManager.InvokeToPositionEvent();
+            _heroManager.InvokeToPositionEvent();
         }
     }
 
@@ -183,44 +184,40 @@ public class HeroAnimation : MonoBehaviour
     }
 
     // СМЕНА ОРУЖИЯ
-    public float line_speed = 1.2f;                               // линейная скорость бега героя
-    public float angle_speed = 180f;                              // угловая скорость поворота героя
-    public void ChangeWeapon()
+    [SerializeField] private float lineSpeed = 1.2f;                               // линейная скорость бега героя
+    [SerializeField] float angleSpeed = 180f;                              // угловая скорость поворота героя
+    private void ChangeWeapon()
     {
-        if (SmoothRotation(90f))                                                    // вращение на 90 градусов
+        if (SmoothRotation(90f))                                               // вращение на 90 градусов
         {
-            if (!m_Anim.GetBool("Change")) // анимация - запустить 1 раз. "Change" - булева переменная, сама не сбростися. Остальные параметры АС - триггеры, сами ресетятся через такт   
-            {
-                m_Anim.SetBool("Change", true);
-                // можно звук смены начать проигрывать здесь же...
-            }
+            if (!_anim.GetBool("Change")) _anim.SetBool("Change", true);
             if (SmoothMotion(stockXposition))                                       // Перемещение к краю ристалища
             {
                 m_change = false;                                                   // сбрасываем глобальный триггер 
-                m_Anim.SetBool("Change", false);                                    // и анимационный
+                _anim.SetBool("Change", false);                                    // и анимационный
 
-                switch (heroManager.weaponSet)                   // Отображаем нужный набор оружия и включаем нужный анимационный контроллер 
+                switch (_heroManager.weaponSet)                   // Отображаем нужный набор оружия и включаем нужный анимационный контроллер 
                 {
                     case WeaponSet.SwordShield:
-                        heroManager.hero2HandedSword.SetActive(false);
-                        heroManager.heroSword_2.SetActive(false);
-                        heroManager.heroSword.SetActive(true);
-                        heroManager.heroShield.SetActive(true);
-                        m_Anim.runtimeAnimatorController = m_ACSwordShield;
+                        _heroManager.hero2HandedSword.SetActive(false);
+                        _heroManager.heroSword_2.SetActive(false);
+                        _heroManager.heroSword.SetActive(true);
+                        _heroManager.heroShield.SetActive(true);
+                        _anim.runtimeAnimatorController = m_ACSwordShield;
                         break;
                     case WeaponSet.SwordSword:
-                        heroManager.hero2HandedSword.SetActive(false);
-                        heroManager.heroSword_2.SetActive(true);
-                        heroManager.heroSword.SetActive(true);
-                        heroManager.heroShield.SetActive(false);
-                        m_Anim.runtimeAnimatorController = m_ACSwordSword;
+                        _heroManager.hero2HandedSword.SetActive(false);
+                        _heroManager.heroSword_2.SetActive(true);
+                        _heroManager.heroSword.SetActive(true);
+                        _heroManager.heroShield.SetActive(false);
+                        _anim.runtimeAnimatorController = m_ACSwordSword;
                         break;
                     case WeaponSet.TwoHandedSword:
-                        heroManager.hero2HandedSword.SetActive(true);
-                        heroManager.heroSword_2.SetActive(false);
-                        heroManager.heroSword.SetActive(false);
-                        heroManager.heroShield.SetActive(false);
-                        m_Anim.runtimeAnimatorController = m_AC2HandedSword;
+                        _heroManager.hero2HandedSword.SetActive(true);
+                        _heroManager.heroSword_2.SetActive(false);
+                        _heroManager.heroSword.SetActive(false);
+                        _heroManager.heroShield.SetActive(false);
+                        _anim.runtimeAnimatorController = m_AC2HandedSword;
                         break;
                 }
 
@@ -232,7 +229,7 @@ public class HeroAnimation : MonoBehaviour
 
     private void Update()
     {
-        if (m_change && (!heroManager.dead)) ChangeWeapon();
+        if (m_change && (!_heroManager.dead)) ChangeWeapon();
 
         if (m_rotateToCenter) RotateToCenter();
 

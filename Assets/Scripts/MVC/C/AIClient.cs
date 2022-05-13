@@ -4,25 +4,44 @@ using UnityEngine;
 
 public class AIClient : Client
 {
-    private int stupitidyChangeDelay;                                   // Задержка на тупизну бота перед сменой оружия
+    private int _stupitidyChangeDelay;                                   // Задержка на тупизну бота перед сменой оружия
+    private TurnInInfo _turnInInfo = new TurnInInfo()
+    {
+        PlayerDecision = Decision.No
+    };
 
     protected override void CheckForSeries()
     {
-        PlayerStrongStrikesSeries = _currentResults.PlayerSeries[0] >= Series.StrongStrikeSeriesBeginning;
-        EnemyStrongStrikesSeries = _currentResults.EnemySeries[0] >= Series.StrongStrikeSeriesBeginning;
-        PlayerSeriesOfBlocks = _currentResults.PlayerSeries[1] >= Series.SeriesBlockBeginning;
-        EnemySeriesOfBlocks = _currentResults.EnemySeries[1] >= Series.SeriesBlockBeginning;
-        PlayerSeriesOfStrikes = _currentResults.PlayerSeries[2] >= Series.SeriesStrikeBeginning;
-        EnemySeriesOfStrikes = _currentResults.EnemySeries[2] >= Series.SeriesStrikeBeginning;
+        PlayerStrongStrikesSeries = currentResults.PlayerSeries[0] >= Series.StrongStrikeSeriesBeginning;
+        EnemyStrongStrikesSeries = currentResults.EnemySeries[0] >= Series.StrongStrikeSeriesBeginning;
+        PlayerSeriesOfBlocks = currentResults.PlayerSeries[1] >= Series.SeriesBlockBeginning;
+        EnemySeriesOfBlocks = currentResults.EnemySeries[1] >= Series.SeriesBlockBeginning;
+        PlayerSeriesOfStrikes = currentResults.PlayerSeries[2] >= Series.SeriesStrikeBeginning;
+        EnemySeriesOfStrikes = currentResults.EnemySeries[2] >= Series.SeriesStrikeBeginning;
     }
     
         
     protected override void OnStartRound(object o, StartRoundInfo startRoundInfo)
     {
+        if (!startRoundInfo.PlayerName.Equals(PlayerName)) return;
         base.OnStartRound(o, startRoundInfo);
-        stupitidyChangeDelay = numRoundsToWin - _roundsLost - 1;
-        MakeTurn(_roundsWon);     // решение бота на первый сход
+        _stupitidyChangeDelay = NumRoundsToWin - roundsLost - 1;
+        MakeTurn(roundsLost);     // решение бота на первый сход
     }
+
+    protected override void OnResultsReady(object o, TurnOutInfo results)
+    {
+        if (!results.PlayerName.Equals(PlayerName)) return;
+        
+        // Сперва уменьшить или обнулить задержку на тупизну на основании прошлого хода AI и текущего игрока
+        if (_turnInInfo.PlayerDecision == Decision.Attack && results.EnemyDecision == Decision.Attack ) 
+            _stupitidyChangeDelay--;
+        else if (_turnInInfo.PlayerDecision != Decision.Attack) 
+            _stupitidyChangeDelay = NumRoundsToWin - roundsLost - 1;
+
+        base.OnResultsReady(o, results);
+    }
+
     protected override void MakeTurn (int nicety)       
     {
         /* nicety = 0: 
@@ -46,21 +65,20 @@ public class AIClient : Client
          * 3. относительно оружия - сразу меняет
         */
         
-         var turnInInfo = new TurnInInfo();
-
+        
          // 1. Если у врага есть серия - продолжаем её (при любом nicety):
         if (PlayerSeriesOfStrikes)
         {
-            turnInInfo.PlayerDecision = Decision.Attack;
-            turnInInfo.PlayerDefencePart = /*enemy.m_Tweakers.ParryChance*/0f;
-            SendDataToServer(turnInInfo);
+            _turnInInfo.PlayerDecision = Decision.Attack;
+            _turnInInfo.PlayerDefencePart = 0f;
+            SendDataToServer(_turnInInfo);
             return;
         }
         if (PlayerSeriesOfBlocks)
         {
-            turnInInfo.PlayerDecision = Decision.Attack;
-            turnInInfo.PlayerDefencePart = /*enemy.m_Tweakers.MaxDefencePart + enemy.m_Tweakers.ParryChance*/1f;  /*не забыть перемножить на MaxDefPart*/
-            SendDataToServer(turnInInfo);
+            _turnInInfo.PlayerDecision = Decision.Attack;
+            _turnInInfo.PlayerDefencePart = 1f;  //не забыть перемножить на MaxDefPart
+            SendDataToServer(_turnInInfo);
             return;
         }
         // если нет
@@ -69,52 +87,54 @@ public class AIClient : Client
         {
             if (EnemySeriesOfStrikes)
             {
-                turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.SwordShield) ? Decision.ChangeSwordShield : Decision.Attack;
-                turnInInfo.PlayerDefencePart = /*enemy.m_Tweakers.MaxDefencePart + enemy.m_Tweakers.ParryChance*/1f;
-                SendDataToServer(turnInInfo);
+                _turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.SwordShield) ? Decision.ChangeSwordShield : Decision.Attack;
+                _turnInInfo.PlayerDefencePart = 1f;
+                SetWeaponSet(_turnInInfo.PlayerDecision);
+                SendDataToServer(_turnInInfo);
                 return;
             }
             if (EnemySeriesOfBlocks)
             {
-                turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.TwoHandedSword) ? Decision.ChangeTwoHandedSword : Decision.Attack;
-                turnInInfo.PlayerDefencePart = /*enemy.m_Tweakers.ParryChance*/1f;
-                SendDataToServer(turnInInfo);
+                _turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.TwoHandedSword) ? Decision.ChangeTwoHandedSword : Decision.Attack;
+                _turnInInfo.PlayerDefencePart = 1f;
+                SetWeaponSet(_turnInInfo.PlayerDecision);
+                SendDataToServer(_turnInInfo);
                 return;
             }
-        }
-        // если нет
+        } 
+        // а если нет, то
         // 3. Варианты относительно типов оружия (с задержкой на тупизну):
         // 1 - полный рандом; 2 - оптимум - то, что сейчас; 3 - идеальное - надо рассчитывать еще необходимость смены в зависимости от оставшегося здоровья
         // еще можно использовать комбинацию вариантов. Например, оптимум с добавлением небольшого шанса на рандом
-        if (stupitidyChangeDelay > 0) turnInInfo.PlayerDecision = Decision.Attack;
+        if (_stupitidyChangeDelay > 0) _turnInInfo.PlayerDecision = Decision.Attack;
         else if ((EnemyWeaponSet == WeaponSet.SwordShield) && (PlayerWeaponSet == WeaponSet.SwordSword))
-            turnInInfo.PlayerDecision = Decision.ChangeTwoHandedSword;
+            _turnInInfo.PlayerDecision = Decision.ChangeTwoHandedSword;
         else if ((EnemyWeaponSet == WeaponSet.SwordSword) && (PlayerWeaponSet == WeaponSet.TwoHandedSword))
-            turnInInfo.PlayerDecision = Decision.ChangeSwordShield;
+            _turnInInfo.PlayerDecision = Decision.ChangeSwordShield;
         else if ((EnemyWeaponSet == WeaponSet.TwoHandedSword) && (PlayerWeaponSet == WeaponSet.SwordShield))
-            turnInInfo.PlayerDecision = Decision.ChangeSwordSword;
-        else turnInInfo.PlayerDecision = Decision.Attack;
+            _turnInInfo.PlayerDecision = Decision.ChangeSwordSword;
+        else _turnInInfo.PlayerDecision = Decision.Attack;
 
-        // Уменьшить или обнулить задержку на тупизну
-        if (turnInInfo.PlayerDecision == Decision.Attack) stupitidyChangeDelay -= 1;
-        else stupitidyChangeDelay = numRoundsToWin - _roundsLost - 1;
-        
-        
         // 4. Тактику при этом пока будем выбирать по рандому:
         var tactic = UnityEngine.Random.value;
-        turnInInfo.PlayerDefencePart = tactic < 0.33f ? /*enemy.m_Tweakers.MaxDefencePart + enemy.m_Tweakers.ParryChance*/1f : /*enemy.m_Tweakers.ParryChance*/0f;
-
-        // 5. Не забываем проставить weaponSet, а то понадобится в HeroAnimation
-        if (turnInInfo.PlayerDecision != Decision.Attack)
-        {
-            PlayerWeaponSet = turnInInfo.PlayerDecision switch  
-            {  
-                Decision.ChangeSwordShield => WeaponSet.SwordShield,  
-                Decision.ChangeSwordSword => WeaponSet.SwordSword,  
-                Decision.ChangeTwoHandedSword => WeaponSet.TwoHandedSword
-            }; 
-        }
+        _turnInInfo.PlayerDefencePart = tactic < 0.33f ? 1f : 0f;
         
-        SendDataToServer(turnInInfo);
+        // 5. Не забываем проставить weaponSet, а то понадобится в HeroAnimation
+        SetWeaponSet(_turnInInfo.PlayerDecision);
+
+        SendDataToServer(_turnInInfo);
+    }
+
+    private void SetWeaponSet(Decision decision)
+    {
+        if (_turnInInfo.PlayerDecision != Decision.Attack)
+        {
+            PlayerWeaponSet = decision switch
+            {
+                Decision.ChangeSwordShield => WeaponSet.SwordShield,
+                Decision.ChangeSwordSword => WeaponSet.SwordSword,
+                Decision.ChangeTwoHandedSword => WeaponSet.TwoHandedSword
+            };
+        }
     }
 }

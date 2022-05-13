@@ -1,6 +1,3 @@
-using System.Linq;
-using UnityEngine;
-
 [System.Serializable]
 public struct PreCoeffs
 {
@@ -18,21 +15,21 @@ public class PlayerObject
     public string name;
 // не меняются в течении раунда
     public Item[] inventoryItems = new Item[3];
-    public Tweakers Tweakers { get; private set; }                  // Настройки балланса боёвки
+    public Tweakers Tweakers { get; private set; }                   // Настройки балланса боёвки
     public int roundsWon; 
     public int roundsLost;
 // меняются каждый ход
     //входные
     public WeaponSet weaponSet;
-    public float defencePart;                                       // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
+    public float defencePart;                                        // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
     public Decision decision;
     public bool dataTaken;
     //выходные
-    public PreCoeffs[] preCoeffs = new PreCoeffs[2];    /*{ get; }  sic сделал св-вом!*/                         // Предв. значения для рассчета урона
-    public ExchangeResult[] exchangeResults = new ExchangeResult[2]; /*{ get; }  sic*/                // Результаты ударов
-    public int[] gotDamages = new int[2];                         // Возможный получаемый урон на текущий уда
+    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                 // Предв. значения для рассчета урона
+    public ExchangeResult[] exchangeResults = new ExchangeResult[2]; // Результаты ударов
+    public int[] gotDamages = new int[2];                            // Возможный получаемый урон на текущий уда
 
-    public bool _dead;
+    public bool dead;
 
     public HP Hp { get; private set; }
     public Series Series { get; private set; }    
@@ -46,13 +43,14 @@ public class PlayerObject
 
     public void Reset()
     {
+        decision = Decision.No;
         weaponSet = WeaponSet.SwordShield;
         Tweakers = new Tweakers();
         if (name.Equals("bot")) Tweakers.AddLevelTweakers(roundsLost);
         Tweakers.AddInventoryTweakers(inventoryItems);
         Hp.SetStartHealth(Tweakers.StartingHealth);
         Series.ResetAll();
-        _dead = false;
+        dead = false;
     }
     
     public void CalculatePreCoeffs()

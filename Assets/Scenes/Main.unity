@@ -3055,7 +3055,7 @@ MonoBehaviour:
   _TMPtext: {fileID: 0}
   _text: {fileID: 0}
   _localizationToken: 2handed_sword
-  _soundType: 1
+  _soundType: 13
   _spriteType: 1
 --- !u!1 &548004603
 GameObject:
@@ -3224,7 +3224,7 @@ MonoBehaviour:
   _TMPtext: {fileID: 0}
   _text: {fileID: 0}
   _localizationToken: attack
-  _soundType: 1
+  _soundType: 13
   _spriteType: 1
 --- !u!1 &576968146
 GameObject:
@@ -3638,7 +3638,7 @@ MonoBehaviour:
   _TMPtext: {fileID: 0}
   _text: {fileID: 0}
   _localizationToken: sword_shield
-  _soundType: 1
+  _soundType: 13
   _spriteType: 1
 --- !u!1 &632425632
 GameObject:
@@ -5051,7 +5051,7 @@ MonoBehaviour:
   _TMPtext: {fileID: 0}
   _text: {fileID: 0}
   _localizationToken: sword_sword
-  _soundType: 1
+  _soundType: 13
   _spriteType: 1
 --- !u!1 &940922056 stripped
 GameObject:
@@ -5911,7 +5911,7 @@ MonoBehaviour:
   _TMPtext: {fileID: 0}
   _text: {fileID: 0}
   _localizationToken: change_weapon
-  _soundType: 1
+  _soundType: 13
   _spriteType: 1
 --- !u!1 &1050309665
 GameObject:
@@ -8670,14 +8670,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05bd5cdbeec3dbc4a9f13d1a49a37d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zeroZposition: 1.35
+  zeroYrotation: -180
+  stockXposition: -2.2
+  startRotation: 90
   m_change: 0
   m_toPosition: 0
   m_rotateToCenter: 0
   m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
   m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
   m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
-  line_speed: 1.2
-  angle_speed: 180
+  lineSpeed: 1.2
+  angleSpeed: 180
 --- !u!114 &1620955101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8691,8 +8695,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: {fileID: 234527708}
-  m_GetHit1Text: {fileID: 468706620}
-  m_GetHit2Text: {fileID: 2132725531}
+  getHit1Text: {fileID: 468706620}
+  getHit2Text: {fileID: 2132725531}
 --- !u!114 &1620955102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8711,7 +8715,7 @@ MonoBehaviour:
   m_SeriesOfBlocksStarFillImage: {fileID: 599530977}
   m_SeriesOfStrikesStarSlider: {fileID: 830487290}
   m_SeriesOfStrikesStarFillImage: {fileID: 721237644}
-  heroType: 0
+  heroType: 1
 --- !u!1 &1633097690
 GameObject:
   m_ObjectHideFlags: 0
@@ -11115,14 +11119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05bd5cdbeec3dbc4a9f13d1a49a37d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  zeroZposition: -1.5
+  zeroYrotation: 0
+  stockXposition: 2.2
+  startRotation: 270
   m_change: 0
   m_toPosition: 0
   m_rotateToCenter: 0
   m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
   m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
   m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
-  line_speed: 1.2
-  angle_speed: 180
+  lineSpeed: 1.2
+  angleSpeed: 180
 --- !u!114 &2120866719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11136,8 +11144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: {fileID: 221482035}
-  m_GetHit1Text: {fileID: 2050560245}
-  m_GetHit2Text: {fileID: 2002763508}
+  getHit1Text: {fileID: 2050560245}
+  getHit2Text: {fileID: 2002763508}
 --- !u!114 &2120866720
 MonoBehaviour:
   m_ObjectHideFlags: 0
