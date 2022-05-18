@@ -106,7 +106,7 @@ public class Server : MonoBehaviour, IServer
         
         Debug.Log("Локальный сервер: матч между " + player1MatchInfo.PlayerName +" и "+ player2MatchInfo.PlayerName +" начинается");
 
-        Invoke(nameof(StartNewRound), 3f);
+        Invoke(nameof(StartNewRound), ViewModel.StartDelay);
     }
     
     /*private PhotonPlayerObject StartMatch()                            // Вызывать в GameManager'е, вернуться в фотоне
@@ -207,14 +207,11 @@ public class Server : MonoBehaviour, IServer
             EndRoundAction?.Invoke(this, player2EndRoundInfo);
             
             if (match.matchWinner != null)
-            {
-                Invoke(nameof(EndMatch), 7);    // задержки согласовать с оными из ViewModel
-                return;
-            }
+                Invoke(nameof(EndMatch), ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f);    // +0.5 чтоб точно после отработок анимаций
             else // Иначе новый раунд
             {
                 match.roundNumber++;
-                Invoke(nameof(StartNewRound), 9);
+                Invoke(nameof(StartNewRound), 2*ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f);   
             }
         }
     }

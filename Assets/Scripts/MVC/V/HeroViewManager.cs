@@ -2,7 +2,7 @@
 using System;
 using System.Linq; 
 // Смена сетов оружия, инвенторий и изменение цвета/формы оружия
-public class HeroManager : MonoBehaviour
+public class HeroViewManager : MonoBehaviour
 {
     [SerializeField] protected Inventory inventory;                            // Инвенторий
     protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)

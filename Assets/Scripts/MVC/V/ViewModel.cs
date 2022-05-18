@@ -8,38 +8,31 @@ using UnityEngine.SceneManagement;
 // Интерфейс между ViewModel и view'хами. Его должен реализовать ViewModel. Ни Client, ни ViewModel не наследуют от Monobehaviour, а все View да, и висят на героях
 public interface IViewModel
 {
-    void OnTurnInDataReady (TurnInInfo turnInInfo); // Принять входные данные
-    //public event Action ExchangeEvent1;             // удар1 состоялся 
-    //public event Action ExchangeEvent2;             // удар2 состоялся
-    //public event Action ExchangeEndedEvent;         // весь сход закончен
-    // Или интерфейс IViewModel должен описывать, как общаться с ним из клиента?
-    void RestartPressed();
+    // Интерфейс IViewModel должен описывать, cудя по DI, как общаться с ViewModel (вернее, PresenterModel) из клиента...
 }
 
 public class ViewModel : IViewModel
 {
-    // Вообще, статические события лучше не юзать: подписываясь на них, мы создаем ссылки в статическом объекте, который не будет уничтожен,
-    // пока существует класс GameManager, то есть пока не закончится работа программы.
-    
-    // Хорошо бы вообще не знать о View'хах: HeroUI, HeroAnimation и пр. И общаться с ними с помощью событий...
-    // ... Но пока есть ссылки на все View, и общение с View через поля
+    // Хорошо бы вообще для ViewModel не знать о View'хах: HeroUI, HeroAnimation и пр.
+    // И общаться с ними с помощью событий или какого-то датабиндинга (UniRx?)
+    // ... Но здесь пока скорее PresenterModel, где есть ссылки на все View, и общение с View через поля
 
-    private readonly float startDelay = 3.5f;                     
-    private readonly float endDelay = 5f;                         
-    private readonly float deathDelay = 2.5f;                     
-    private readonly float attackDelay = 3f;                      
-    private readonly float changeDelay = 7.5f;
-    private WaitForSeconds _deathWait;                    // задержки понятного сопрограмме вида
-    private WaitForSeconds _startWait;                    // переведение в него из секунд состоится в ф-ии Init()                 
+    public const float StartDelay = 3.5f;                     
+    public const float EndDelay = 5f;                         
+    public const float DeathDelay = 2.5f;                     
+    private const float AttackDelay = 3f;                      
+    private const float ChangeDelay = 7.5f;
+    private WaitForSeconds _deathWait;                    
+    private WaitForSeconds _startWait;                                   
     private WaitForSeconds _endWait;
     private WaitForSeconds _attackWait;
     private WaitForSeconds _changeWait;
 
     private Client _client;
     // Views:
-    private CommonView _commonView;           // общее: общий текст, кнопки ввода, салют
-    private PlayerManager _playerManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
-    private EnemyManager _enemyManager;       // придумать другое название или вообще раскидать?
+    private CommonView _commonView;           // общее: общий текст, кнопки ввода, салют в конце
+    private PlayerViewManager _playerViewManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
+    private EnemyViewManager _enemyViewManager;       // придумать другое название или вообще раскидать?
     private HeroUI _playerUI;                 // тексты урона
     private HeroUI _enemyUI;
     private HPView _playerHP;                 // слайдеры здоровья
@@ -57,8 +50,8 @@ public class ViewModel : IViewModel
         _commonView.RestartButton.onClick.AddListener(RestartPressed);
         _commonView.SubscribeOnTurnInDataReady(OnTurnInDataReady);
         
-        _playerManager = MainGameManager.Instance.player.GetComponent<PlayerManager>();
-        _enemyManager = MainGameManager.Instance.enemy.GetComponent<EnemyManager>();
+        _playerViewManager = MainGameManager.Instance.player.GetComponent<PlayerViewManager>();
+        _enemyViewManager = MainGameManager.Instance.enemy.GetComponent<EnemyViewManager>();
 
         _playerUI = MainGameManager.Instance.player.GetComponent<HeroUI>();            
         _enemyUI = MainGameManager.Instance.enemy.GetComponent<HeroUI>();
@@ -70,21 +63,21 @@ public class ViewModel : IViewModel
         _enemySeries = MainGameManager.Instance.enemy.GetComponent<SeriesView>();
         
 
-        _deathWait = new WaitForSeconds(deathDelay);         
-        _startWait = new WaitForSeconds(startDelay);
-        _endWait = new WaitForSeconds(endDelay);
-        _attackWait = new WaitForSeconds(attackDelay);
-        _changeWait = new WaitForSeconds(changeDelay);
+        _deathWait = new WaitForSeconds(DeathDelay);         
+        _startWait = new WaitForSeconds(StartDelay);
+        _endWait = new WaitForSeconds(EndDelay);
+        _attackWait = new WaitForSeconds(AttackDelay);
+        _changeWait = new WaitForSeconds(ChangeDelay);
         
         SetPlayerName(_client.PlayerName);
         _commonView.WeaponSetButtonsObject.SetActive(false);
         _commonView.PlayersControlsCanvas.enabled = false;
 
-        _playerManager.weaponSet = _client.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
-        _enemyManager.weaponSet = _client.EnemyWeaponSet;
+        _playerViewManager.weaponSet = _client.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
+        _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
     }
 
-    public void OnTurnInDataReady(TurnInInfo turnInInfo)
+    private void OnTurnInDataReady(TurnInInfo turnInInfo)
     {
         _client.decision = turnInInfo.PlayerDecision;
 
@@ -162,7 +155,7 @@ public class ViewModel : IViewModel
         _commonView.RestartButtonGameObject.SetActive(true);
     }
 
-    public void RestartPressed()
+    private void RestartPressed()
     {
         GameSave.Save();
         if (GameManager.gameType != GameType.Single) Photon.Bolt.BoltLauncher.Shutdown();
@@ -191,17 +184,17 @@ public class ViewModel : IViewModel
         FitWeaponButtonsToWeaponSet();
         _commonView.PlayersControlsCanvas.enabled = false;
         // набор оружия в исх. щит-меч
-        _playerManager.enabled = true;
-        _enemyManager.enabled = true;
+        _playerViewManager.enabled = true;
+        _enemyViewManager.enabled = true;
         // не умирать
-        _playerManager.dead = _enemyManager.dead = false;
+        _playerViewManager.dead = _enemyViewManager.dead = false;
         // сообщение
         ChangeResultText("round".Localize() + roundNumber);
         // здоровье на максимум
         SetPlayerHP(playerStartHealth);
         SetEnemyHP(enemyStartHealth);
         // изменяем вид врага
-        if (_client.roundsWon > 0) _enemyManager.ChangeWeaponsView(_client.roundsWon - 1);
+        if (_client.roundsWon > 0) _enemyViewManager.ChangeWeaponsView(_client.roundsWon - 1);
         // анмацию в начало
         if (roundNumber != 1) SetStartPosition();
         // серии сбросить
@@ -249,11 +242,11 @@ public class ViewModel : IViewModel
             }*/
             {
                 // обновляем впоследствии покойный heroManager.weaponSet
-                _playerManager.weaponSet = _client.PlayerWeaponSet;
-                _enemyManager.weaponSet = _client.EnemyWeaponSet;
+                _playerViewManager.weaponSet = _client.PlayerWeaponSet;
+                _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
                 // основной запускатель анимаций и звуков
-                _playerManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
-                _enemyManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
+                _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
+                _enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
                 // обновляем здоровье
                 _playerHP.SetHealth(currentResults.PlayerHP);
                 _enemyHP.SetHealth(currentResults.EnemyHP);
@@ -268,9 +261,9 @@ public class ViewModel : IViewModel
                     else yield return _changeWait;                                                         
                 }
                 else yield return _changeWait;     //  точно какая-то смена
-                // основной запускатель - здесь обнуляет тексты, можно уже избавиться от _playerManager'ов
-                _playerManager.ExchangeEnded();
-                _enemyManager.ExchangeEnded();
+                // основной запускатель - здесь только обнуляет тексты ?можно уже избавиться от _playerManager'ов?
+                _playerViewManager.ExchangeEnded();
+                _enemyViewManager.ExchangeEnded();
 
                 if (dead) yield return true;
                 else 
@@ -283,8 +276,8 @@ public class ViewModel : IViewModel
     
     public IEnumerator RoundEnding(int roundNumber, string winner, string prize)                       // конец раунда
     {
-        _playerManager.enabled = false;
-        _enemyManager.enabled = false;
+        _playerViewManager.enabled = false;
+        _enemyViewManager.enabled = false;
         _playerAnim.enabled = false;       
         _enemyAnim.enabled = false;  
         //1. ждем анимацию смерти
@@ -297,11 +290,11 @@ public class ViewModel : IViewModel
         {
             yield return _deathWait;    //ждём еще одну m_DeathWait, ибо будем выдавать инвентарь
             
-            var item = _playerManager.AddPrize(prize);
+            var item = _playerViewManager.AddPrize(prize);
             if (item != null) ChangeResultText ("you_got".Localize() + prize.Localize());
             
-            // пока что так коряво, а надо бы от сервера писать полностью кому что
-            if (_enemyUI.Name.Equals("bot") && _client.roundsWon == 3) _enemyManager.AddPrize("ring_of_cunning", false);
+            // пока что так коряво, а надо бы от сервера писать полностью, кому что
+            if (_enemyUI.Name.Equals("bot") && _client.roundsWon == 3) _enemyViewManager.AddPrize("ring_of_cunning", false);
             
             /* //Добавим инвентарь в state - вернуться при фотоне
             if (gameType!=GameType.Single && a!=null)
@@ -310,7 +303,7 @@ public class ViewModel : IViewModel
             }*/
         }
         //4. Врагу тоже
-        if (winner == _enemyUI.Name) _enemyManager.AddPrize(prize, false);
+        if (winner == _enemyUI.Name) _enemyViewManager.AddPrize(prize, false);
 
         yield return _endWait;
         

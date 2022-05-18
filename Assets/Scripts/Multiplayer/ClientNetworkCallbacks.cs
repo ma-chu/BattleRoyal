@@ -6,8 +6,8 @@ using System.Linq;
 public class ClientNetworkCallbacks : GlobalEventListener
 { 
     private GameManager _gameManager;
-    private PlayerManager _playerManager; 
-    private EnemyManager _enemyManager;
+    private PlayerViewManager _playerViewManager; 
+    private EnemyViewManager _enemyViewManager;
 
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
    {
@@ -105,7 +105,7 @@ public class ClientNetworkCallbacks : GlobalEventListener
            string str = evnt.ItemName; 
            Debug.LogWarning(this.name + " Имя предмета инвентаря = " + str);
            Item item = AllItems.Instance.items.SingleOrDefault(s => s.Name == str);
-           if (item != null) _enemyManager.SetInventory(item);
+           if (item != null) _enemyViewManager.SetInventory(item);
        }
    }
 

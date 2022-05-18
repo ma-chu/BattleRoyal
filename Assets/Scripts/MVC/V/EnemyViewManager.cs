@@ -11,7 +11,7 @@ public struct WeaponChanges
     public Color color;
 }
 
-public class EnemyManager : HeroManager
+public class EnemyViewManager : HeroViewManager
 {
     [SerializeField] private WeaponChanges[] Weapons;               // изменения мешей и материалов оружия врага - в HEROManager!!!
 

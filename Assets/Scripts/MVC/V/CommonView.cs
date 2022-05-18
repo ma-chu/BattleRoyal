@@ -7,15 +7,15 @@ using UnityEngine.UI;
 
 public class CommonView : MonoBehaviour
 {
-    public Action<TurnInInfo> TurnDataReady;
+    private Action<TurnInInfo> _turnDataReady;
 
     public void SubscribeOnTurnInDataReady(Action<TurnInInfo> onTurnDataReady)    // возможно, не Action<TurnInInfo>, а EventHandler <TurnInInfo> c переописанием события
     {
-        TurnDataReady += onTurnDataReady;
+        _turnDataReady += onTurnDataReady;
     }
     
     [SerializeField] private Text resultText;                                     // текст для вывода "Игра окончена" и прочего
-    public string ResultText { get => resultText.text; set => resultText.text = value; }
+    public string ResultText { /*get => resultText.text; */set => resultText.text = value; }
 
     [SerializeField] private Button restartButton;
     public Button RestartButton => restartButton;                                 
@@ -53,35 +53,35 @@ public class CommonView : MonoBehaviour
     public void AttackPressed()                      
     {
         _decision = Decision.Attack;
-        SendDataToPresenter();
+        SendDataToViewModel();
     }
 
     public void SetSwordSword()
     {
         _decision = Decision.ChangeSwordSword;
-        SendDataToPresenter();
+        SendDataToViewModel();
     }
 
     public void SetSwordShield()
     {
         _decision = Decision.ChangeSwordShield;
-        SendDataToPresenter();
+        SendDataToViewModel();
     }
 
     public void SetTwoHandedSword()
     {
         _decision = Decision.ChangeTwoHandedSword;
-        SendDataToPresenter();
+        SendDataToViewModel();
     }
     
-    private void SendDataToPresenter()
+    private void SendDataToViewModel()
     {
         var t = new TurnInInfo()
         {
             PlayerDecision = _decision,
             PlayerDefencePart = _defencePart
         };
-        TurnDataReady?.Invoke(t);
+        _turnDataReady?.Invoke(t);
     }
     
     public IEnumerator Salute()

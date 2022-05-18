@@ -10,11 +10,11 @@ public class HeroAudio : MonoBehaviour
     private AudioSource _woundAudio;
     private ParticleSystem _woundParticles;
     
-    private HeroManager _heroManager;
+    private HeroViewManager _heroViewManager;
 
     private void Awake() 
     {
-        _heroManager = GetComponent<HeroManager>() as HeroManager;
+        _heroViewManager = GetComponent<HeroViewManager>() as HeroViewManager;
 
         _woundParticles = Instantiate(m_GetWoundPrefab).GetComponent<ParticleSystem>();    // порождаем инстанс префаба раны и берем компонент этого инстанса
         _woundAudio = _woundParticles.GetComponent<AudioSource>();                        // берём другой компонент (можно ссылаться на объект по его компоненту)
@@ -27,30 +27,30 @@ public class HeroAudio : MonoBehaviour
 
     private void OnEnable()                 
     {
-        if (_heroManager != null)
+        if (_heroViewManager != null)
         {
-            _heroManager.GetHitEvent += OnHit;
-            _heroManager.DeathEvent += OnDeath;
-            _heroManager.ChangeEvent += OnChange;
-            _heroManager.ToPositionEvent += OnToPosition;
-            _heroManager.ParryEvent += OnParry;
-            _heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-            _heroManager.BlockEvent += OnBlock;
-            _heroManager.EvadeEvent += OnEvade;
+            _heroViewManager.GetHitEvent += OnHit;
+            _heroViewManager.DeathEvent += OnDeath;
+            _heroViewManager.ChangeEvent += OnChange;
+            _heroViewManager.ToPositionEvent += OnToPosition;
+            _heroViewManager.ParryEvent += OnParry;
+            _heroViewManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+            _heroViewManager.BlockEvent += OnBlock;
+            _heroViewManager.EvadeEvent += OnEvade;
         }
     }
     private void OnDisable()    
     {
-        if (_heroManager != null)
+        if (_heroViewManager != null)
         {
-            _heroManager.GetHitEvent -= OnHit;
-            _heroManager.DeathEvent -= OnDeath;
-            _heroManager.ChangeEvent -= OnChange;
-            _heroManager.ToPositionEvent -= OnToPosition;
-            _heroManager.ParryEvent -= OnParry;
-            _heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-            _heroManager.BlockEvent -= OnBlock;
-            _heroManager.EvadeEvent -= OnEvade;
+            _heroViewManager.GetHitEvent -= OnHit;
+            _heroViewManager.DeathEvent -= OnDeath;
+            _heroViewManager.ChangeEvent -= OnChange;
+            _heroViewManager.ToPositionEvent -= OnToPosition;
+            _heroViewManager.ParryEvent -= OnParry;
+            _heroViewManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+            _heroViewManager.BlockEvent -= OnBlock;
+            _heroViewManager.EvadeEvent -= OnEvade;
         }
     }
 
@@ -59,17 +59,17 @@ public class HeroAudio : MonoBehaviour
         float delay = 0f;
         if (strikeNumber == 2) delay = 0.3f;
         
-        _woundParticles.transform.position = _heroManager.transform.position;   // перемещаем рану на героя
+        _woundParticles.transform.position = _heroViewManager.transform.position;   // перемещаем рану на героя
         //m_WoundParticles.gameObject.SetActive(true);                          // активируем
         _woundParticles.Play();                                                // воспроизводим систему частиц
         
-        _woundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, _heroManager.heroType);
+        _woundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, _heroViewManager.heroType);
         _woundAudio.PlayDelayed(delay);                                       // воспроизводим аудио крика боли
 
     }
     private void OnDeath()
     {
-        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, _heroManager.heroType);
+        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, _heroViewManager.heroType);
         m_FirstStrikeHeroAudio.PlayDelayed(1.2f);
     }
     private void OnChange()         

@@ -28,37 +28,37 @@ public class HeroUI : MonoBehaviour
         if (isRegen[1]) regenValues.Insert(0,really * Series.SeriesBlockStepValue);
     }
     
-    private HeroManager _heroManager;
+    private HeroViewManager _heroViewManager;
 
     private void Awake()
     {
-        _heroManager = GetComponent<HeroManager>() /*as HeroManager*/;
+        _heroViewManager = GetComponent<HeroViewManager>() /*as HeroManager*/;
     }
 
     private void OnEnable()
     {
-        if (_heroManager != null)
+        if (_heroViewManager != null)
         {
-            _heroManager.ExchangeEndedEvent += OnExchangeEnded;
-            _heroManager.GetHitEvent += OnHit;
-            _heroManager.ParryEvent += OnParry;
-            _heroManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-            _heroManager.BlockEvent += OnBlock;
-            _heroManager.EvadeEvent += OnEvade;
+            _heroViewManager.ExchangeEndedEvent += OnExchangeEnded;
+            _heroViewManager.GetHitEvent += OnHit;
+            _heroViewManager.ParryEvent += OnParry;
+            _heroViewManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+            _heroViewManager.BlockEvent += OnBlock;
+            _heroViewManager.EvadeEvent += OnEvade;
         }
         getHit1Text.text = string.Empty;
         getHit2Text.text = string.Empty;
     }
     private void OnDisable()
     {
-        if (_heroManager != null)
+        if (_heroViewManager != null)
         {
-            _heroManager.ExchangeEndedEvent -= OnExchangeEnded;
-            _heroManager.GetHitEvent -= OnHit;
-            _heroManager.ParryEvent -= OnParry;
-            _heroManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-            _heroManager.BlockEvent -= OnBlock;
-            _heroManager.EvadeEvent -= OnEvade;
+            _heroViewManager.ExchangeEndedEvent -= OnExchangeEnded;
+            _heroViewManager.GetHitEvent -= OnHit;
+            _heroViewManager.ParryEvent -= OnParry;
+            _heroViewManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+            _heroViewManager.BlockEvent -= OnBlock;
+            _heroViewManager.EvadeEvent -= OnEvade;
         }
     }
 

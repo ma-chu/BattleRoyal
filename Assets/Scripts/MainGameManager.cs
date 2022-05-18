@@ -40,6 +40,6 @@ public class MainGameManager : MonoBehaviour
     {
         _playerClient = new PlayerClient();
         var playerName = PlayerPrefs.GetString("username");
-        _playerClient.Init(playerName);
+        _playerClient.Init(playerName /*, new ViewModel*/);
     }
 }

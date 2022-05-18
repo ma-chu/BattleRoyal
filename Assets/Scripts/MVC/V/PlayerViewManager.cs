@@ -1,4 +1,4 @@
-﻿public class PlayerManager : HeroManager
+﻿public class PlayerViewManager : HeroViewManager
 {
     protected override void Awake()
     {

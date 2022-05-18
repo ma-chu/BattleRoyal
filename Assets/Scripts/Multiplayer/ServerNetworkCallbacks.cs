@@ -20,8 +20,8 @@ public class ServerNetworkCallbacks : GlobalEventListener
      //На тек. момент  токены не используются */
 
     private GameManager _gameManager;
-    private PlayerManager _playerManager;
-    private EnemyManager _enemyManager;
+    private PlayerViewManager _playerViewManager;
+    private EnemyViewManager _enemyViewManager;
     
     private void Awake()
     {
@@ -134,7 +134,7 @@ public class ServerNetworkCallbacks : GlobalEventListener
             string str = evnt.ItemName; 
             Debug.LogWarning(this.name + " Имя предмета инвентаря = " + str);
             Item item = AllItems.Instance.items.SingleOrDefault(s => s.Name == str);
-            if (item != null) _enemyManager.SetInventory(item);
+            if (item != null) _enemyViewManager.SetInventory(item);
         }
     }
     

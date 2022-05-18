@@ -4,14 +4,14 @@ using EF.Localization;
 
 public class PlayerClient : Client
 {
-    private ViewModel _viewModel;        // Мост. _viewModel будет запускать анимации, менять тексты и петь звуки
+    private ViewModel _viewModel /*1 IViewModel*/;        // Мост. _viewModel будет запускать анимации, менять тексты и петь звуки
 
     bool[] playerSeriesSet = new bool[3];
     bool[] enemySeriesSet = new bool[3];
     
-    public override void Init(string name)
+    public override void Init(string name /*2 , vm ViewModel*/)
     {
-        _viewModel = new ViewModel();
+        _viewModel = new ViewModel() /*3 vm*/;
         _viewModel.Init(this);
         
         base.Init(name);

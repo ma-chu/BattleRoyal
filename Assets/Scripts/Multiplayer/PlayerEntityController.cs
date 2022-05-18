@@ -2,7 +2,7 @@
 
 public class PlayerEntityController : EntityBehaviour<IEFPlayerState>
 {
-    private PlayerManager _playerManager;
+    private PlayerViewManager _playerViewManager;
     private GameManager _gameManager;
     //private EnemyManager _enemyManager;
 
