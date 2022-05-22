@@ -10,7 +10,7 @@ using UdpKit.Platform.Photon;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
-#if UNITY_EDITOR                // скрипт запущен из редактора (или как приложение?)
+#if UNITY_EDITOR               
 using UnityEditor;
 #endif
 
@@ -50,7 +50,6 @@ public class Menu : GlobalEventListener
         setUsernamePanel.SetActive(false);
     }
     
-    // used from buttons
     public void StartSinglePlayer()
     {
         /*GameManager.gameType = GameType.Single;
@@ -76,8 +75,7 @@ public class Menu : GlobalEventListener
     
     public void StartServer()
     {
-        /*GameManager.gameType = GameType.Server;
-        BoltLauncher.StartServer();                // A1. Запуск Сервера*/
+        BoltLauncher.StartServer();                // A1. Запуск Сервера
         GameManager.Instance.StartGame(GameType.Server);
     }
     
@@ -87,20 +85,26 @@ public class Menu : GlobalEventListener
         BoltLauncher.StartClient();                // B1. Запуск Клиента
     }
 
-    // ф-ия-событие, когда сервер болта стартанул: будет загружать всем клиентам сцену Main
-    public override void BoltStartDone()           // A2. Событие на сервере/клиенте "Болт Стартанул". Здесь: на сервере
+    // Хотел было раскидать след. далее фии по ServerPhotonAdapter и ClientPhotonAdapter, но пока оставил здесь...
+    // ф-ия-событие, когда сервер/клиент болта стартанул: будет загружать всем клиентам сцену Main
+    public override void BoltStartDone()           // A-B2. Событие на сервере/клиенте "Болт Стартанул".
     {
         _userName =  PlayerPrefs.GetString("username") ?? "Joe Doe";
+        
         if (BoltNetwork.IsServer)
         {
             Debug.LogWarning("connections max = " + BoltMatchmaking.CurrentSession.ConnectionsMax);
             BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");    // A3. Создать сессию (матч, room?) Третьим параметром можно передать токен
         }
+        
+        if (BoltNetwork.IsClient) GameManager.Instance.StartGame(GameType.Client);
     }
     
-    // ф-ия вызывается (на клиенте?), когда создается/разрушается сессия (room) и затем каждые несколько секунд
-    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)    // B2. Событие на клиенте "список сессий обновился"
+    
+    // ф-ия вызывается на клиенте, когда создается/разрушается сессия (room) и затем каждые несколько секунд
+    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)    // B3. Событие на клиенте "список сессий обновился"
     {
+        Debug.Log("SessionListUpdated");
         ClearSessions();
 
         foreach (var session in sessionList)
@@ -114,7 +118,7 @@ public class Menu : GlobalEventListener
         serverListDropdown.RefreshShownValue();
     }
 
-    public void JoinSession(int photonSession)    // B3. Присоединиться к матчу
+    public void JoinSession(int photonSession)    // B4. Присоединиться к матчу
     {
         GameManager.gameType = GameType.Client;
         

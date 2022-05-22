@@ -9,9 +9,9 @@ using UnityEngine;
 // Controller = Client.cs - обработка ввода/вывода игрока, приведение его к интерфейсу сервера
 // View = UI
 
-// 1. В режиме сингл HeroManager создаем сервер и 2 клиентов: player & AI
-// 2. В режиме мультисервер HeroManager создаем сервер, адаптер сервера и 1 клиент-player
-// 3. В режиме мультиклиент HeroManager создаем 1 клиент-player и адаптер клиента
+// 1. В режиме сингл создаем сервер и 2 клиентов: player & AI
+// 2. В режиме мультисервер создаем сервер, адаптер сервера и 1 клиент-player
+// 3. В режиме мультиклиент создаем 1 клиент-player и адаптер клиента
 
 // Если существуют сетевые клиенты, реализовать для них паттерн адаптер photon->IServer в отдельном классе
 // (будет отлавливать события сервера и паковать их в исх. события photon'а, а вх. события photon'а в методы сервера)
@@ -45,17 +45,7 @@ public class Server : MonoBehaviour, IServer
     [SerializeField] private List<PlayerObject> players = new List<PlayerObject>();
 
     [SerializeField] private MatchInfo match = new MatchInfo(4);
-   
-    /* Раскомментировать при работе с фотоном
-    public static Photon.Bolt.BoltEntity myBoltEntity;       // это точно лишнее        
-    public static Photon.Bolt.BoltEntity enemyBoltEntity;
-    private Photon.Bolt.IEFPlayerState _enemyState;
-    public static bool ClientConnected = false;              // а с этим разобраться
-    public static bool ClientDisconnected = false;
-    [HideInInspector] public bool doServerExchange;
-    [HideInInspector] public bool doClientExchange;
-*/
-    
+
     public event EventHandler<string> JoinedAction;
     public void Join(string name, EventHandler<string> onJoined)
     {
@@ -66,7 +56,7 @@ public class Server : MonoBehaviour, IServer
         JoinedAction += onJoined;
         JoinedAction?.Invoke(this, name);  // по событию клиент вызывает SubscribeOnStartMatch, SubscribeOnEndRound, ... и SubscribeOnResultsReady
         
-        if (players.Count == 2) StartMatch();    // естественно, первый играет со вторым
+        if (players.Count == 2) StartMatch();                // естественно, первый играет со вторым
     }
     
     public void SubscribeOnStartMatch(EventHandler<StartMatchInfo> onStartMatch) => StartMatchAction += onStartMatch;
@@ -108,13 +98,7 @@ public class Server : MonoBehaviour, IServer
 
         Invoke(nameof(StartNewRound), ViewModel.StartDelay);
     }
-    
-    /*private PhotonPlayerObject StartMatch()                            // Вызывать в GameManager'е, вернуться в фотоне
-    {
-        return PhotonPlayerObjectRegisty.ServerPhotonPlayer;    // пример
-    }
-    */
-    
+
     public void TakeDecision(string name, TurnInInfo turnInInfo)
     {
         var player = players.Find(pl=> pl.name == name);
@@ -192,9 +176,10 @@ public class Server : MonoBehaviour, IServer
             {
                 PlayerName = match.player1.name,
                 roundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
-                prize = (match.roundWinner == match.player1 && prize != null)? prize.Name : string.Empty
+                prize = prize != null ? prize.Name : string.Empty
             };
-            if (match.roundWinner == match.player2 && match.player1.name == "bot" && match.player1.roundsLost == 3) 
+            // боту выдать кольцо перед последним раундом
+            if (match.roundWinner == match.player2 && match.player1.name == "bot" && match.player1.roundsLost == match.numRoundsToWin-1) 
                 match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "ring_of_cunning"));
             EndRoundAction?.Invoke(this, player1EndRoundInfo);
                 
@@ -202,7 +187,7 @@ public class Server : MonoBehaviour, IServer
             {
                 PlayerName = match.player2.name,
                 roundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
-                prize = (match.roundWinner == match.player2 && prize != null)? prize.Name : string.Empty
+                prize = prize != null ? prize.Name : string.Empty
             };
             EndRoundAction?.Invoke(this, player2EndRoundInfo);
             
@@ -318,26 +303,22 @@ public class Server : MonoBehaviour, IServer
             match.player1.gotDamages[0] = (int) match.player2.preCoeffs[0].damage;
             match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[0]);
         }
-        //else match.player1.gotDamages[0] = 0;
         if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
         {
             match.player2.gotDamages[0] = (int) match.player1.preCoeffs[0].damage;
             match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[0]);
         }
-        //else match.player2.gotDamages[0] = 0;
         // Удар 2
         if (match.player1.exchangeResults[1] == ExchangeResult.GetHit)
         {
             match.player1.gotDamages[1] = (int) match.player2.preCoeffs[1].damage;
             match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[1]);
         }
-        //else match.player1.gotDamages[1] = 0;
         if (match.player2.exchangeResults[1] == ExchangeResult.GetHit)
         {
             match.player2.gotDamages[1] = (int) match.player1.preCoeffs[1].damage;
             match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[1]);
         }
-        //else match.player2.gotDamages[1] = 0;
     }
 
     private void AddSeries()
@@ -430,7 +411,7 @@ public class Server : MonoBehaviour, IServer
         return null;
     }
     
-    public Item GiveOutPrize(PlayerObject player)       
+    private Item GiveOutPrize(PlayerObject player)       
     {
         int item;
         do item = player.AddInventoryItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
@@ -441,18 +422,5 @@ public class Server : MonoBehaviour, IServer
 
     private void Awake() => _instance ??= this;
 
-    public void Disable() =>  enabled = false;                 
-
-    /* Пока закомментирую, когда вернусь к фотону, разберусь
-    private void Update()
-    {
-        if (ClientDisconnected)
-        {
-            StopAllCoroutines();
-            resultText.text = "Partner Disconnected!";
-            // остановить болт
-            player.RestartPressed();
-        }
-    }
-    */
+    public void Disable() =>  enabled = false;
 }

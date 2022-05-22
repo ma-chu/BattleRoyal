@@ -92,6 +92,7 @@ public class PlayerClient : Client
 
     protected override void OnStartMatch(object o, StartMatchInfo startMatchInfo)
     {
+        if (!startMatchInfo.PlayerName.Equals(PlayerName)) return;
         base.OnStartMatch(o, startMatchInfo);
         _viewModel.SetEnemyName(startMatchInfo.EnemyName);
         _viewModel.SetPlayerName(startMatchInfo.PlayerName);

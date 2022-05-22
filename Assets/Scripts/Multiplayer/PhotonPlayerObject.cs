@@ -1,10 +1,13 @@
 ﻿using Photon.Bolt;
 using UnityEngine;
+
+// Чтобы была репликация и пр. нужна BoltEntity. 
+// Пока же PhotonPlayerObject будет хранить лишь id соединения и имя
 public class PhotonPlayerObject
 {
-    public BoltEntity character;
+//    public BoltEntity character;
     public BoltConnection connection;        // null, если игрок подключается к серверу с сервера же
-
+    public string name;
     public bool IsServer
     {
         get { return connection == null; }
@@ -14,7 +17,7 @@ public class PhotonPlayerObject
         get { return connection != null; }
     }
     
-    public void Spawn()                    // пока не буду использовать, понадобится, если придется контролировать сущности сервером (клиент изменяет их с помощью команд серверу)
+/*    public void Spawn()                    // пока не буду использовать, понадобится, если придется контролировать сущности сервером (клиент изменяет их с помощью команд серверу)
     {
         if (!character && IsServer)
         {
@@ -27,10 +30,15 @@ public class PhotonPlayerObject
             else
             {
                 character.AssignControl(connection);
-            }*/
+            }*//*
         }
 
         // teleport entity to a random spawn position
         //character.transform.position = RandomPosition();
+    }
+*/
+    public void SetName(string name)
+    {
+        this.name = name;
     }
 }

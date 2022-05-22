@@ -4,11 +4,11 @@ using System.Linq;
 // Смена сетов оружия, инвенторий и изменение цвета/формы оружия
 public class HeroViewManager : MonoBehaviour
 {
-    [SerializeField] protected Inventory inventory;                            // Инвенторий
-    protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; // ссылки на солты пунктов инвентория этого героя (графические объекты)
+    [SerializeField] protected Inventory inventory;                            
+    protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; 
 
-    public bool dead;                                                          // герой мёртв 
-    public WeaponSet weaponSet = WeaponSet.SwordShield;           // Какой набор оружия использовать
+    public bool dead;                                                          
+    public WeaponSet weaponSet = WeaponSet.SwordShield;           
     [HideInInspector] public Heroes heroType;
 
     // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений

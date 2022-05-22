@@ -48,14 +48,16 @@ public class GameManager : MonoBehaviour {
                 break;
             case GameType.Server:
                 server = Server.Instance;
-                new ServerPhotonAdapter();
+                //gameObject.AddComponent<ServerPhotonAdapter>();
+                //new ServerPhotonAdapter();
                 break;
             case GameType.Client:
                 Server.Instance.Disable();
-                server = gameObject.AddComponent<ClientPhotonAdapter>();
+                //server = gameObject.AddComponent<ClientPhotonAdapter>();
+                server = ClientPhotonAdapter.Instance;
                 break;
         }
     }
     
-// Как клиент распознает, сетевой он или нет?? 
+// Как клиент распознает, сетевой он или нет?? А никак. Не нужно ему это знать
 }

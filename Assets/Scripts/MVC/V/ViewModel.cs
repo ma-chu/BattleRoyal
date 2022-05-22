@@ -69,12 +69,14 @@ public class ViewModel : IViewModel
         _attackWait = new WaitForSeconds(AttackDelay);
         _changeWait = new WaitForSeconds(ChangeDelay);
         
-        SetPlayerName(_client.PlayerName);
+        //SetPlayerName(_client.PlayerName);
         _commonView.WeaponSetButtonsObject.SetActive(false);
         _commonView.PlayersControlsCanvas.enabled = false;
 
         _playerViewManager.weaponSet = _client.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
         _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
+        
+        SetStartPosition();
     }
 
     private void OnTurnInDataReady(TurnInInfo turnInInfo)
@@ -168,7 +170,7 @@ public class ViewModel : IViewModel
     public IEnumerator GameStarting()                  // начало игры
     {
         _commonView.ResultText = String.Format("{0} {1} {2}", "Defeat".Localize(), Client.NumRoundsToWin, "to_win".Localize());
-        SetStartPosition();
+        //SetStartPosition();
         yield return _startWait;                        
     }
     

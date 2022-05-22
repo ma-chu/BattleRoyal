@@ -2,9 +2,7 @@
 {
     protected override void Awake()
     {
-        base.Awake();                                               
-
-        //inventory.CloseItemDescription();                      
+        base.Awake();
 
         heroType = Heroes.Player;
     }

@@ -70,4 +70,9 @@ public static class PhotonPlayerObjectRegisty
 
         return (PhotonPlayerObject) connection.UserData;
     }
+    
+    public static PhotonPlayerObject GetPlayer(string playerName)
+    {
+        return players.Find(pl=> pl.name.Equals(playerName));
+    }
 }

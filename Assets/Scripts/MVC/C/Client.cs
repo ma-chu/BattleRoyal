@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using EF.Localization;
-using EF.Sounds;
-using UnityEngine;
 
 /* Существует 2 типа клиентов: игрок (реализация клиента локального и удаленного игроков одна и та же) и AI
   При этом 3 типа игры:
@@ -118,8 +114,8 @@ public class Client
         if (!e.Equals(PlayerName)) return;
         
         _server.SubscribeOnStartMatch(OnStartMatch);
-        _server.SubscribeOnResultsReady(OnResultsReady);
         _server.SubscribeOnStartRound(OnStartRound);
+        _server.SubscribeOnResultsReady(OnResultsReady);
         _server.SubscribeOnEndRound(OnEndRound);
         _server.SubscribeOnEndMatch(OnEndMatch);
     }
@@ -156,7 +152,7 @@ public class Client
         
         // 3. Сам процесс хода
         MakeTurn(roundsLost);
-        // AI: Определяется с действие бота (nicety - уровень интеллекта врага) /+ вызвать SendDataToServer()/
+        // AI: Определяется с действием бота (nicety - уровень интеллекта врага) /+ вызывает SendDataToServer()/
         // Player:  через ViewModel отображает анимации, звуки и пр., ожидает TurnInInfo с кнопок
     }
 
