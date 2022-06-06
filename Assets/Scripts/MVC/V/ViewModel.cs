@@ -222,58 +222,38 @@ public class ViewModel : IViewModel
     {
         ChangeResultText(string.Empty);                         // 1. Очистить информационное сообщение
         
-        //while (!OneHeroLeft())                                  // 2. Играем раунд (пропускаем такты), пока кто-то не умрет
-        //{
-        //1. Разблокировать кнопки управления игроку       
-        /*фотон if (!doServerExchange && !doClientExchange)*/ //_commonView.PlayersControlsCanvas.enabled = true;
-
-        
-            //2. При одиночной игре определить решение врага: удар или смена оружия
-            //if (gameType == GameType.Single && enemy.decision == Decision.No)
-            //{
-            //    MakeSinglePlayerEnemyDecision(HeroManager.player_countRoundsWon); 
-            //}
-            //3. Ожидать действие игрока и врага: удара или смены оружия
-            /*if (
-                player.decision==Decision.No || enemy.decision==Decision.No
-                || gameType == GameType.Server && !doServerExchange
-                || gameType == GameType.Client && !doClientExchange)
-            {
-                yield return null;   // Решения еще нет - заканчиваем этот такт (и почему-то не переходим сразу к началу корутины, а проходим её тело до конца...)
-                //Debug.Log("Why am I displaying?"); // А вот так работает yield return null - такт проходится до конца
-            }*/
-            {
+        {
                 // обновляем впоследствии покойный heroManager.weaponSet
-                _playerViewManager.weaponSet = _client.PlayerWeaponSet;
-                _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
+            _playerViewManager.weaponSet = _client.PlayerWeaponSet;
+            _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
                 // основной запускатель анимаций и звуков
-                _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
-                _enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
+            _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
+            _enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
                 // обновляем здоровье
-                _playerHP.SetHealth(currentResults.PlayerHP);
-                _enemyHP.SetHealth(currentResults.EnemyHP);
+            _playerHP.SetHealth(currentResults.PlayerHP);
+            _enemyHP.SetHealth(currentResults.EnemyHP);
                 // кнопки выкл
-                _commonView.PlayersControlsCanvas.enabled = false;
+            _commonView.PlayersControlsCanvas.enabled = false;
                 // задержка на анимацмю смерти/атаки/смены
-                var dead = currentResults.PlayerHP < 0 || currentResults.EnemyHP < 0;
-                if (dead) yield return _deathWait;
-                else if (_client.decision == Decision.Attack)
-                {
-                    if (currentResults.EnemyDecision == Decision.Attack) yield return _attackWait;                       
-                    else yield return _changeWait;                                                         
-                }
-                else yield return _changeWait;     //  точно какая-то смена
-                // основной запускатель - здесь только обнуляет тексты ?можно уже избавиться от _playerManager'ов?
-                _playerViewManager.ExchangeEnded();
-                _enemyViewManager.ExchangeEnded();
-
-                if (dead) yield return true;
-                else 
-                {
-                    _commonView.PlayersControlsCanvas.enabled = true;    // кнопки вкл
-                    yield return null;  // заканчиваем этот такт (и не переходим к концу корутины)
-                }
+            var dead = currentResults.PlayerHP < 0 || currentResults.EnemyHP < 0;
+            if (dead) yield return _deathWait;
+            else if (_client.decision == Decision.Attack)
+            {
+                if (currentResults.EnemyDecision == Decision.Attack) yield return _attackWait;                       
+                else yield return _changeWait;                                                         
             }
+            else yield return _changeWait;     //  точно какая-то смена
+                // основной запускатель - здесь только обнуляет тексты ?можно уже избавиться от _playerManager'ов?
+            _playerViewManager.ExchangeEnded();
+            _enemyViewManager.ExchangeEnded();
+
+            if (dead) yield return true;
+            else 
+            {
+                _commonView.PlayersControlsCanvas.enabled = true;    // кнопки вкл
+                yield return null;  // заканчиваем этот такт (и не переходим к концу корутины)
+            }
+        }
     }
     
     public IEnumerator RoundEnding(int roundNumber, string winner, string prize)                       // конец раунда
@@ -297,24 +277,10 @@ public class ViewModel : IViewModel
             
             // пока что так коряво, а надо бы от сервера писать полностью, кому что
             if (_enemyUI.Name.Equals("bot") && _client.roundsWon == 3) _enemyViewManager.AddPrize("ring_of_cunning", false);
-            
-            /* //Добавим инвентарь в state - вернуться при фотоне
-            if (gameType!=GameType.Single && a!=null)
-            {
-                myBoltEntity.GetState<Photon.Bolt.IEFPlayerState>().InventoryItem = a;
-            }*/
         }
         //4. Врагу тоже
         if (winner == _enemyUI.Name) _enemyViewManager.AddPrize(prize, false);
 
         yield return _endWait;
-        
-        /* вернуться при фотоне
-        player.m_dead = false;
-        enemy.m_dead = false;
-
-        doClientExchange = false;
-        doServerExchange = false;
-        */
     }
 }

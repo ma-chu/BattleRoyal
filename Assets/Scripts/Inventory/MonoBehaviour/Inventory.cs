@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
 
     // Где выводится информация о предмете при клике на него
     [SerializeField] private GameObject itemDescriptionObject;// объект-родитель (холст), содержащий все эти поля (для вкл/выкл информации)
-    private Image itemImage;                                 // картинка для вывода изо предмета инвентаря
+    [SerializeField] private Image itemImage;                 // картинка для вывода изо предмета инвентаря
     private Text itemName;                                   // текст для вывода имени предмета инвентаря
     private Text itemDescription;                            // текст для вывода описания предмета инвентаря
     private Canvas itemCanvas;
@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     
     public void Awake()
     {
-        itemImage = itemDescriptionObject.GetComponentInChildren<Image>();
+        //itemImage = itemDescriptionObject.GetComponentInChildren<Image>();
         itemName = itemDescriptionObject.GetComponentsInChildren<Text>()[1];            // почему этот в массиве первый, а следующий нулевой? Потому что тот выше в иерархии
         itemDescription = itemDescriptionObject.GetComponentsInChildren<Text>()[0];
         itemCanvas = itemDescriptionObject.GetComponent<Canvas>();

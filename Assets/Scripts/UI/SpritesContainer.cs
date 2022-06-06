@@ -9,6 +9,7 @@ namespace EF.UI
     public enum SpriteTypes 
     {
         ButtonImage,
+        ButtonPressedImage,
         None
     }
     

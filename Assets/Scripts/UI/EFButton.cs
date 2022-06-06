@@ -12,7 +12,7 @@ namespace EF.UI
 {
     public class EFButton : EFBaseUI
 {
-    public Action Listener { get; set; }                    // пока что дополнительно к листенеру unity
+    public Action Listener { get; set; }                    
     public static event Action<SoundTypes> ClickSound;      // звук для всех кнопок
     //public static event Action<EFButton> TutorialAction;  // еще что-нибудь для всех кнопок, но с передачей своего инстанса, например, можно добавить туториал
     
@@ -24,7 +24,7 @@ namespace EF.UI
     [SerializeField] private Text _text;
     [SerializeField] private string _localizationToken;
     [SerializeField] private SoundTypes _soundType;
-    [SerializeField] private SpriteTypes _spriteType;
+    //[SerializeField] private SpriteTypes _spriteType;
   
     protected virtual string Text
     {
@@ -69,7 +69,7 @@ namespace EF.UI
             _button.onClick.AddListener(OnClick);
         }
 
-        Sprite = SpritesContainer.GetSprite(_spriteType);
+        //Sprite = SpritesContainer.GetSprite(SpriteTypes.ButtonImage);
     }
         
     public void SetListener(Action listener)
@@ -85,9 +85,9 @@ namespace EF.UI
         Listener?.Invoke();
         
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
-        AnimateScale(1.5f, 0.5f);
-        AnimateRotation(5f, .25f);
-        AnimatePosition(RectTrans.anchoredPosition + new Vector2(20, 0), 0.5f,
+        AnimateScale(1.3f, 0.5f);
+        AnimateRotation(1.5f, .25f);
+        AnimatePosition(RectTrans.anchoredPosition + new Vector2(15, 0), 0.5f,
             () => { ; } /*Debug.Log("Position Animated!")*/);
     }
 

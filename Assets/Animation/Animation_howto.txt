@@ -1,6 +1,6 @@
-Чтобы управлять руками изменял следующие свойства:
-1. Animator.Right(Left) Forearm Stretch - выпрямление локтя,
-2. Animator.Right(Left) Arm Front-Back - отведение/приведение в плече,
-3. Animator.Right(Left) Arm Twist In-Out - вращение в плече.
-4. Animator.Right(Left) Arm Twist Down-up - вверх/вниз.
-+. Animator.Right(Left) Shoulder Front-Back - отведение/приведение в лопатке - точно не помню
+Р§С‚РѕР±С‹ СѓРїСЂР°РІР»СЏС‚СЊ СЂСѓРєР°РјРё РёР·РјРµРЅСЏР» СЃР»РµРґСѓСЋС‰РёРµ СЃРІРѕР№СЃС‚РІР°:
+1. Animator.Right(Left) Forearm Stretch - РІС‹РїСЂСЏРјР»РµРЅРёРµ Р»РѕРєС‚СЏ,
+2. Animator.Right(Left) Arm Front-Back - РѕС‚РІРµРґРµРЅРёРµ/РїСЂРёРІРµРґРµРЅРёРµ РІ РїР»РµС‡Рµ,
+3. Animator.Right(Left) Arm Twist In-Out - РІСЂР°С‰РµРЅРёРµ РІ РїР»РµС‡Рµ.
+4. Animator.Right(Left) Arm Twist Down-up - РІРІРµСЂС…/РІРЅРёР·.
++. Animator.Right(Left) Shoulder Front-Back - РѕС‚РІРµРґРµРЅРёРµ/РїСЂРёРІРµРґРµРЅРёРµ РІ Р»РѕРїР°С‚РєРµ - С‚РѕС‡РЅРѕ РЅРµ РїРѕРјРЅСЋ

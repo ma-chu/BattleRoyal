@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System;
-using  System.Collections.Generic;
-using System.Linq; // для List
+using System.Collections.Generic;
+using System.Linq;
 using Photon.Bolt;
 using Photon.Bolt.Matchmaking;
 using UdpKit;
 using UdpKit.Platform.Photon;
-//using UnityEngine.Experimental.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;

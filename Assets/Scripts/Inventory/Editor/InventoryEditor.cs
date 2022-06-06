@@ -24,7 +24,8 @@ public class InventoryEditor : Editor
     private const string inventoryPropseriesStarName = "seriesStar";
     private SerializedProperty itemDescriptionObjectProperty;
     private const string inventoryPropitemDescriptionObjectName = "itemDescriptionObject";
-  
+    private const string inventoryPropitemNamePropertyName = "itemImage";
+
     private void OnEnable ()
     {
         // Cache the SerializedProperties.
@@ -32,6 +33,7 @@ public class InventoryEditor : Editor
         itemsProperty = serializedObject.FindProperty (inventoryPropItemsName);
         seriesStarProperty = serializedObject.FindProperty(inventoryPropseriesStarName);   
         itemDescriptionObjectProperty = serializedObject.FindProperty(inventoryPropitemDescriptionObjectName);
+        itemNameProperty = serializedObject.FindProperty(inventoryPropitemNamePropertyName);
     }
 
     // в редакторе по-умолчанию этот метод вызывается по умалчанию, а в кастомном нет /вызывается каждый фрейм/
@@ -47,6 +49,7 @@ public class InventoryEditor : Editor
         }
 
         EditorGUILayout.PropertyField(itemDescriptionObjectProperty); 
+        EditorGUILayout.PropertyField(itemNameProperty);
         EditorGUILayout.PropertyField(seriesStarProperty);     
 
         // Push all the information from the serializedObject back into the target.
