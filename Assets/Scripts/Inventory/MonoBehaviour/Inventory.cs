@@ -29,13 +29,11 @@ public class Inventory : MonoBehaviour
     // Уйдет в сервер? Нет, там своя аналогичная ф-ия
     public int AddItem(Item itemToAdd)                     // поместить пункт в слот инвентория
     {
-        // Go through all the item slots...
         for (int i = 0; i < items.Length; i++)
         {
             if (items[i] == itemToAdd) return -2;           // такой предмет уже есть - не добавляем
-            if (items[i] == null)                           // ... if the item slot is empty...
+            if (items[i] == null)                          
             {
-                // ... set it to the picked up item and set the image component to display the item's sprite.
                 items[i] = itemToAdd;                       // помещаем сам item в массив item-ов
                 itemImages[i].sprite = itemToAdd.Sprite;    // картиночку - в массив картинок
                 itemImages[i].enabled = true;               // показываем картинку, false - чтобы при пустом слоте было пусто, а не белый фон
@@ -48,13 +46,10 @@ public class Inventory : MonoBehaviour
     
     public void RemoveItem (Item itemToRemove)              // удалить item из слота инвентория
     {
-        // Go through all the item slots...
         for (int i = 0; i < items.Length; i++)
         {
-            // ... if the item slot has the item to be removed...
             if (items[i] == itemToRemove)
             {
-                // ... set the item slot to null and set the image component to display nothing.
                 items[i] = null;                            
                 itemImages[i].sprite = null;                
                 itemImages[i].enabled = false;              // чтобы при пустом слоте было пусто, а не белый фон

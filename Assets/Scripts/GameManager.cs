@@ -12,12 +12,12 @@ using UnityEngine.Serialization;
 
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                             // варианты сетов оружия у героя
 public enum Heroes : short { Player, Enemy, Nobody };                                                  // варианты героев (победителей раундов и игры)
-
-public enum Decision : short {No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword};  // варианты действий героя - импульс на 1 такт
+public enum Decision : short { No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword }; // варианты действий героя - импульс на 1 такт
 public enum ExchangeResult : short { No, Evade, Parry, BlockVs2Handed, Block, GetHit };                // варианты исхода размена ударами для каждого из 2 ударов противника
 public enum GameType : short { Single, Server, Client };                                               // тип игры
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour 
+{
     private static GameManager _instance;                 
     public static GameManager Instance => _instance;
 

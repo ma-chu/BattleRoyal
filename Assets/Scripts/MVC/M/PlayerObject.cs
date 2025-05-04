@@ -12,7 +12,7 @@ public struct PreCoeffs
 public class PlayerObject
 { 
 // не меняются в течении турнира
-    public string name;
+    public readonly string name;
 // не меняются в течении раунда
     public Item[] inventoryItems = new Item[3];
     public Tweakers Tweakers { get; private set; }                   // Настройки балланса боёвки
@@ -29,7 +29,7 @@ public class PlayerObject
     public ExchangeResult[] exchangeResults = new ExchangeResult[2]; // Результаты ударов
     public int[] gotDamages = new int[2];                            // Возможный получаемый урон на текущий уда
 
-    public bool dead;
+    public bool isDead;
 
     public HP Hp { get; private set; }
     public Series Series { get; private set; }    
@@ -50,13 +50,13 @@ public class PlayerObject
         Tweakers.AddInventoryTweakers(inventoryItems);
         Hp.SetStartHealth(Tweakers.StartingHealth);
         Series.ResetAll();
-        dead = false;
+        isDead = false;
     }
     
     public void CalculatePreCoeffs()
     {
-        preCoeffs[0].parry = (UnityEngine.Random.value <= defencePart);
-        preCoeffs[1].parry = (UnityEngine.Random.value <= defencePart);
+        preCoeffs[0].parry = UnityEngine.Random.value <= defencePart;
+        preCoeffs[1].parry = UnityEngine.Random.value <= defencePart;
 
         // Предварительные коэффициенты на основе текущего набора оружия
         switch (weaponSet)
@@ -93,7 +93,7 @@ public class PlayerObject
                 preCoeffs[0].evade = false;
                 preCoeffs[1].evade = false;
                 break;
-            default:                                                    // точно какая-то смена
+            default:                                                    
                 preCoeffs[0].evade = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance);
                 preCoeffs[1].evade = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance);
                 preCoeffs[0].block = false;
@@ -117,18 +117,27 @@ public class PlayerObject
     public void SetSwordSword() => weaponSet = WeaponSet.SwordSword;
     public void SetSwordShield() => weaponSet = WeaponSet.SwordShield;
     public void SetTwoHandedSword() => weaponSet = WeaponSet.TwoHandedSword;
-
-    public int AddInventoryItem(Item itemToAdd)                      // добавить пункт инвентаря
+    
+/// <summary>
+/// -2 - item is not unique
+/// -1 - inventory is full
+/// </summary>
+/// <param name="itemToAdd"></param>
+/// <returns></returns>
+    public int AddInventoryItem(Item itemToAdd)                      
     {
         for (int i = 0; i < inventoryItems.Length; i++)
         {
-            if (inventoryItems[i] == itemToAdd) return -2;           // такой предмет уже есть - не добавляем
-            if (inventoryItems[i] == null)                           
-            {
-                inventoryItems[i] = itemToAdd;                       // помещаем сам item в массив item-ов
-                return i;
-            }
+            if (inventoryItems[i] == itemToAdd)
+                return -2;
+
+            if (inventoryItems[i] != null)
+                continue;
+            
+            inventoryItems[i] = itemToAdd;
+            return i;
         }
-        return -1;                              // не удалось добавить по причине того, что инвенторий полон
+        
+        return -1;
     }
 }

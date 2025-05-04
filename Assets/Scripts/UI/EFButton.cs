@@ -11,104 +11,85 @@ using UnityEngine.UI;
 namespace EF.UI
 {
     public class EFButton : EFBaseUI
-{
-    public Action Listener { get; set; }                    
-    public static event Action<SoundTypes> ClickSound;      // звук для всех кнопок
-    //public static event Action<EFButton> TutorialAction;  // еще что-нибудь для всех кнопок, но с передачей своего инстанса, например, можно добавить туториал
-    
-    // Все ссылки в одном месте - ?и весь профит?
-    // если сразу ссылки не задашь, это сделает awake()
-    [SerializeField] private Button _button;
-    [SerializeField] private Image _image;
-    [SerializeField] private TextMeshProUGUI _TMPtext;
-    [SerializeField] private Text _text;
-    [SerializeField] private string _localizationToken;
-    [SerializeField] private SoundTypes _soundType;
-    //[SerializeField] private SpriteTypes _spriteType;
-  
-    protected virtual string Text
     {
-        get =>
-            _TMPtext != null  ? _TMPtext.text :
-            _text != null ? _text.text : null;
+        public static event Action<SoundTypes> ClickSound;
 
-        set
+        [SerializeField] private Button _button;
+        [SerializeField] private Image _image;
+        [SerializeField] private TextMeshProUGUI _TMPtext;
+        [SerializeField] private Text _text;
+        [SerializeField] private string _localizationToken;
+        [SerializeField] private SoundTypes _soundType;
+
+        protected virtual string Text
         {
-            if (_text != null) _text.text = value;
-            if (_TMPtext != null) _TMPtext.text = value;
-        }
-    }
+            get =>
+                _TMPtext != null ? _TMPtext.text :
+                _text != null ? _text.text : null;
 
-    protected Sprite Sprite
-    {
-        get => _image.sprite;
-        set => _image.sprite = value;
-    }
-
-    public bool Interactable
-    {
-        get => _button.interactable;
-        set => _button.interactable = value;
-    }
-    
-    private void Awake()
-    {
-        VerifyLocalizationToken();
-        
-        if (_image == null) _image = GetComponent<Image>();
-        if (_button == null) _button = GetComponent<Button>();
-        if (_text == null) _text = GetComponentInChildren<Text>();
-        if (_TMPtext == null) _TMPtext = GetComponentInChildren<TextMeshProUGUI>();
-    }
-
-    protected void OnEnable()
-    {
-        if (!_button.IsNull())
-        {
-            _button.onClick.RemoveAllListeners();
-            _button.onClick.AddListener(OnClick);
+            set
+            {
+                if (_text != null) _text.text = value;
+                if (_TMPtext != null) _TMPtext.text = value;
+            }
         }
 
-        //Sprite = SpritesContainer.GetSprite(SpriteTypes.ButtonImage);
-    }
-        
-    public void SetListener(Action listener)
-    {
-        Listener = listener;
-    }
-
-    protected virtual void OnClick()
-    {
-        if (!Interactable) return;
-        
-        ClickSound?.Invoke(_soundType);
-        Listener?.Invoke();
-        
-        DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
-        AnimateScale(1.3f, 0.5f);
-        AnimateRotation(1.5f, .25f);
-        AnimatePosition(RectTrans.anchoredPosition + new Vector2(15, 0), 0.5f,
-            () => { ; } /*Debug.Log("Position Animated!")*/);
-    }
-
-    private void VerifyLocalizationToken()
-    {
-        if (!_localizationToken.IsNullOrEmpty() || Text.IsNull()) return;
-			
-        _localizationToken = Text.ToLower();
-
-        foreach (var smb in new[] {" ", ",", ":"})
+        public bool Interactable
         {
-            if (!_localizationToken.Contains(smb)) continue;
-            _localizationToken = "";
-            break;
+            get => _button.interactable;
+            set => _button.interactable = value;
+        }
+
+        private void Awake()
+        {
+            VerifyLocalizationToken();
+
+            if (_image == null) _image = GetComponent<Image>();
+            if (_button == null) _button = GetComponent<Button>();
+            if (_text == null) _text = GetComponentInChildren<Text>();
+            if (_TMPtext == null) _TMPtext = GetComponentInChildren<TextMeshProUGUI>();
+        }
+
+        protected void OnEnable()
+        {
+            if (!_button.IsNull())
+            {
+                _button.onClick.RemoveAllListeners();
+                _button.onClick.AddListener(OnClick);
+            }
+        }
+
+        protected virtual void OnClick()
+        {
+            if (!Interactable)
+                return;
+
+            ClickSound?.Invoke(_soundType);
+            DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+            AnimateScale(1.3f, 0.5f);
+            AnimateRotation(1.5f, .25f);
+            AnimatePosition(RectTrans.anchoredPosition + new Vector2(15, 0), 0.5f,
+                () => { ; });
+        }
+
+        private void VerifyLocalizationToken()
+        {
+            if (!_localizationToken.IsNullOrEmpty() || Text.IsNull())
+                return;
+
+            _localizationToken = Text.ToLower();
+            foreach (var smb in new[] { " ", ",", ":" })
+            {
+                if (!_localizationToken.Contains(smb)) continue;
+                _localizationToken = "";
+                break;
+            }
+        }
+
+        public void UpdateLocalization()
+        {
+            if (_localizationToken.IsNullOrEmpty()) return;
+            Text = _localizationToken.Localize();
         }
     }
-        
-    public void UpdateLocalization()
-    {
-        if (_localizationToken.IsNullOrEmpty()) return;
-        Text = _localizationToken.Localize();
-    }
-}
 }

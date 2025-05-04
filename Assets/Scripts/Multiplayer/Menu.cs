@@ -31,9 +31,9 @@ public class Menu : GlobalEventListener
 
     public void Start()
     {
-        //PlayerPrefs.DeleteKey("username");
-        // выводим панель, только если не задано имя пользователя
-        setUsernamePanel.SetActive(!PlayerPrefs.HasKey("username") || PlayerPrefs.GetString("username") == "" || PlayerPrefs.GetString("username") == null);
+        setUsernamePanel.SetActive(!PlayerPrefs.HasKey("username") ||
+                                   PlayerPrefs.GetString("username") == "" ||
+                                   PlayerPrefs.GetString("username") == null);
     }
 
     public void ChangeUsername()
@@ -42,7 +42,7 @@ public class Menu : GlobalEventListener
         setUsernamePanel.GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("username");
     }
 
-    public void OnSetUsernameValueChanged()
+    public void OnUsernameChanged()
     {
         var input = setUsernamePanel.GetComponentInChildren<InputField>().text;
         PlayerPrefs.SetString("username", input);

@@ -88,7 +88,7 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(startRoundInfo.PlayerName);
         if (playerObject == null) return;                                            // этот клиент не сетевой
         var evnt = EFStartRound.Create(playerObject.connection);
-        evnt.roundNumber = startRoundInfo.roundNumber;
+        evnt.roundNumber = startRoundInfo.RoundNumber;
         evnt.PlayerStartHealth = startRoundInfo.PlayerStartHealth;
         evnt.EnemyStartHealth = startRoundInfo.EnemyStartHealth;
         evnt.Send(); 
@@ -126,8 +126,8 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(endRoundInfo.PlayerName);
         if (playerObject == null) return;                                            // этот клиент не сетевой
         var evnt = EFEndRound.Create(playerObject.connection);
-        evnt.roundWinner = endRoundInfo.roundWinner;
-        evnt.prize = endRoundInfo.prize;
+        evnt.roundWinner = endRoundInfo.RoundWinner;
+        evnt.prize = endRoundInfo.Prize;
         evnt.Send(); 
     }
 
@@ -137,7 +137,7 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(endMatchInfo.PlayerName);
         if (playerObject == null) return;                                            // этот клиент не сетевой
         var evnt = EFEndMatch.Create(playerObject.connection);
-        evnt.matchWinner = endMatchInfo.matchWinner;
+        evnt.matchWinner = endMatchInfo.MatchWinner;
         evnt.Send(); 
     }
 

@@ -59,7 +59,7 @@ public class ClientPhotonAdapter : GlobalEventListener, IServer
         var startRoundInfo = new StartRoundInfo()
         {
             PlayerName = _name,
-            roundNumber = evnt.roundNumber,
+            RoundNumber = evnt.roundNumber,
             PlayerStartHealth = evnt.PlayerStartHealth,
             EnemyStartHealth = evnt.EnemyStartHealth
         };
@@ -95,8 +95,8 @@ public class ClientPhotonAdapter : GlobalEventListener, IServer
         var endRoundInfo = new EndRoundInfo()
         {
             PlayerName = _name,
-            roundWinner = evnt.roundWinner,
-            prize = evnt.prize
+            RoundWinner = evnt.roundWinner,
+            Prize = evnt.prize
         };
         EndRoundAction?.Invoke(this, endRoundInfo);
     }
@@ -109,13 +109,13 @@ public class ClientPhotonAdapter : GlobalEventListener, IServer
         var endMatchInfo = new EndMatchInfo()
         {
             PlayerName = _name,
-            matchWinner = evnt.matchWinner
+            MatchWinner = evnt.matchWinner
         };
         EndMatchAction?.Invoke(this, endMatchInfo);
     }
     
     
-    public void TakeDecision(string name, TurnInInfo turnInInfo)
+    public void TakeDecision(string playerName, TurnInInfo turnInInfo)
     {
         var evnt = EFSendDataToServer.Create();
         evnt.PlayerDecision = (int) turnInInfo.PlayerDecision;

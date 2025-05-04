@@ -29,7 +29,7 @@ public class Series
         _player = player;
     }
     
-    public void AddStrongSeries(int strikeNumber)
+    public void TryToAddStrongSeries(int strikeNumber)
     {
         switch (strikeNumber)
         {

@@ -110,7 +110,7 @@ public class PlayerClient : Client
     {
         if (!endRoundInfo.PlayerName.Equals(PlayerName)) return;
         base.OnEndRound(o, endRoundInfo);
-        MainGameManager.Instance.StartCoroutine(_viewModel.RoundEnding(RoundNumber, endRoundInfo.roundWinner, endRoundInfo.prize));
+        MainGameManager.Instance.StartCoroutine(_viewModel.RoundEnding(RoundNumber, endRoundInfo.RoundWinner, endRoundInfo.Prize));
     }
     
     protected override void MakeTurn(int nicety)
@@ -121,6 +121,6 @@ public class PlayerClient : Client
     protected override void OnEndMatch(object o, EndMatchInfo endMatchInfo)
     {
         if (!endMatchInfo.PlayerName.Equals(PlayerName)) return;
-        MainGameManager.Instance.StartCoroutine(_viewModel.GameOver(endMatchInfo.matchWinner));
+        MainGameManager.Instance.StartCoroutine(_viewModel.GameOver(endMatchInfo.MatchWinner));
     }
 }

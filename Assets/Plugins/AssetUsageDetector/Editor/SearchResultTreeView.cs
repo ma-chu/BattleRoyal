@@ -6,8 +6,8 @@ using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 #if UNITY_2018_3_OR_NEWER
-using PrefabStage = UnityEditor.Experimental.SceneManagement.PrefabStage;
-using PrefabStageUtility = UnityEditor.Experimental.SceneManagement.PrefabStageUtility;
+using PrefabStage = UnityEditor.SceneManagement.PrefabStage;
+using PrefabStageUtility = UnityEditor.SceneManagement.PrefabStageUtility;
 #endif
 
 namespace AssetUsageDetectorNamespace

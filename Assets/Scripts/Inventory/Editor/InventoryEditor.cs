@@ -6,9 +6,9 @@ using System.Linq;                          // для метода Cast<Item>()
 [CustomEditor(typeof(Inventory))]           // целевой класс для редактора - Inventory
 public class InventoryEditor : Editor       
 {
-    private bool[] showItemSlots = new bool[Inventory.numItemSlots];    // показывать ли слоты Item-ов расширенно?// Whether the GUI for each Item slot is expanded.
-    private SerializedProperty itemImagesProperty;                      // свойство, которое будет описывать массив компонентов-Image для показа пунктов инвентаря (по сути, ссылка, которая отображается в редакторе, как ей скажут) // Represents the array of Image components to display the Items.
-    private SerializedProperty itemsProperty;                           // свойство, которое будет описывать сам массив пунктов инвентаря // Represents the array of Items.
+    private bool[] showItemSlots = new bool[Inventory.numItemSlots];    // показывать ли слоты Item-ов расширенно?
+    private SerializedProperty itemImagesProperty;                      // свойство, которое будет описывать массив компонентов-Image для показа пунктов инвентаря (по сути, ссылка, которая отображается в редакторе, как ей скажут)
+    private SerializedProperty itemsProperty;                           // свойство, которое будет описывать сам массив пунктов инвентаря
     // Информация о предмете при клике на него
     private SerializedProperty itemNameProperty;                    
     private SerializedProperty itemImageProperty;                   
@@ -18,8 +18,7 @@ public class InventoryEditor : Editor
     // Соглашение об именах подобных констант: inventory - это член такого класса, Prop - это свойство,  ItemImages - свойство, на кот. ссылаемся, Name - это строка
     private const string inventoryPropItemImagesName = "itemImages";    // The name of the field that is an array of Image components.
     private const string inventoryPropItemsName = "items";              // The name of the field that is an array of Items.
-
-
+    
     private SerializedProperty seriesStarProperty;
     private const string inventoryPropseriesStarName = "seriesStar";
     private SerializedProperty itemDescriptionObjectProperty;
@@ -75,27 +74,5 @@ public class InventoryEditor : Editor
 
         EditorGUI.indentLevel--;                        // и досюда 
         EditorGUILayout.EndVertical ();                 // и до сих
-    }
-
-    // Конструктор AllItems ставим именно здесь, в классе-редакторе, который запускается только в Unity-editor-е:
-    // в рантайме на андроиде вывалит кучу ошибок про отсутствие MenuItem и AssetDatabase
-    // подгрузил в папку Resources айтемов, вызвал повторно конструктор - и готово
-    private const string creationPath = "Assets/Resources/AllItems.asset";  // The path that the AllItems asset is created at.
-    [MenuItem("Assets/Create/_EF/AllItems")]                                    // Call this function when the menu item is selected.
-
-    public static void CreateAllItemsAsset()
-    {
-        // Удалим старый (а потом создадим новый)
-        if (AllItems.Instance) AssetDatabase.DeleteAsset(creationPath);
-
-        // Create an instance of the AllItems object and make an asset for it.
-        AllItems instance_ = CreateInstance<AllItems>();
-        AssetDatabase.CreateAsset(instance_, creationPath);
-
-        // Set this as the singleton instance.
-        AllItems.Instance = instance_;
-
-        // Create an array of all existing Items.
-        AllItems.Instance.items = Resources.LoadAll("Items", typeof(Item)).Cast<Item>().ToArray(); // Загрузить всё из ресурсов и отобрать объекты класса Item
     }
 }

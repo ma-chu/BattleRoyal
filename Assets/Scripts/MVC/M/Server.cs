@@ -1,33 +1,37 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Реализуем модель MVC (Не описывает сетевых протоколов, только логику игры):
+///   Model = Server.cs = бизнес-логика
+///   Controller = Client.cs - обработка ввода/вывода игрока, приведение его к интерфейсу сервера
+///   View = UI
+///
+/// 1. В режиме сингл создаем сервер и 2 клиентов: player & AI
+/// 2. В режиме мультисервер создаем сервер, адаптер сервера и 1 клиент-player
+/// 3. В режиме мультиклиент создаем 1 клиент-player и адаптер клиента
+///
+/// Если существуют сетевые клиенты, реализовать для них паттерн адаптер photon->IServer в отдельном классе
+/// (будет отлавливать события сервера и паковать их в исх. события photon'а, а вх. события photon'а в методы сервера)
+/// 
+/// </summary>
 
-// Реализуем модель MVC (Не описывает сетевых протоколов, только логику игры):
-// Model = Server.cs = Бизнес-логика
-// Controller = Client.cs - обработка ввода/вывода игрока, приведение его к интерфейсу сервера
-// View = UI
-
-// 1. В режиме сингл создаем сервер и 2 клиентов: player & AI
-// 2. В режиме мультисервер создаем сервер, адаптер сервера и 1 клиент-player
-// 3. В режиме мультиклиент создаем 1 клиент-player и адаптер клиента
-
-// Если существуют сетевые клиенты, реализовать для них паттерн адаптер photon->IServer в отдельном классе
-// (будет отлавливать события сервера и паковать их в исх. события photon'а, а вх. события photon'а в методы сервера)
-
-[System.Serializable]
-public struct MatchInfo
+[Serializable]
+public class MatchInfo
 {
-    public int numRoundsToWin;                                    // надо выиграть раундов для выигрыша игры
-    public int roundNumber;                                       // текущий номер раунда
-    public PlayerObject player1;                                  // первый игрок
-    public PlayerObject player2;                                  // второй игрок
-    public PlayerObject roundWinner;                              // победитель раунда
-    public PlayerObject matchWinner;                              // победитель матча
-    public MatchInfo(int numRoundsToWin, PlayerObject player1 = null, PlayerObject player2 = null)
+    public int amountRoundsToWin;                                 
+    public int roundNumber;                                       
+    public PlayerObject player1;                                  
+    public PlayerObject player2;                                  
+    public PlayerObject roundWinner;                              
+    public PlayerObject matchWinner;                              
+    
+    public MatchInfo(int amountRoundsToWin, PlayerObject player1 = null, PlayerObject player2 = null)
     {
-        this.numRoundsToWin = numRoundsToWin;
+        this.amountRoundsToWin = amountRoundsToWin;
         roundNumber = 1;
         this.player1 = player1;
         this.player2 = player2;
@@ -39,71 +43,114 @@ public struct MatchInfo
 
 public class Server : MonoBehaviour, IServer
 {
-    private static Server _instance;
-    public static Server Instance => _instance;
+    [SerializeField] private List<PlayerObject> players = new();
+    [SerializeField] private MatchInfo match = new(4);
     
-    [SerializeField] private List<PlayerObject> players = new List<PlayerObject>();
-
-    [SerializeField] private MatchInfo match = new MatchInfo(4);
+    private static Server _instance;
 
     public event EventHandler<string> JoinedAction;
+    public event EventHandler<StartMatchInfo> StartMatchAction;
+    public event EventHandler<TurnOutInfo> ResultsReadyAction;
+    public event EventHandler<EndMatchInfo> EndMatchAction;
+    public event EventHandler<StartRoundInfo> StartRoundAction;
+    public event EventHandler<EndRoundInfo> EndRoundAction;
+
+    public static Server Instance => _instance;
+
+    private void Awake() => _instance ??= this;
+    
     public void Join(string name, EventHandler<string> onJoined)
     {
-        // Подключение к турниру
         players.Add(new PlayerObject(name));
         Debug.Log("Локальный сервер: клиент "+ name +" подключился к турниру");
         
         JoinedAction += onJoined;
         JoinedAction?.Invoke(this, name);  // по событию клиент вызывает SubscribeOnStartMatch, SubscribeOnEndRound, ... и SubscribeOnResultsReady
         
-        if (players.Count == 2) StartMatch();                // естественно, первый играет со вторым
+        if (players.Count == 2) 
+            StartCoroutine(StartMatch());                
     }
-    
-    public void SubscribeOnStartMatch(EventHandler<StartMatchInfo> onStartMatch) => StartMatchAction += onStartMatch;
-    public event EventHandler<StartMatchInfo> StartMatchAction;
-    
-    public void SubscribeOnResultsReady(EventHandler<TurnOutInfo> onResultsReady) => ResultsReadyAction += onResultsReady;
-    public event EventHandler<TurnOutInfo> ResultsReadyAction;
-    
-    public void SubscribeOnEndMatch(EventHandler<EndMatchInfo> onEndMatch) => EndMatchAction += onEndMatch;
-    public event EventHandler<EndMatchInfo> EndMatchAction;
 
-    public void SubscribeOnStartRound(EventHandler<StartRoundInfo> onStartRound) => StartRoundAction += onStartRound;
-    public event EventHandler<StartRoundInfo> StartRoundAction;
-    public void SubscribeOnEndRound(EventHandler<EndRoundInfo> onEndRound) => EndRoundAction += onEndRound;
-    public event EventHandler<EndRoundInfo> EndRoundAction;
-
-    private void StartMatch()
+    public void SubscribeOnStartMatch(EventHandler<StartMatchInfo> onStartMatch) =>
+        StartMatchAction += onStartMatch;
+    
+    public void SubscribeOnResultsReady(EventHandler<TurnOutInfo> onResultsReady) =>
+        ResultsReadyAction += onResultsReady;
+    
+    public void SubscribeOnEndMatch(EventHandler<EndMatchInfo> onEndMatch) =>
+        EndMatchAction += onEndMatch;
+    
+    public void SubscribeOnStartRound(EventHandler<StartRoundInfo> onStartRound) =>
+        StartRoundAction += onStartRound;
+    
+    public void SubscribeOnEndRound(EventHandler<EndRoundInfo> onEndRound) =>
+        EndRoundAction += onEndRound;
+    
+    private IEnumerator StartMatch()
     {
         match.roundNumber = 1;
-        match.player1 = players[0];
-        match.player2 = players[1];
+        var player1 = match.player1 = players[0];
+        var player2 = match.player2 = players[1];
 
         var player1MatchInfo = new StartMatchInfo();
         var player2MatchInfo = new StartMatchInfo();
 
-        player1MatchInfo.PlayerName = player2MatchInfo.EnemyName = match.player1.name;
-        player1MatchInfo.EnemyName = player2MatchInfo.PlayerName = match.player2.name;
-        for (var i = 0; i < match.player1.inventoryItems.Length; i++)
-            if (match.player1.inventoryItems[i] != null)
-                player1MatchInfo.PlayerInventoryItems[i] = player2MatchInfo.EnemyInventoryItems[i] = match.player1.inventoryItems[i].Name;
-        for (var i = 0; i < match.player2.inventoryItems.Length; i++)
-            if (match.player2.inventoryItems[i] != null)
-                player1MatchInfo.EnemyInventoryItems[i] = player2MatchInfo.PlayerInventoryItems[i] = match.player2.inventoryItems[i].Name;
+        player1MatchInfo.PlayerName = player2MatchInfo.EnemyName = player1.name;
+        player1MatchInfo.EnemyName = player2MatchInfo.PlayerName = player2.name;
+        
+        for (var i = 0; i < player1.inventoryItems.Length; i++)
+        {
+            if (player1.inventoryItems[i] != null)
+                player1MatchInfo.PlayerInventoryItems[i] =
+                    player2MatchInfo.EnemyInventoryItems[i] = player1.inventoryItems[i].Name;
+        }
 
-        StartMatchAction?.Invoke(this, player1MatchInfo);    // событие для игрока 1;
-        StartMatchAction?.Invoke(this, player2MatchInfo);    // событие для игрока 2;
+        for (var i = 0; i < player2.inventoryItems.Length; i++)
+        {
+            if (player2.inventoryItems[i] != null)
+                player1MatchInfo.EnemyInventoryItems[i] =
+                    player2MatchInfo.PlayerInventoryItems[i] = player2.inventoryItems[i].Name;
+        }
+
+        StartMatchAction?.Invoke(this, player1MatchInfo);
+        StartMatchAction?.Invoke(this, player2MatchInfo);
         
         Debug.Log("Локальный сервер: матч между " + player1MatchInfo.PlayerName +" и "+ player2MatchInfo.PlayerName +" начинается");
 
-        Invoke(nameof(StartNewRound), ViewModel.StartDelay);
+        yield return new WaitForSeconds(ViewModel.StartDelay);
+        StartNewRound();
     }
-
-    public void TakeDecision(string name, TurnInInfo turnInInfo)
+    
+    private void StartNewRound()
     {
-        var player = players.Find(pl=> pl.name == name);
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        player1.Reset();
+        player2.Reset();
+        
+        Debug.Log("Локальный сервер: раунд " + match.roundNumber +" начинается");
 
-        // Принять входые данные соперников
+        var player1StartRoundInfo = new StartRoundInfo()
+        {
+            PlayerName = player1.name,
+            RoundNumber = match.roundNumber,
+        };
+        var player2StartRoundInfo = new StartRoundInfo()
+        {
+            PlayerName = player2.name,
+            RoundNumber = match.roundNumber
+        };
+        player1StartRoundInfo.PlayerStartHealth = player2StartRoundInfo.EnemyStartHealth = player1.Tweakers.StartingHealth;
+        player1StartRoundInfo.EnemyStartHealth = player2StartRoundInfo.PlayerStartHealth = player2.Tweakers.StartingHealth;
+        StartRoundAction?.Invoke(this, player1StartRoundInfo);
+        StartRoundAction?.Invoke(this, player2StartRoundInfo);
+    }
+    
+    public void TakeDecision(string playerName, TurnInInfo turnInInfo)
+    {
+        var player = players.Find(player => player.name == playerName);
+
         player.decision = turnInInfo.PlayerDecision;
         switch (player.decision)
         {
@@ -120,10 +167,13 @@ public class Server : MonoBehaviour, IServer
         player.defencePart = turnInInfo.PlayerDefencePart * (player.Tweakers.MaxDefencePart + player.Tweakers.ParryChance);
         player.dataTaken = true;
         
-        if (!match.player1.dataTaken || !match.player2.dataTaken) return;
-        // Посчитать результаты схода (здесь же вычитаем здоровье)
-        ExchangeResultsAndDamages();
-        // Обновить серии
+        if (match.player1.dataTaken && match.player2.dataTaken)
+            CalculateTurn();
+    }
+
+    private void CalculateTurn()
+    {
+        CalculateExchangeResultsAndDamages();
         AddSeries();
             
         var player1TurnOutInfo = new TurnOutInfo
@@ -157,257 +207,244 @@ public class Server : MonoBehaviour, IServer
         match.player1.dataTaken = false;
         match.player2.dataTaken = false;
         
-        // Выдать результаты в событии ResultsReadyAction. Именно после обнуления dataTaken, а то события обрабатываются сразу, а не после тела ф-ии
         ResultsReadyAction?.Invoke(this, player2TurnOutInfo);
         ResultsReadyAction?.Invoke(this, player1TurnOutInfo);
         
-        // Проверить на конец раунда
-        if (OneHeroLeft())
-        {
-            // Проверить на конец матча. Если да, то (здесь) приза не выдывать, в конце новый раунд не начинать
-            match.matchWinner = GameWinner();
-            
-            Item prize;
-            if (match.matchWinner == null)
-                prize = match.roundWinner != null ? GiveOutPrize(match.roundWinner) : null;
-            else prize = null;
-            
-            var player1EndRoundInfo = new EndRoundInfo()
-            {
-                PlayerName = match.player1.name,
-                roundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
-                prize = prize != null ? prize.Name : string.Empty
-            };
-            // боту выдать кольцо перед последним раундом
-            if (match.roundWinner == match.player2 && match.player1.name == "bot" && match.player1.roundsLost == match.numRoundsToWin-1) 
-                match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "ring_of_cunning"));
-            EndRoundAction?.Invoke(this, player1EndRoundInfo);
-                
-            var player2EndRoundInfo = new EndRoundInfo()
-            {
-                PlayerName = match.player2.name,
-                roundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
-                prize = prize != null ? prize.Name : string.Empty
-            };
-            EndRoundAction?.Invoke(this, player2EndRoundInfo);
-            
-            if (match.matchWinner != null)
-                Invoke(nameof(EndMatch), ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f);    // +0.5 чтоб точно после отработок анимаций
-            else // Иначе новый раунд
-            {
-                match.roundNumber++;
-                Invoke(nameof(StartNewRound), 2*ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f);   
-            }
-        }
+        if (OneHeroLeft()) 
+            StartCoroutine(EndRound());
     }
 
-    private void StartNewRound()
+    private IEnumerator EndRound()
     {
-        match.player1.Reset();
-        match.player2.Reset();
+        match.matchWinner = GameWinner();
+            
+        Item prize;
+        if (match.matchWinner == null)
+            prize = match.roundWinner != null ? GiveOutPrize(match.roundWinner) : null;
+        else
+            prize = null;
         
-        Debug.Log("Локальный сервер: раунд " + match.roundNumber +" начинается");
-
-        var player1StartRoundInfo = new StartRoundInfo()
+        var player1EndRoundInfo = new EndRoundInfo()
         {
             PlayerName = match.player1.name,
-            roundNumber = match.roundNumber,
+            RoundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
+            Prize = prize != null ? prize.Name : string.Empty
         };
-        var player2StartRoundInfo = new StartRoundInfo()
+        EndRoundAction?.Invoke(this, player1EndRoundInfo);
+                
+        var player2EndRoundInfo = new EndRoundInfo()
         {
             PlayerName = match.player2.name,
-            roundNumber = match.roundNumber
+            RoundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
+            Prize = prize != null ? prize.Name : string.Empty
         };
-        player1StartRoundInfo.PlayerStartHealth = player2StartRoundInfo.EnemyStartHealth = match.player1.Tweakers.StartingHealth;
-        player1StartRoundInfo.EnemyStartHealth = player2StartRoundInfo.PlayerStartHealth = match.player2.Tweakers.StartingHealth;
-        StartRoundAction?.Invoke(this, player1StartRoundInfo);
-        StartRoundAction?.Invoke(this, player2StartRoundInfo);
-    }
+        EndRoundAction?.Invoke(this, player2EndRoundInfo);
 
+        const float endDelay = ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f;
+        
+        if (match.matchWinner != null)
+        {
+            var endMatchDelay = new WaitForSeconds(endDelay);
+            yield return endMatchDelay;
+            EndMatch();
+        }
+        else
+        {
+            match.roundNumber++;
+            
+            var endRoundDelay = new WaitForSeconds(2 * endDelay);
+            yield return endRoundDelay;
+            GiveOutRingToBotForFinalRound();
+            StartNewRound();
+        }
+    }
+    
     private void EndMatch()
     {
         var player1EndMatchInfo = new EndMatchInfo()    
         {
             PlayerName = match.player1.name,
-            matchWinner = match.matchWinner.name
+            MatchWinner = match.matchWinner.name
         };
         EndMatchAction?.Invoke(this, player1EndMatchInfo);
+        
         var player2EndMatchInfo = new EndMatchInfo()
         {
             PlayerName = match.player2.name,
-            matchWinner = match.matchWinner.name
+            MatchWinner = match.matchWinner.name
         };
         EndMatchAction?.Invoke(this, player2EndMatchInfo);
     }
 
-    private void ExchangeResultsAndDamages()
+    private void CalculateExchangeResultsAndDamages()
     {
-        if (GameManager.gameType == GameType.Client) return;
-        
-        // 1. Сперва рассчитаем предварительные коэффициенты на основе текущего набора оружия и решения
-        match.player1.CalculatePreCoeffs();
-        match.player2.CalculatePreCoeffs();
-        // 2. Дорассчитаем предварительные коэффициенты на основе предварительных коэффициентов противника
-        match.player1.preCoeffs[0].blockVs2Handed = (match.player1.weaponSet == WeaponSet.SwordShield)
-                                                    && (match.player1.preCoeffs[0].block)
-                                                    && (match.player2.decision == Decision.Attack)
-                                                    && (match.player2.weaponSet == WeaponSet.TwoHandedSword);
-        match.player2.preCoeffs[0].blockVs2Handed = (match.player2.weaponSet == WeaponSet.SwordShield)
-                                                    && (match.player2.preCoeffs[0].block) 
-                                                    && (match.player1.decision == Decision.Attack) 
-                                                    && (match.player1.weaponSet == WeaponSet.TwoHandedSword);
-        
-        // 3.На основе предварительных коэффицентов определяем результат схода и возможный урон
-        // Удар 1 
-        match.player2.exchangeResults[0] = (match.player1.decision == Decision.Attack)
-            ? match.player2.CalculateExchangeResult(1)
-            : ExchangeResult.No;
-        if (match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-        {
-            match.player1.preCoeffs[0].damage *= match.player1.Tweakers.Part2HandedThroughShield;
-        }
+        if (GameManager.gameType == GameType.Client)
+            return;
 
-        match.player1.exchangeResults[0] = (match.player2.decision == Decision.Attack)
-            ? match.player1.CalculateExchangeResult(1)
-            : ExchangeResult.No;
-        if (match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-        {
-            match.player2.preCoeffs[0].damage *= match.player2.Tweakers.Part2HandedThroughShield;
-        }
-
-        match.player2.preCoeffs[0].damage =
-            Mathf.Round(match.player2.preCoeffs[0].damage - match.player2.preCoeffs[0].damage * match.player2.defencePart); // уберём часть урона, потраченную на парирование, и округлим
-        match.player1.preCoeffs[0].damage =
-            Mathf.Round(match.player1.preCoeffs[0].damage - match.player1.preCoeffs[0].damage * match.player1.defencePart); // уберём часть урона, потраченную на парирование, и округлим
-
-        // Удар 2
-        match.player2.exchangeResults[1] = ((match.player1.decision == Decision.Attack) && (match.player1.preCoeffs[1].damage != 0f))
-            ? match.player2.CalculateExchangeResult(2)
-            : ExchangeResult.No;
-        match.player1.exchangeResults[1] = ((match.player2.decision == Decision.Attack) && (match.player2.preCoeffs[1].damage != 0f))
-            ? match.player1.CalculateExchangeResult(2)
-            : ExchangeResult.No;
-            
-        match.player2.preCoeffs[1].damage =
-            Mathf.Round(match.player2.preCoeffs[1].damage - match.player2.preCoeffs[1].damage * match.player2.defencePart); // уберём часть урона, потраченную на парирование, и округлим
-        match.player1.preCoeffs[1].damage =
-            Mathf.Round(match.player1.preCoeffs[1].damage - match.player1.preCoeffs[1].damage * match.player1.defencePart); // уберём часть урона, потраченную на парирование, и округлим
-
-        // 4. Реальный урон. Еще раз:
-        // preCoeffs[i].damage - возможный урон противнику;
-        // gotDamages[i] - реально полученный урон, по его значению можно играть звуки и анимации
-        // Удар 1
-        if (match.player1.exchangeResults[0] == ExchangeResult.GetHit ||
-            match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-        {
-            match.player1.gotDamages[0] = (int) match.player2.preCoeffs[0].damage;
-            match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[0]);
-        }
-        if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-        {
-            match.player2.gotDamages[0] = (int) match.player1.preCoeffs[0].damage;
-            match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[0]);
-        }
-        // Удар 2
-        if (match.player1.exchangeResults[1] == ExchangeResult.GetHit)
-        {
-            match.player1.gotDamages[1] = (int) match.player2.preCoeffs[1].damage;
-            match.player1.dead = match.player1.Hp.TakeDamage(match.player1.gotDamages[1]);
-        }
-        if (match.player2.exchangeResults[1] == ExchangeResult.GetHit)
-        {
-            match.player2.gotDamages[1] = (int) match.player1.preCoeffs[1].damage;
-            match.player2.dead = match.player2.Hp.TakeDamage(match.player2.gotDamages[1]);
-        }
+        CalculatePreCoeffs();
+        CalculateExchangeResultAndPossibleDamage();
+        CalculateRealDamage();
     }
 
+    private void CalculatePreCoeffs()
+    {
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        player1.CalculatePreCoeffs();
+        player2.CalculatePreCoeffs();
+        player1.preCoeffs[0].blockVs2Handed = player1.weaponSet == WeaponSet.SwordShield
+                                                    && player1.preCoeffs[0].block
+                                                    && player2.decision == Decision.Attack
+                                                    && player2.weaponSet == WeaponSet.TwoHandedSword;
+        player2.preCoeffs[0].blockVs2Handed = player2.weaponSet == WeaponSet.SwordShield
+                                                    && player2.preCoeffs[0].block
+                                                    && player1.decision == Decision.Attack 
+                                                    && player1.weaponSet == WeaponSet.TwoHandedSword;
+    }
+
+    private void CalculateExchangeResultAndPossibleDamage()
+    {
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        HandleFirstStrike(player1, player2);
+        HandleFirstStrike(player2, player1);
+        
+        player1.preCoeffs[0].damage = Mathf.Round(player1.preCoeffs[0].damage * (1 - player1.defencePart));
+        player2.preCoeffs[0].damage = Mathf.Round(player2.preCoeffs[0].damage * (1 - player2.defencePart));
+        
+        HandleSecondStrike(player1, player2);
+        HandleSecondStrike(player2, player1);
+        
+        player1.preCoeffs[1].damage = Mathf.Round(player1.preCoeffs[1].damage - (1 - player1.defencePart));
+        player2.preCoeffs[1].damage = Mathf.Round(player2.preCoeffs[1].damage - (1 - player2.defencePart));
+        
+        void HandleFirstStrike(PlayerObject player, PlayerObject enemy)
+        {
+            player.exchangeResults[0] = enemy.decision == Decision.Attack
+                ? player.CalculateExchangeResult(1)
+                : ExchangeResult.No;
+            if (player.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
+                enemy.preCoeffs[0].damage *= enemy.Tweakers.Part2HandedThroughShield;
+        }
+
+        void HandleSecondStrike(PlayerObject player, PlayerObject enemy)
+        {
+            player.exchangeResults[1] = enemy.decision == Decision.Attack && enemy.preCoeffs[1].damage != 0f
+                ? player.CalculateExchangeResult(2)
+                : ExchangeResult.No;
+        }
+    }
+    
+    private void CalculateRealDamage()
+    {
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        HandleStrike(player1, player2, 1);
+        HandleStrike(player2, player1, 1);
+
+        HandleStrike(player1, player2, 2);
+        HandleStrike(player2, player1, 2);
+        
+        void HandleStrike(PlayerObject player, PlayerObject enemy, int strike)
+        {
+            if (player.exchangeResults[strike - 1] != ExchangeResult.GetHit &&
+                player.exchangeResults[strike - 1] != ExchangeResult.BlockVs2Handed) 
+                return;
+            
+            player.gotDamages[strike - 1] = (int) enemy.preCoeffs[strike - 1].damage;
+            player.isDead = player.Hp.TakeDamage(player.gotDamages[strike - 1]);
+        }
+        
+        // void HandleSecondStrike(PlayerObject player, PlayerObject enemy)
+        // {
+        //     if (player.exchangeResults[1] != ExchangeResult.GetHit) 
+        //         return;
+        //     
+        //     player.gotDamages[1] = (int) enemy.preCoeffs[1].damage;
+        //     player.isDead = player.Hp.TakeDamage(player.gotDamages[1]);
+        // }
+    }
+    
     private void AddSeries()
     { 
-        // Удар 1. Обновление коэфф. и добавление эффектов серий
-        if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-            match.player1.Series.AddStrongSeries(1);
-        if (match.player1.exchangeResults[0] == ExchangeResult.GetHit || match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-            match.player2.Series.AddStrongSeries(1);
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        HandleStrike(player1, player2, 1);
+        HandleStrike(player2, player1, 1);
+        
+        HandleStrike(player1, player2, 2);
+        HandleStrike(player2, player1, 2);
+        
+        TryToResetSeriesOfStrikes(player1, player2);
+        TryToResetSeriesOfStrikes(player2, player1);
 
-        if (match.player2.exchangeResults[0] == ExchangeResult.GetHit || match.player2.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
+        void HandleStrike(PlayerObject player, PlayerObject enemy, int strike)
         {
-            match.player1.Series.AddSeriesOfStrikes();
-            match.player2.Series.ResetSeriesOfBlocks();    // ресет серии блоков
+            if (enemy.exchangeResults[strike - 1] == ExchangeResult.GetHit ||
+                enemy.exchangeResults[strike - 1] == ExchangeResult.BlockVs2Handed)
+            {
+                player.Series.TryToAddStrongSeries(strike);
+                player.Series.AddSeriesOfStrikes();
+                enemy.Series.ResetSeriesOfBlocks();
+            }
+
+            if (player.exchangeResults[strike - 1] == ExchangeResult.Parry ||
+                player.exchangeResults[strike - 1] == ExchangeResult.Block)
+                player.Series.AddSeriesOfBlocks();
         }
 
-        if (match.player1.exchangeResults[0] == ExchangeResult.GetHit || match.player1.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
+        void TryToResetSeriesOfStrikes(PlayerObject player, PlayerObject enemy)
         {
-            match.player2.Series.AddSeriesOfStrikes();
-            match.player1.Series.ResetSeriesOfBlocks();    // ресет серии блоков
+            if (enemy.exchangeResults[0] != ExchangeResult.GetHit && 
+                enemy.exchangeResults[1] != ExchangeResult.GetHit && 
+                enemy.exchangeResults[0] != ExchangeResult.BlockVs2Handed)                    
+                player.Series.ResetSeriesOfStrikes();
         }
-        
-        if (match.player1.exchangeResults[0] == ExchangeResult.Parry || match.player1.exchangeResults[0] == ExchangeResult.Block)
-            match.player1.Series.AddSeriesOfBlocks();
-        if (match.player2.exchangeResults[0] == ExchangeResult.Parry || match.player2.exchangeResults[0] == ExchangeResult.Block)
-            match.player2.Series.AddSeriesOfBlocks();
-        
-        // Удар 2. Обновление коэфф. и добавление эффектов серий ударов
-        if (match.player2.exchangeResults[1] == ExchangeResult.GetHit)
-            match.player1.Series.AddStrongSeries(2);
-        if (match.player1.exchangeResults[1] == ExchangeResult.GetHit)
-            match.player2.Series.AddStrongSeries(2);
-                
-        if (match.player2.exchangeResults[1] == ExchangeResult.GetHit)
-        {
-            match.player1.Series.AddSeriesOfStrikes();
-            match.player2.Series.ResetSeriesOfBlocks();    // ресет серии блоков
-        }
-        if (match.player1.exchangeResults[1] == ExchangeResult.GetHit)
-        {
-            match.player2.Series.AddSeriesOfStrikes();
-            match.player1.Series.ResetSeriesOfBlocks();    // ресет серии блоков
-        }
-        
-        if (match.player1.exchangeResults[1] == ExchangeResult.Parry || match.player1.exchangeResults[1] == ExchangeResult.Block)
-            match.player1.Series.AddSeriesOfBlocks();
-        if (match.player2.exchangeResults[1] == ExchangeResult.Parry || match.player2.exchangeResults[1] == ExchangeResult.Block)
-            match.player2.Series.AddSeriesOfBlocks();
-        
-        // Коэффициенты серий ударов. Ресет.
-        if (match.player2.exchangeResults[0] != ExchangeResult.GetHit && 
-            match.player2.exchangeResults[1] != ExchangeResult.GetHit && 
-            match.player2.exchangeResults[0] != ExchangeResult.BlockVs2Handed)                    
-            match.player1.Series.ResetSeriesOfStrikes();
-        if (match.player1.exchangeResults[0] != ExchangeResult.GetHit &&
-            match.player1.exchangeResults[1] != ExchangeResult.GetHit && 
-            match.player1.exchangeResults[0] != ExchangeResult.BlockVs2Handed)                    
-            match.player2.Series.ResetSeriesOfStrikes();
     }
-
-    private bool OneHeroLeft()                          // кто-то умер
+    
+    private bool OneHeroLeft()
     {
-        if (match.player1.dead)
+        var player1 = match.player1;
+        var player2 = match.player2;
+        
+        if (player1.isDead)
         {
-            if (match.player2.dead)                          // ничья
+            if (player2.isDead)                   // ничья
             {
                 match.roundWinner = null;
                 return true;
             }
-            match.player2.roundsWon++;                 // врагу +1 раунд
-            match.player1.roundsLost++;                 
-            match.roundWinner = match.player2;          
+            
+            player2.roundsWon++;                 
+            player1.roundsLost++;                 
+            match.roundWinner = player2;          
             return true;
         }
-        if (match.player2.dead)
+        
+        if (player2.isDead)
         {
-            match.player1.roundsWon++;                   // мне +1 раунд
-            match.player2.roundsLost++; 
-            match.roundWinner = match.player1;          
+            player1.roundsWon++;                 
+            player2.roundsLost++; 
+            match.roundWinner = player1;          
             return true;
         }
+        
         return false;
     }
-    
+
     private PlayerObject GameWinner()
     {
-        var roundsForEnemy = GameManager.gameType == GameType.Single ? 1 : match.numRoundsToWin;
-        if (match.player1.roundsWon >= roundsForEnemy) return match.player1;
-        if (match.player2.roundsWon >= match.numRoundsToWin) return match.player2;
+        var enemyAmountRoundsToWin = GameManager.gameType == GameType.Single ? 1 : match.amountRoundsToWin;
+        if (match.player1.roundsWon >= enemyAmountRoundsToWin)
+            return match.player1;
+        
+        if (match.player2.roundsWon >= match.amountRoundsToWin)
+            return match.player2;
+        
         return null;
     }
     
@@ -415,12 +452,19 @@ public class Server : MonoBehaviour, IServer
     {
         int item;
         do item = player.AddInventoryItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
-        while (item == -2);                                    // добавить уникальный инвентарь
-        if (item != -1) return player.inventoryItems[item];    // и чтоб не был полный инвенторий (т.е. мы не выиграли 4 раунд, т.е. игру)
-        else return null;
+        while (item == -2);
+        if (item != -1) 
+            return player.inventoryItems[item];
+        
+        return null;
     }
-
-    private void Awake() => _instance ??= this;
-
-    public void Disable() =>  enabled = false;
+    
+    private void GiveOutRingToBotForFinalRound()       
+    {
+        if (match.roundWinner == match.player2 && match.player1.name == "bot" &&
+            match.player1.roundsLost == match.amountRoundsToWin - 1) 
+            match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "ring_of_cunning"));
+    }
+    
+    public void Disable() => enabled = false;
 }

@@ -129,43 +129,51 @@ public class HeroAnimation : MonoBehaviour
         else return false;
     }
 
-
-    //Функция плавного перемещения вдоль оси X. Возвращает true, если нужная позиция достигнута
-    /*
-    Вариант со штатным демпфером. Наверное, он хорош, когда мы не знаем вектора (и скорости) заранее, а сейчас слишком сложен 
-    private Vector3 Velocity = Vector3.zero;                             // эту переменную надо задать глобально
-    Vector3 Destination = new Vector3(2.5f, 0, -1.5f);                   // вектор края ристалища (туда бежим на смену оружия)
-    transform.position = Vector3.SmoothDamp(transform.position, Destination, ref Velocity, 0.6f);
-    */
-    public bool SmoothMotion(float X)
+/// <summary>
+/// Функция плавного перемещения вдоль оси X. Возвращает true, если нужная позиция достигнута
+///Вариант со штатным демпфером. Наверное, он хорош, когда мы не знаем вектора (и скорости) заранее, а сейчас слишком сложен
+///private Vector3 Velocity = Vector3.zero;                             // эту переменную надо задать глобально
+///Vector3 Destination = new Vector3(2.5f, 0, -1.5f);                   // вектор края ристалища (туда бежим на смену оружия)
+///transform.position = Vector3.SmoothDamp(transform.position, Destination, ref Velocity, 0.6f);
+/// </summary>
+/// <param name="x"></param>
+/// <returns></returns>
+    
+    private bool SmoothMotion(float x)
     {
-        if (_heroViewManager.transform.position.x == X) return true;                                             // перемещение достигнуто
-        if (X > _heroViewManager.transform.position.x)                                                           // Если координату X необходимо увеличивать
+        if (_heroViewManager.transform.position.x.Equals(x)) 
+            return true;                                                     // перемещение достигнуто
+       
+        if (x > _heroViewManager.transform.position.x)                                                           // Если координату X необходимо увеличивать
         {
-            Vector3 Destination = new Vector3(X + 0.1f, 0, zeroZposition) - _heroViewManager.transform.position; // то увеличиваем
-            _heroViewManager.transform.position += Destination * lineSpeed * Time.deltaTime;
-            if (_heroViewManager.transform.position.x >= X)                                                      // и сравниваем, не стало ли X больше задания
+            var destination = new Vector3(x + 0.1f, 0, zeroZposition) - _heroViewManager.transform.position; // то увеличиваем
+            _heroViewManager.transform.position += destination * lineSpeed * Time.deltaTime;
+            if (_heroViewManager.transform.position.x >= x)                                                      // и сравниваем, не стало ли X больше задания
             {
-                _heroViewManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
+                _heroViewManager.transform.position = new Vector3(x, 0, zeroZposition);                          // подравнять X
                 return true;
             }
-            else return false;
+            
+            return false;
         }
         else                                                                                                // иначе координату X необходимо уменьшать
         {
-            Vector3 Destination = new Vector3(X - 0.1f, 0, zeroZposition) - _heroViewManager.transform.position; // уменьшаем
-            _heroViewManager.transform.position += Destination * lineSpeed * Time.deltaTime;
-            if (_heroViewManager.transform.position.x <= X)                                                      // и сравниваем, не стало ли X меньше задания
+            var destination = new Vector3(x - 0.1f, 0, zeroZposition) - _heroViewManager.transform.position; // уменьшаем
+            _heroViewManager.transform.position += destination * lineSpeed * Time.deltaTime;
+            if (_heroViewManager.transform.position.x <= x)                                                      // и сравниваем, не стало ли X меньше задания
             {
-                _heroViewManager.transform.position = new Vector3(X, 0, zeroZposition);                          // подравнять X
+                _heroViewManager.transform.position = new Vector3(x, 0, zeroZposition);                          // подравнять X
                 return true;
             }
-            else return false;
+            
+            return false;
         }
     }
 
-    // Разворот после смены оружия
-    public void RotateToCenter()
+    /// <summary>
+    /// Разворот после смены оружия
+    /// </summary>
+    private void RotateToCenter()
     {
         if (SmoothRotation(270f))
         {
@@ -174,8 +182,10 @@ public class HeroAnimation : MonoBehaviour
         }
     }
 
-    // Выход на центр ристалища
-    public void ToPosition()
+    /// <summary>
+    /// Выход на центр ристалища
+    /// </summary>
+    private void ToPosition()
     {
         if (SmoothMotion(0f))
         {

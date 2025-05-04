@@ -5,13 +5,7 @@ using EF.Localization;
 using EF.Sounds;
 using UnityEngine.SceneManagement;
 
-// Интерфейс между ViewModel и view'хами. Его должен реализовать ViewModel. Ни Client, ни ViewModel не наследуют от Monobehaviour, а все View да, и висят на героях
-public interface IViewModel
-{
-    // Интерфейс IViewModel должен описывать, cудя по DI, как общаться с ViewModel (вернее, PresenterModel) из клиента...
-}
-
-public class ViewModel : IViewModel
+public class ViewModel
 {
     // Хорошо бы вообще для ViewModel не знать о View'хах: HeroUI, HeroAnimation и пр.
     // И общаться с ними с помощью событий или какого-то датабиндинга (UniRx?)
@@ -177,11 +171,6 @@ public class ViewModel : IViewModel
     
     public IEnumerator RoundStarting(int roundNumber, int playerStartHealth, int enemyStartHealth)                 // начало раунда
     {
-        /*// Вернуться при фотоне
-        if (gameType != GameType.Single)       
-            _enemyState = enemyBoltEntity?.GetState<Photon.Bolt.IEFPlayerState>();
-        */
-
         // кнопки управления выкл
         FitWeaponButtonsToWeaponSet();
         _commonView.PlayersControlsCanvas.enabled = false;
