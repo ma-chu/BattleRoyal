@@ -40,7 +40,6 @@ public class MatchInfo
     }
 }
 
-
 public class Server : MonoBehaviour, IServer
 {
     [SerializeField] private List<PlayerObject> players = new();
@@ -65,8 +64,7 @@ public class Server : MonoBehaviour, IServer
         Debug.Log("Локальный сервер: клиент "+ name +" подключился к турниру");
         
         JoinedAction += onJoined;
-        JoinedAction?.Invoke(this, name);  // по событию клиент вызывает SubscribeOnStartMatch, SubscribeOnEndRound, ... и SubscribeOnResultsReady
-        
+        JoinedAction?.Invoke(this, name); 
         if (players.Count == 2) 
             StartCoroutine(StartMatch());                
     }
@@ -164,6 +162,7 @@ public class Server : MonoBehaviour, IServer
                 player.SetTwoHandedSword();
                 break;
         }
+        
         player.defencePart = turnInInfo.PlayerDefencePart * (player.Tweakers.MaxDefencePart + player.Tweakers.ParryChance);
         player.dataTaken = true;
         
@@ -274,6 +273,8 @@ public class Server : MonoBehaviour, IServer
             MatchWinner = match.matchWinner.name
         };
         EndMatchAction?.Invoke(this, player2EndMatchInfo);
+        
+        ResetMatch();
     }
 
     private void CalculateExchangeResultsAndDamages()
@@ -357,15 +358,6 @@ public class Server : MonoBehaviour, IServer
             player.gotDamages[strike - 1] = (int) enemy.preCoeffs[strike - 1].damage;
             player.isDead = player.Hp.TakeDamage(player.gotDamages[strike - 1]);
         }
-        
-        // void HandleSecondStrike(PlayerObject player, PlayerObject enemy)
-        // {
-        //     if (player.exchangeResults[1] != ExchangeResult.GetHit) 
-        //         return;
-        //     
-        //     player.gotDamages[1] = (int) enemy.preCoeffs[1].damage;
-        //     player.isDead = player.Hp.TakeDamage(player.gotDamages[1]);
-        // }
     }
     
     private void AddSeries()
@@ -467,4 +459,16 @@ public class Server : MonoBehaviour, IServer
     }
     
     public void Disable() => enabled = false;
+
+    private void ResetMatch()
+    {
+        players.Clear();
+        
+        JoinedAction = null;
+        StartMatchAction = null;
+        ResultsReadyAction = null;
+        EndMatchAction = null;
+        StartRoundAction = null;
+        EndRoundAction = null;
+    }
 }

@@ -12,12 +12,12 @@ public class AIClient : Client
 
     protected override void CheckForSeries()
     {
-        PlayerStrongStrikesSeries = currentResults.PlayerSeries[0] >= Series.StrongStrikeSeriesBeginning;
-        EnemyStrongStrikesSeries = currentResults.EnemySeries[0] >= Series.StrongStrikeSeriesBeginning;
-        PlayerSeriesOfBlocks = currentResults.PlayerSeries[1] >= Series.SeriesBlockBeginning;
-        EnemySeriesOfBlocks = currentResults.EnemySeries[1] >= Series.SeriesBlockBeginning;
-        PlayerSeriesOfStrikes = currentResults.PlayerSeries[2] >= Series.SeriesStrikeBeginning;
-        EnemySeriesOfStrikes = currentResults.EnemySeries[2] >= Series.SeriesStrikeBeginning;
+        _isPlayerStrongStrikesSeries = _currentResults.PlayerSeries[0] >= Series.StrongStrikeSeriesBeginning;
+        _isEnemyStrongStrikesSeries = _currentResults.EnemySeries[0] >= Series.StrongStrikeSeriesBeginning;
+        _isPlayerSeriesOfBlocks = _currentResults.PlayerSeries[1] >= Series.SeriesBlockBeginning;
+        _isEnemySeriesOfBlocks = _currentResults.EnemySeries[1] >= Series.SeriesBlockBeginning;
+        _isPlayerSeriesOfStrikes = _currentResults.PlayerSeries[2] >= Series.SeriesStrikeBeginning;
+        _isEnemySeriesOfStrikes = _currentResults.EnemySeries[2] >= Series.SeriesStrikeBeginning;
     }
     
         
@@ -25,8 +25,8 @@ public class AIClient : Client
     {
         if (!startRoundInfo.PlayerName.Equals(PlayerName)) return;
         base.OnStartRound(o, startRoundInfo);
-        _stupitidyChangeDelay = NumRoundsToWin - roundsLost - 1;
-        MakeTurn(roundsLost);     // решение бота на первый сход
+        _stupitidyChangeDelay = NumRoundsToWin - _roundsLost - 1;
+        MakeTurn(_roundsLost);     // решение бота на первый сход
     }
 
     protected override void OnResultsReady(object o, TurnOutInfo results)
@@ -37,7 +37,7 @@ public class AIClient : Client
         if (_turnInInfo.PlayerDecision == Decision.Attack && results.EnemyDecision == Decision.Attack ) 
             _stupitidyChangeDelay--;
         else if (_turnInInfo.PlayerDecision != Decision.Attack) 
-            _stupitidyChangeDelay = NumRoundsToWin - roundsLost - 1;
+            _stupitidyChangeDelay = NumRoundsToWin - _roundsLost - 1;
 
         base.OnResultsReady(o, results);
     }
@@ -67,14 +67,14 @@ public class AIClient : Client
         
         
          // 1. Если у врага есть серия - продолжаем её (при любом nicety):
-        if (PlayerSeriesOfStrikes)
+        if (_isPlayerSeriesOfStrikes)
         {
             _turnInInfo.PlayerDecision = Decision.Attack;
             _turnInInfo.PlayerDefencePart = 0f;
             SendDataToServer(_turnInInfo);
             return;
         }
-        if (PlayerSeriesOfBlocks)
+        if (_isPlayerSeriesOfBlocks)
         {
             _turnInInfo.PlayerDecision = Decision.Attack;
             _turnInInfo.PlayerDefencePart = 1f;  //не забыть перемножить на MaxDefPart
@@ -85,7 +85,7 @@ public class AIClient : Client
         // 2. Если у игрока есть серия - нейтрализуем её (при nicety > 1):
         if (nicety > 1)
         {
-            if (EnemySeriesOfStrikes)
+            if (_isEnemySeriesOfStrikes)
             {
                 _turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.SwordShield) ? Decision.ChangeSwordShield : Decision.Attack;
                 _turnInInfo.PlayerDefencePart = 1f;
@@ -93,7 +93,7 @@ public class AIClient : Client
                 SendDataToServer(_turnInInfo);
                 return;
             }
-            if (EnemySeriesOfBlocks)
+            if (_isEnemySeriesOfBlocks)
             {
                 _turnInInfo.PlayerDecision = (PlayerWeaponSet != WeaponSet.TwoHandedSword) ? Decision.ChangeTwoHandedSword : Decision.Attack;
                 _turnInInfo.PlayerDefencePart = 1f;

@@ -22,7 +22,7 @@ public class ViewModel
     private WaitForSeconds _attackWait;
     private WaitForSeconds _changeWait;
 
-    private Client _client;
+    private PlayerClient _client;
     // Views:
     private CommonView _commonView;           // общее: общий текст, кнопки ввода, салют в конце
     private PlayerViewManager _playerViewManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
@@ -36,7 +36,7 @@ public class ViewModel
     private SeriesView _playerSeries;         // отображение серий
     private SeriesView _enemySeries; 
     
-    public void Init(Client client)
+    public void Init(PlayerClient client)
     {
         _client = client;
 
@@ -75,7 +75,7 @@ public class ViewModel
 
     private void OnTurnInDataReady(TurnInInfo turnInInfo)
     {
-        _client.decision = turnInInfo.PlayerDecision;
+        _client.Decision = turnInInfo.PlayerDecision;
 
         FitWeaponButtonsToWeaponSet();
 
@@ -84,7 +84,7 @@ public class ViewModel
 
     private void FitWeaponButtonsToWeaponSet()
     {
-        switch (_client.decision)
+        switch (_client.Decision)
         {
             case Decision.ChangeSwordShield:
                 _client.PlayerWeaponSet = WeaponSet.SwordShield;        
@@ -185,7 +185,7 @@ public class ViewModel
         SetPlayerHP(playerStartHealth);
         SetEnemyHP(enemyStartHealth);
         // изменяем вид врага
-        if (_client.roundsWon > 0) _enemyViewManager.ChangeWeaponsView(_client.roundsWon - 1);
+        if (_client.RoundsWon > 0) _enemyViewManager.ChangeWeaponsView(_client.RoundsWon - 1);
         // анмацию в начало
         if (roundNumber != 1) SetStartPosition();
         // серии сбросить
@@ -216,7 +216,7 @@ public class ViewModel
             _playerViewManager.weaponSet = _client.PlayerWeaponSet;
             _enemyViewManager.weaponSet = _client.EnemyWeaponSet;
                 // основной запускатель анимаций и звуков
-            _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.decision, currentResults.PlayerHP); 
+            _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _client.Decision, currentResults.PlayerHP); 
             _enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
                 // обновляем здоровье
             _playerHP.SetHealth(currentResults.PlayerHP);
@@ -226,7 +226,7 @@ public class ViewModel
                 // задержка на анимацмю смерти/атаки/смены
             var dead = currentResults.PlayerHP < 0 || currentResults.EnemyHP < 0;
             if (dead) yield return _deathWait;
-            else if (_client.decision == Decision.Attack)
+            else if (_client.Decision == Decision.Attack)
             {
                 if (currentResults.EnemyDecision == Decision.Attack) yield return _attackWait;                       
                 else yield return _changeWait;                                                         
@@ -265,7 +265,7 @@ public class ViewModel
             if (item != null) ChangeResultText ("you_got".Localize() + prize.Localize());
             
             // пока что так коряво, а надо бы от сервера писать полностью, кому что
-            if (_enemyUI.Name.Equals("bot") && _client.roundsWon == 3) _enemyViewManager.AddPrize("ring_of_cunning", false);
+            if (_enemyUI.Name.Equals("bot") && _client.RoundsWon == 3) _enemyViewManager.AddPrize("ring_of_cunning", false);
         }
         //4. Врагу тоже
         if (winner == _enemyUI.Name) _enemyViewManager.AddPrize(prize, false);

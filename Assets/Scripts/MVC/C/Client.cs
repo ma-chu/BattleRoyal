@@ -1,28 +1,26 @@
-public class Client
+public abstract class Client
 {
-    private IServer _server;
-    protected TurnOutInfo currentResults;
-
     public const int NumRoundsToWin = 4;                // правильнее получать от сервера в начале матча
-    protected int RoundNumber;
-    public int roundsWon;
-    protected int roundsLost;
+
+    private IServer _server;
+    protected TurnOutInfo _currentResults;
+    protected int _roundNumber;
+    protected int _roundsLost;
     
+    protected bool _isPlayerStrongStrikesSeries;                       
+    protected bool _isPlayerSeriesOfStrikes;                           
+    protected bool _isPlayerSeriesOfBlocks;                            
+    protected bool _isEnemyStrongStrikesSeries;                   
+    protected bool _isEnemySeriesOfStrikes;                        
+    protected bool _isEnemySeriesOfBlocks;
+    
+    public Decision Decision { get; set; }
+    public WeaponSet PlayerWeaponSet { get; set; } = WeaponSet.SwordShield;
+    public WeaponSet EnemyWeaponSet { get; private set; } = WeaponSet.SwordShield;
+
+    public int RoundsWon { get; private set; }
     public string PlayerName { get; private set; }
-
-    public Decision decision;
-    public WeaponSet PlayerWeaponSet = WeaponSet.SwordShield;      
-    public WeaponSet EnemyWeaponSet = WeaponSet.SwordShield;      
-
-    // серия набрана
-    protected bool PlayerStrongStrikesSeries;                       
-    protected bool PlayerSeriesOfStrikes;                           
-    protected bool PlayerSeriesOfBlocks;                            
-    protected bool EnemyStrongStrikesSeries;                   
-    protected bool EnemySeriesOfStrikes;                        
-    protected bool EnemySeriesOfBlocks;                        
-
-
+    
     public virtual void Init(string name)
     {
         PlayerName = name;
@@ -35,9 +33,9 @@ public class Client
         _server.Join(PlayerName, OnJoined);
     }
     
-    protected virtual void OnJoined(object o, string e)
+    protected virtual void OnJoined(object _, string clientName)
     {
-        if (!e.Equals(PlayerName))
+        if (!clientName.Equals(PlayerName))
             return;
         
         _server.SubscribeOnStartMatch(OnStartMatch);
@@ -47,66 +45,63 @@ public class Client
         _server.SubscribeOnEndMatch(OnEndMatch);
     }
 
-    protected virtual void OnStartMatch(object o, StartMatchInfo startMatchInfo)
+    protected virtual void OnStartMatch(object _, StartMatchInfo startMatchInfo)
     {
         if (!startMatchInfo.PlayerName.Equals(PlayerName)) 
             return;
 
-        roundsWon = roundsLost = 0;
+        RoundsWon = _roundsLost = 0;
     }
-    protected virtual void OnResultsReady(object o, TurnOutInfo results)
-    {
-        if (!results.PlayerName.Equals(PlayerName)) return;
-        
-        currentResults = results;
-
-        // обработать результаты хода
-        // 1. При смене оружия врагом поменять его weaponSet (а свой поменяем при вводе с кнопок)
-        switch (results.EnemyDecision)
-        {
-            case Decision.ChangeSwordShield:
-                EnemyWeaponSet = WeaponSet.SwordShield;
-                break;
-            case Decision.ChangeSwordSword:
-                EnemyWeaponSet = WeaponSet.SwordSword;
-                break;
-            case Decision.ChangeTwoHandedSword:
-                EnemyWeaponSet = WeaponSet.TwoHandedSword;
-                break;
-        }
-
-        // 2. Определить, есть ли серии у меня и противника
-        CheckForSeries();
-        
-        // 3. Сам процесс хода
-        MakeTurn(roundsLost);
-        // AI: Определяется с действием бота (nicety - уровень интеллекта врага) /+ вызывает SendDataToServer()/
-        // Player:  через ViewModel отображает анимации, звуки и пр., ожидает TurnInInfo с кнопок
-    }
-
-    protected virtual void CheckForSeries() { }
     
-    protected virtual void MakeTurn(int nicety) { }
-
-    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t);   // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeTurn AI
-
-    protected virtual void OnStartRound(object o, StartRoundInfo startRoundInfo)
+    protected virtual void OnStartRound(object _, StartRoundInfo startRoundInfo)
     {
-        RoundNumber = startRoundInfo.RoundNumber;
+        _roundNumber = startRoundInfo.RoundNumber;
         PlayerWeaponSet = EnemyWeaponSet = WeaponSet.SwordShield;
     }
     
-    protected virtual void OnEndRound(object o, EndRoundInfo endRoundInfo)
+    protected virtual void OnResultsReady(object _, TurnOutInfo results)
     {
-        if (!endRoundInfo.PlayerName.Equals(PlayerName)) return;
+        if (!results.PlayerName.Equals(PlayerName)) 
+            return;
+        
+        _currentResults = results;
+        
+        EnemyWeaponSet = results.EnemyDecision switch
+        {
+            Decision.ChangeSwordShield => WeaponSet.SwordShield,
+            Decision.ChangeSwordSword => WeaponSet.SwordSword,
+            Decision.ChangeTwoHandedSword => WeaponSet.TwoHandedSword,
+            _ => EnemyWeaponSet
+        };
+
+        CheckForSeries();
+        
+        MakeTurn(_roundsLost);
+    }
+
+    protected abstract void CheckForSeries();
+
+    // <summary>
+    // AI: Определяется с действием бота (nicety - уровень интеллекта врага) /+ вызывает SendDataToServer()/
+    // Player:  через ViewModel отображает анимации, звуки и пр., ожидает TurnInInfo с кнопок
+    // </summary>
+    /// <param name="nicety"></param>
+    protected abstract void MakeTurn(int nicety);
+
+    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t);   // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeTurn AI
+    
+    protected virtual void OnEndRound(object _, EndRoundInfo endRoundInfo)
+    {
+        if (!endRoundInfo.PlayerName.Equals(PlayerName)) 
+            return;
 
         if (endRoundInfo.RoundWinner == PlayerName)
-            roundsWon++;
-        else if (!endRoundInfo.RoundWinner.Equals(string.Empty)) roundsLost++;
+            RoundsWon++;
+        else if (!endRoundInfo.RoundWinner.Equals(string.Empty))
+            _roundsLost++;
         
-        // обнулить серии
-        PlayerStrongStrikesSeries = PlayerSeriesOfBlocks = PlayerSeriesOfStrikes = false;
-        EnemyStrongStrikesSeries = EnemySeriesOfBlocks = EnemySeriesOfStrikes = false;
+        _isPlayerStrongStrikesSeries = _isPlayerSeriesOfBlocks = _isPlayerSeriesOfStrikes = false;
+        _isEnemyStrongStrikesSeries = _isEnemySeriesOfBlocks = _isEnemySeriesOfStrikes = false;
     }
     
     protected virtual void OnEndMatch(object o, EndMatchInfo endMatchInfo) { }

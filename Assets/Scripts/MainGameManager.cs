@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +15,8 @@ public class MainGameManager : MonoBehaviour
     private AIClient _aIClient;
 
     private void Awake() => _instance ??= this;
+
+    private void OnDestroy() => _instance = null;
     
     private void Start()
     {
