@@ -17,7 +17,6 @@ public abstract class Client
     public Decision Decision { get; set; }
     public WeaponSet PlayerWeaponSet { get; set; } = WeaponSet.SwordShield;
     public WeaponSet EnemyWeaponSet { get; private set; } = WeaponSet.SwordShield;
-
     public int RoundsWon { get; private set; }
     public string PlayerName { get; private set; }
     
@@ -82,8 +81,8 @@ public abstract class Client
     protected abstract void CheckForSeries();
 
     // <summary>
-    // AI: Определяется с действием бота (nicety - уровень интеллекта врага) /+ вызывает SendDataToServer()/
-    // Player:  через ViewModel отображает анимации, звуки и пр., ожидает TurnInInfo с кнопок
+    // AI: Определяется с действием бота (nicety - уровень интеллекта врага)
+    // Player:  Ожидает TurnInInfo с кнопок
     // </summary>
     /// <param name="nicety"></param>
     protected abstract void MakeTurn(int nicety);

@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// Крутить основную петлю поединка будет ViewModel
-// А также управлять общими View, типа номера раунда
+/// <summary>
+/// Крутить основную петлю поединка будет ViewModel
+/// А также управлять общими View, типа номера раунда
+/// </summary>
+
 public class MainGameManager : MonoBehaviour
 {
     private static MainGameManager _instance;
@@ -20,12 +23,15 @@ public class MainGameManager : MonoBehaviour
     
     private void Start()
     {
-        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) SceneManager.LoadScene (1, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) 
+            SceneManager.LoadScene (1, LoadSceneMode.Additive);
     }
 
     private void OnEnable()
     {
-        if (GameManager.gameType == GameType.Single) StartAIClient();
+        if (GameManager.gameType == GameType.Single)
+            StartAIClient();
+        
         StartPlayerClient();
     }
 
@@ -38,7 +44,6 @@ public class MainGameManager : MonoBehaviour
     private void StartPlayerClient()
     {
         _playerClient = new PlayerClient();
-        var playerName = PlayerPrefs.GetString("username");
-        _playerClient.Init(playerName /*, new ViewModel*/);
+        _playerClient.Init(PlayerPrefs.GetString("username"));
     }
 }
