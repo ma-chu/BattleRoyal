@@ -11,32 +11,30 @@ public struct PreCoeffs
 [System.Serializable]
 public class PlayerObject
 { 
-// не меняются в течении турнира
-    public readonly string name;
-// не меняются в течении раунда
-    public Item[] inventoryItems = new Item[3];
-    public Tweakers Tweakers { get; private set; }                   // Настройки балланса боёвки
+    public readonly string Name;
+    public readonly Item[] InventoryItems = new Item[3];
+    public Tweakers Tweakers { get; private set; }
     public int roundsWon; 
     public int roundsLost;
-// меняются каждый ход
-    //входные
+    
+    /// Outputs
     public WeaponSet weaponSet;
     public float defencePart;                                        // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
     public Decision decision;
-    public bool dataTaken;
-    //выходные
-    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                 // Предв. значения для рассчета урона
-    public ExchangeResult[] exchangeResults = new ExchangeResult[2]; // Результаты ударов
-    public int[] gotDamages = new int[2];                            // Возможный получаемый урон на текущий уда
+    /// Inputs
+    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                 
+    public ExchangeResult[] exchangeResults = new ExchangeResult[2]; 
+    public int[] gotDamages = new int[2];                            
 
     public bool isDead;
+    public bool dataTaken;
 
     public HP Hp { get; private set; }
     public Series Series { get; private set; }    
 
     public PlayerObject(string name)
     {
-        this.name = name;
+        Name = name;
         Hp = new HP();
         Series = new Series(this);
     }
@@ -46,8 +44,10 @@ public class PlayerObject
         decision = Decision.No;
         weaponSet = WeaponSet.SwordShield;
         Tweakers = new Tweakers();
-        if (name.Equals("bot")) Tweakers.AddLevelTweakers(roundsLost);
-        Tweakers.AddInventoryTweakers(inventoryItems);
+        if (Name.Equals("bot"))
+            Tweakers.AddLevelTweakers(roundsLost);
+        
+        Tweakers.AddInventoryTweakers(InventoryItems);
         Hp.SetStartHealth(Tweakers.StartingHealth);
         Series.ResetAll();
         isDead = false;
@@ -107,11 +107,19 @@ public class PlayerObject
     
     public ExchangeResult CalculateExchangeResult(int strikeNumber)
     {
-        if (preCoeffs[strikeNumber - 1].parry) return ExchangeResult.Parry;                   // А. парирование
-        if (preCoeffs[strikeNumber - 1].blockVs2Handed) return ExchangeResult.BlockVs2Handed; // Б. пробитие щита двуручником
-        if (preCoeffs[strikeNumber - 1].block) return ExchangeResult.Block;                   // В. блок
-        if (preCoeffs[strikeNumber - 1].evade) return ExchangeResult.Evade;                   // Г. уворот на смене
-        return ExchangeResult.GetHit;                                                         // Д. принять полный первый удар
+        if (preCoeffs[strikeNumber - 1].parry) 
+            return ExchangeResult.Parry;                    // А. парирование
+        
+        if (preCoeffs[strikeNumber - 1].blockVs2Handed) 
+            return ExchangeResult.BlockVs2Handed;           // Б. пробитие щита двуручником
+        
+        if (preCoeffs[strikeNumber - 1].block) 
+            return ExchangeResult.Block;                    // В. блок
+        
+        if (preCoeffs[strikeNumber - 1].evade) 
+            return ExchangeResult.Evade;                    // Г. уворот на смене
+        
+        return ExchangeResult.GetHit;                       // Д. принять полный первый удар
     }
     
     public void SetSwordSword() => weaponSet = WeaponSet.SwordSword;
@@ -122,19 +130,17 @@ public class PlayerObject
 /// -2 - item is not unique
 /// -1 - inventory is full
 /// </summary>
-/// <param name="itemToAdd"></param>
-/// <returns></returns>
     public int AddInventoryItem(Item itemToAdd)                      
     {
-        for (int i = 0; i < inventoryItems.Length; i++)
+        for (int i = 0; i < InventoryItems.Length; i++)
         {
-            if (inventoryItems[i] == itemToAdd)
+            if (InventoryItems[i] == itemToAdd)
                 return -2;
 
-            if (inventoryItems[i] != null)
+            if (InventoryItems[i] != null)
                 continue;
             
-            inventoryItems[i] = itemToAdd;
+            InventoryItems[i] = itemToAdd;
             return i;
         }
         

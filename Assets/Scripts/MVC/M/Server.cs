@@ -93,21 +93,21 @@ public class Server : MonoBehaviour, IServer
         var player1MatchInfo = new StartMatchInfo();
         var player2MatchInfo = new StartMatchInfo();
 
-        player1MatchInfo.PlayerName = player2MatchInfo.EnemyName = player1.name;
-        player1MatchInfo.EnemyName = player2MatchInfo.PlayerName = player2.name;
+        player1MatchInfo.PlayerName = player2MatchInfo.EnemyName = player1.Name;
+        player1MatchInfo.EnemyName = player2MatchInfo.PlayerName = player2.Name;
         
-        for (var i = 0; i < player1.inventoryItems.Length; i++)
+        for (var i = 0; i < player1.InventoryItems.Length; i++)
         {
-            if (player1.inventoryItems[i] != null)
+            if (player1.InventoryItems[i] != null)
                 player1MatchInfo.PlayerInventoryItems[i] =
-                    player2MatchInfo.EnemyInventoryItems[i] = player1.inventoryItems[i].Name;
+                    player2MatchInfo.EnemyInventoryItems[i] = player1.InventoryItems[i].Name;
         }
 
-        for (var i = 0; i < player2.inventoryItems.Length; i++)
+        for (var i = 0; i < player2.InventoryItems.Length; i++)
         {
-            if (player2.inventoryItems[i] != null)
+            if (player2.InventoryItems[i] != null)
                 player1MatchInfo.EnemyInventoryItems[i] =
-                    player2MatchInfo.PlayerInventoryItems[i] = player2.inventoryItems[i].Name;
+                    player2MatchInfo.PlayerInventoryItems[i] = player2.InventoryItems[i].Name;
         }
 
         StartMatchAction?.Invoke(this, player1MatchInfo);
@@ -131,12 +131,12 @@ public class Server : MonoBehaviour, IServer
 
         var player1StartRoundInfo = new StartRoundInfo()
         {
-            PlayerName = player1.name,
+            PlayerName = player1.Name,
             RoundNumber = match.roundNumber,
         };
         var player2StartRoundInfo = new StartRoundInfo()
         {
-            PlayerName = player2.name,
+            PlayerName = player2.Name,
             RoundNumber = match.roundNumber
         };
         player1StartRoundInfo.PlayerStartHealth = player2StartRoundInfo.EnemyStartHealth = player1.Tweakers.StartingHealth;
@@ -147,7 +147,7 @@ public class Server : MonoBehaviour, IServer
     
     public void TakeDecision(string playerName, TurnInInfo turnInInfo)
     {
-        var player = players.Find(player => player.name == playerName);
+        var player = players.Find(player => player.Name == playerName);
 
         player.decision = turnInInfo.PlayerDecision;
         switch (player.decision)
@@ -177,7 +177,7 @@ public class Server : MonoBehaviour, IServer
             
         var player1TurnOutInfo = new TurnOutInfo
         {
-            PlayerName = match.player1.name,
+            PlayerName = match.player1.Name,
             EnemyDecision = match.player2.decision,
             PlayerExchangeResults = match.player1.exchangeResults,
             EnemyExchangeResults = match.player2.exchangeResults,
@@ -191,7 +191,7 @@ public class Server : MonoBehaviour, IServer
         
         var player2TurnOutInfo = new TurnOutInfo
         {
-            PlayerName = match.player2.name,
+            PlayerName = match.player2.Name,
             EnemyDecision = match.player1.decision,
             PlayerExchangeResults = match.player2.exchangeResults,
             EnemyExchangeResults = match.player1.exchangeResults,
@@ -225,16 +225,16 @@ public class Server : MonoBehaviour, IServer
         
         var player1EndRoundInfo = new EndRoundInfo()
         {
-            PlayerName = match.player1.name,
-            RoundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
+            PlayerName = match.player1.Name,
+            RoundWinner = match.roundWinner != null ? match.roundWinner.Name : string.Empty,
             Prize = prize != null ? prize.Name : string.Empty
         };
         EndRoundAction?.Invoke(this, player1EndRoundInfo);
                 
         var player2EndRoundInfo = new EndRoundInfo()
         {
-            PlayerName = match.player2.name,
-            RoundWinner = match.roundWinner != null ? match.roundWinner.name : string.Empty,
+            PlayerName = match.player2.Name,
+            RoundWinner = match.roundWinner != null ? match.roundWinner.Name : string.Empty,
             Prize = prize != null ? prize.Name : string.Empty
         };
         EndRoundAction?.Invoke(this, player2EndRoundInfo);
@@ -262,15 +262,15 @@ public class Server : MonoBehaviour, IServer
     {
         var player1EndMatchInfo = new EndMatchInfo()    
         {
-            PlayerName = match.player1.name,
-            MatchWinner = match.matchWinner.name
+            PlayerName = match.player1.Name,
+            MatchWinner = match.matchWinner.Name
         };
         EndMatchAction?.Invoke(this, player1EndMatchInfo);
         
         var player2EndMatchInfo = new EndMatchInfo()
         {
-            PlayerName = match.player2.name,
-            MatchWinner = match.matchWinner.name
+            PlayerName = match.player2.Name,
+            MatchWinner = match.matchWinner.Name
         };
         EndMatchAction?.Invoke(this, player2EndMatchInfo);
         
@@ -446,14 +446,14 @@ public class Server : MonoBehaviour, IServer
         do item = player.AddInventoryItem(AllItems.Instance.items[UnityEngine.Random.Range(0, AllItems.Instance.items.Length)]);
         while (item == -2);
         if (item != -1) 
-            return player.inventoryItems[item];
+            return player.InventoryItems[item];
         
         return null;
     }
     
     private void GiveOutRingToBotForFinalRound()       
     {
-        if (match.roundWinner == match.player2 && match.player1.name == "bot" &&
+        if (match.roundWinner == match.player2 && match.player1.Name == "bot" &&
             match.player1.roundsLost == match.amountRoundsToWin - 1) 
             match.player1.AddInventoryItem(AllItems.Instance.items.First(i => i.Name == "ring_of_cunning"));
     }
