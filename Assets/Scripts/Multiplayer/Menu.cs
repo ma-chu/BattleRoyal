@@ -1,69 +1,93 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Photon.Bolt;
 using Photon.Bolt.Matchmaking;
 using UdpKit;
-using UdpKit.Platform.Photon;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 #if UNITY_EDITOR               
 using UnityEditor;
 #endif
 
-
 public class Menu : GlobalEventListener
 {
-    [SerializeField] private GameObject MultiPlayerGO;
-    [SerializeField] private GameObject ClientGO;
-    [SerializeField] private GameObject setUsernamePanel;
+    [SerializeField] private Button singlePlayerGameButton;
+    [SerializeField] private Button multiPlayerGameButton;
+    [SerializeField] private Button quitButton;
+    [Header("MultiPlayer")]
+    [SerializeField] private GameObject multiPlayerPanel;
+    [SerializeField] private GameObject clientPanel;
     [SerializeField] private Dropdown serverListDropdown;
+    [SerializeField] private Button startServerButton;
+    [SerializeField] private Button startClientButton;
+    [Header("SetUsername")]
+    [SerializeField] private Button setUsernameButton;
+    [SerializeField] private GameObject setUsernamePanel;
+    [SerializeField] private InputField setUsernameInputField;
+    [SerializeField] private Button usernameOkButton;
 
-    private List <UdpSession/*PhotonSession*/> sessionList = new List<UdpSession/*PhotonSession*/>();   
+    private readonly List <UdpSession/*PhotonSession*/> _sessionList = new ();   
     private string _userName;
 
     private void Awake()
     {
-        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) SceneManager.LoadScene (1, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) 
+            SceneManager.LoadScene (1, LoadSceneMode.Additive);
+        
+        setUsernameButton.onClick.AddListener(ChangeUsernameHandler);
+        usernameOkButton.onClick.AddListener(OnUsernameChanged);
+        singlePlayerGameButton.onClick.AddListener(SinglePlayerGameButtonHandler);
+        multiPlayerGameButton.onClick.AddListener(MultiPlayerGameButtonHandler);
+        quitButton.onClick.AddListener(QuitButtonHandler);
     }
-
+    
     public void Start()
     {
         setUsernamePanel.SetActive(!PlayerPrefs.HasKey("username") ||
-                                   PlayerPrefs.GetString("username") == "" ||
+                                   PlayerPrefs.GetString("username") == string.Empty ||
                                    PlayerPrefs.GetString("username") == null);
     }
+    
+    private void OnDestroy()
+    {
+        setUsernameButton.onClick.RemoveListener(ChangeUsernameHandler);
+        usernameOkButton.onClick.RemoveListener(OnUsernameChanged);
+        singlePlayerGameButton.onClick.RemoveListener(SinglePlayerGameButtonHandler);
+        multiPlayerGameButton.onClick.RemoveListener(MultiPlayerGameButtonHandler);
+        quitButton.onClick.RemoveListener(QuitButtonHandler);
+        startServerButton.onClick.RemoveListener(StartServerButtonHandler);
+        startClientButton.onClick.RemoveListener(StartClientButtonHandler);
+        serverListDropdown.onValueChanged.RemoveListener(ServerListDropdownValueChangedHandler);
+    }
 
-    public void ChangeUsername()
+    private void ChangeUsernameHandler()
     {
         setUsernamePanel.SetActive(true);
-        setUsernamePanel.GetComponentInChildren<InputField>().text = PlayerPrefs.GetString("username");
+        setUsernameInputField.text = PlayerPrefs.GetString("username");
     }
 
-    public void OnUsernameChanged()
+    private void OnUsernameChanged()
     {
-        var input = setUsernamePanel.GetComponentInChildren<InputField>().text;
-        PlayerPrefs.SetString("username", input);
+        PlayerPrefs.SetString("username", setUsernameInputField.text);
         setUsernamePanel.SetActive(false);
     }
+
+    private void SinglePlayerGameButtonHandler() => StartSinglePlayer();
     
-    public void StartSinglePlayer()
+    private void MultiPlayerGameButtonHandler()
     {
-        /*GameManager.gameType = GameType.Single;
-        //SceneManager.UnloadSceneAsync (/*SceneManager.GetActiveScene ().buildIndex /*0);
-        SceneManager.LoadScene (2, LoadSceneMode.Single); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
-        //SceneManager.SetActiveScene (SceneManager.GetSceneByName("Main"));*/
-        GameManager.Instance.StartGame(GameType.Single);
+        multiPlayerPanel.SetActive(true);
+        startServerButton.onClick.AddListener(StartServerButtonHandler);
+        startClientButton.onClick.AddListener(StartClientButtonHandler);
+        serverListDropdown.onValueChanged.AddListener(ServerListDropdownValueChangedHandler);
     }
+
+    private void QuitButtonHandler() => Quit();
+
+    private void StartSinglePlayer() => GameManager.Instance.StartGame(GameType.Single);
     
-    public void StartMultiPlayer()
-    {
-        MultiPlayerGO.SetActive(true);
-    }
-    
-    public void Quit()                                     
+    private void Quit()                                     
     {
     #if UNITY_EDITOR 
         EditorApplication.isPlaying = false;
@@ -71,63 +95,73 @@ public class Menu : GlobalEventListener
 		Application.Quit();
     #endif
     }
+
     
-    public void StartServer()
+    /// <summary>
+    /// Multiplayer Bolt Staff
+    /// </summary>
+    
+    private void StartServerButtonHandler() => StartServer();
+    
+    private void StartClientButtonHandler() => StartClient();
+    
+    private void StartServer()
     {
-        BoltLauncher.StartServer();                // A1. Запуск Сервера
+        BoltLauncher.StartServer();
         GameManager.Instance.StartGame(GameType.Server);
     }
     
-    public void StartClient()
+    private void StartClient()
     {
-        ClientGO.SetActive(true);
-        BoltLauncher.StartClient();                // B1. Запуск Клиента
+        clientPanel.SetActive(true);
+        BoltLauncher.StartClient();
     }
 
-    // Хотел было раскидать след. далее фии по ServerPhotonAdapter и ClientPhotonAdapter, но пока оставил здесь...
-    // ф-ия-событие, когда сервер/клиент болта стартанул: будет загружать всем клиентам сцену Main
-    public override void BoltStartDone()           // A-B2. Событие на сервере/клиенте "Болт Стартанул".
+    /// <summary>
+    /// Функция-событие, когда сервер/клиент болта стартанул: будет загружать всем клиентам сцену Main
+    /// </summary>
+    public override void BoltStartDone()
     {
         _userName =  PlayerPrefs.GetString("username") ?? "Joe Doe";
         
         if (BoltNetwork.IsServer)
         {
             Debug.LogWarning("connections max = " + BoltMatchmaking.CurrentSession.ConnectionsMax);
-            BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");    // A3. Создать сессию (матч, room?) Третьим параметром можно передать токен
+            // Создать сессию (room) Третьим параметром можно передать токен
+            BoltMatchmaking.CreateSession(sessionID: _userName, sceneToLoad: "Main");
         }
         
-        if (BoltNetwork.IsClient) GameManager.Instance.StartGame(GameType.Client);
+        if (BoltNetwork.IsClient)
+            GameManager.Instance.StartGame(GameType.Client);
     }
     
-    
-    // ф-ия вызывается на клиенте, когда создается/разрушается сессия (room) и затем каждые несколько секунд
-    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)    // B3. Событие на клиенте "список сессий обновился"
+    /// <summary>
+    /// Ф-ия-событие, вызывается на клиенте, когда создается/разрушается сессия (room) и затем каждые несколько секунд
+    /// </summary>
+    /// <param name="sessionList"></param>
+    public override void SessionListUpdated(Map<Guid, UdpSession> sessionList)
     {
         Debug.Log("SessionListUpdated");
-        ClearSessions();
+        ClearSessionsDropdown();
 
         foreach (var session in sessionList)
         {
             UdpSession/*PhotonSession*/ photonSession = session.Value/*as PhotonSession*/;    
-            
-            this.sessionList.Add(photonSession);
-            
+            _sessionList.Add(photonSession);
             serverListDropdown.options.Add(new Dropdown.OptionData(photonSession.HostName));
         }
+        
         serverListDropdown.RefreshShownValue();
     }
 
-    public void JoinSession(int photonSession)    // B4. Присоединиться к матчу
+    private void ServerListDropdownValueChangedHandler(int value) => JoinSession(value);
+
+    private void JoinSession(int photonSession)
     {
         GameManager.gameType = GameType.Client;
-        
         var clientToken = new PlayerClientToken {username = _userName};
-        // clientToken.entity почему-то не принимается...
-        /*var entity = BoltNetwork.Instantiate(BoltPrefabs.HeroBoltEntity, Vector3.zero, Quaternion.identity);
-        clientToken.entity = entity;*/
-        
-        Debug.Log("JoinSession: me, " + clientToken.username + ", to host " + sessionList[photonSession].HostName);
-        BoltMatchmaking.JoinSession(sessionList[photonSession], clientToken);
+        Debug.Log("JoinSession: me, " + clientToken.username + ", to host " + _sessionList[photonSession].HostName);
+        BoltMatchmaking.JoinSession(_sessionList[photonSession], clientToken);
         /*Если надо аутентификацию, используем методы
          1 BoltNetwork.Connect(UdpEndPoint endpoint, IProtocolToken token);  клиент; с передачей в токене username, password
          2 ConnectRequest(UdpEndPoint endpoint, IProtocolToken token);       сервер; c приемом токена и формированием AuthResultToken 
@@ -135,7 +169,7 @@ public class Menu : GlobalEventListener
          */                                                      
     }
 
-    private void ClearSessions()
+    private void ClearSessionsDropdown()
     {
         serverListDropdown.options.Clear();
     }
