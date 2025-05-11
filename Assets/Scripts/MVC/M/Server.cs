@@ -279,7 +279,7 @@ public class Server : MonoBehaviour, IServer
 
     private void CalculateExchangeResultsAndDamages()
     {
-        if (GameManager.gameType == GameType.Client)
+        if (GameManager.GameType == GameType.Client)
             return;
 
         CalculatePreCoeffs();
@@ -430,7 +430,7 @@ public class Server : MonoBehaviour, IServer
 
     private PlayerObject GameWinner()
     {
-        var enemyAmountRoundsToWin = GameManager.gameType == GameType.Single ? 1 : match.amountRoundsToWin;
+        var enemyAmountRoundsToWin = GameManager.GameType == GameType.Single ? 1 : match.amountRoundsToWin;
         if (match.player1.roundsWon >= enemyAmountRoundsToWin)
             return match.player1;
         

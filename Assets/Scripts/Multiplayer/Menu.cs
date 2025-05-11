@@ -158,7 +158,7 @@ public class Menu : GlobalEventListener
 
     private void JoinSession(int photonSession)
     {
-        GameManager.gameType = GameType.Client;
+        GameManager.GameType = GameType.Client;
         var clientToken = new PlayerClientToken {username = _userName};
         Debug.Log("JoinSession: me, " + clientToken.username + ", to host " + _sessionList[photonSession].HostName);
         BoltMatchmaking.JoinSession(_sessionList[photonSession], clientToken);

@@ -29,7 +29,7 @@ public class MainGameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GameManager.gameType == GameType.Single)
+        if (GameManager.GameType == GameType.Single)
             StartAIClient();
         
         StartPlayerClient();

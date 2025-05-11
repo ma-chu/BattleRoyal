@@ -154,7 +154,7 @@ public class ViewModel
     private void RestartPressed()
     {
         GameSave.Save();
-        if (GameManager.gameType != GameType.Single) Photon.Bolt.BoltLauncher.Shutdown();
+        if (GameManager.GameType != GameType.Single) Photon.Bolt.BoltLauncher.Shutdown();
         // Как-то уничтожить компонент Server
         SceneManager.UnloadSceneAsync(2, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
         SceneManager.LoadScene(0);                          

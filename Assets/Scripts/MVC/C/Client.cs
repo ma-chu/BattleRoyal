@@ -23,7 +23,7 @@ public abstract class Client
     public virtual void Init(string name)
     {
         PlayerName = name;
-        Join(GameManager.server);
+        Join(GameManager.Server);
     }
 
     private void Join(IServer server)                    

@@ -23,20 +23,11 @@ public class Series
     {
         _player = player;
     }
-    
+
     public void TryToAddStrongSeries(int strikeNumber)
     {
-        switch (strikeNumber)
-        {
-            case 1:
-                if (_player.preCoeffs[0].damage >= StrongStrikeMin)
-                    StrongStrikesNum++;
-                break;
-            case 2:
-                if (_player.preCoeffs[1].damage >= StrongStrikeMin)
-                    StrongStrikesNum++;
-                break;
-        }
+        if (_player.preCoeffs[strikeNumber - 1].damage >= StrongStrikeMin)
+            StrongStrikesNum++;
     }
 
     public void AddSeriesOfStrikes()
