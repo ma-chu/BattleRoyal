@@ -3,6 +3,7 @@ public abstract class Client
     public const int NumRoundsToWin = 4;                // правильнее получать от сервера в начале матча
 
     private IServer _server;
+    
     protected TurnOutInfo _currentResults;
     protected int _roundNumber;
     protected int _roundsLost;
@@ -13,15 +14,18 @@ public abstract class Client
     protected bool _isEnemyStrongStrikesSeries;                   
     protected bool _isEnemySeriesOfStrikes;                        
     protected bool _isEnemySeriesOfBlocks;
-    
+
+    protected MainSceneManager _mainSceneManager;
+
     public Decision Decision { get; set; }
     public WeaponSet PlayerWeaponSet { get; set; } = WeaponSet.SwordShield;
     public WeaponSet EnemyWeaponSet { get; private set; } = WeaponSet.SwordShield;
     public int RoundsWon { get; private set; }
     public string PlayerName { get; private set; }
     
-    public virtual void Init(string name)
+    public virtual void Init(MainSceneManager mainSceneManager, string name)
     {
+        _mainSceneManager = mainSceneManager;
         PlayerName = name;
         Join(GameManager.Server);
     }
@@ -87,7 +91,8 @@ public abstract class Client
     /// <param name="nicety"></param>
     protected abstract void MakeTurn(int nicety);
 
-    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t);   // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeTurn AI
+    // по нажатию кнопки решения у player'а или по выполнении ф-ии MakeTurn AI
+    public void SendDataToServer(TurnInInfo t) => _server.TakeDecision(PlayerName, t); 
     
     protected virtual void OnEndRound(object _, EndRoundInfo endRoundInfo)
     {

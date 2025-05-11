@@ -743,7 +743,8 @@ PlayerSettings:
     Android: BOLT_CLOUD;BOLT_1_3_OR_NEWER
   additionalCompilerArguments: {}
   platformArchitecture: {}
-  scriptingBackend: {}
+  scriptingBackend:
+    Android: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   managedStrippingLevel:

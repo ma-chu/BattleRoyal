@@ -119,6 +119,4 @@ public class HeroViewManager : MonoBehaviour
         if (showDesc) inventory.ShowItemDescription(item);           
         return inventory.items[item];
     }
-    
-    public void SetInventory(Item item) =>  inventory.AddItem(item);    // очень похоже, что дублирует AddPrize. Разобраться с ней при фотоне
 }

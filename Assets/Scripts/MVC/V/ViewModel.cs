@@ -5,24 +5,28 @@ using EF.Localization;
 using EF.Sounds;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Крутит основную петлю поединка будет ViewModel и управляет View-хами.
+/// Хорошо бы общаться с ними с помощью событий или какого-то датабиндинга (UniRx?)
+/// ... Но здесь пока скорее PresenterModel, где есть ссылки на все View, и общение с View через поля
+/// </summary>
+
 public class ViewModel
 {
-    // Хорошо бы вообще для ViewModel не знать о View'хах: HeroUI, HeroAnimation и пр.
-    // И общаться с ними с помощью событий или какого-то датабиндинга (UniRx?)
-    // ... Но здесь пока скорее PresenterModel, где есть ссылки на все View, и общение с View через поля
-
     public const float StartDelay = 3.5f;                     
     public const float EndDelay = 5f;                         
     public const float DeathDelay = 2.5f;                     
     private const float AttackDelay = 3f;                      
     private const float ChangeDelay = 7.5f;
+    
+    private PlayerClient _client;
+    private MainSceneManager _mainSceneManager;
+
     private WaitForSeconds _deathWait;                    
     private WaitForSeconds _startWait;                                   
     private WaitForSeconds _endWait;
     private WaitForSeconds _attackWait;
     private WaitForSeconds _changeWait;
-
-    private PlayerClient _client;
     // Views:
     private CommonView _commonView;           // общее: общий текст, кнопки ввода, салют в конце
     private PlayerViewManager _playerViewManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
@@ -36,25 +40,26 @@ public class ViewModel
     private SeriesView _playerSeries;         // отображение серий
     private SeriesView _enemySeries; 
     
-    public void Init(PlayerClient client)
+    public void Init(PlayerClient client, MainSceneManager mainSceneManager)
     {
         _client = client;
-
-        _commonView = MainGameManager.Instance.GetComponent<CommonView>();
+        _mainSceneManager = mainSceneManager;
+        
+        _commonView = _mainSceneManager.GetComponent<CommonView>(); 
         _commonView.RestartButton.onClick.AddListener(RestartPressed);
         _commonView.SubscribeOnTurnInDataReady(OnTurnInDataReady);
         
-        _playerViewManager = MainGameManager.Instance.player.GetComponent<PlayerViewManager>();
-        _enemyViewManager = MainGameManager.Instance.enemy.GetComponent<EnemyViewManager>();
+        _playerViewManager = _mainSceneManager.player.GetComponent<PlayerViewManager>();
+        _enemyViewManager = _mainSceneManager.enemy.GetComponent<EnemyViewManager>();
 
-        _playerUI = MainGameManager.Instance.player.GetComponent<HeroUI>();            
-        _enemyUI = MainGameManager.Instance.enemy.GetComponent<HeroUI>();
-        _playerHP = MainGameManager.Instance.player.GetComponent<HPView>();            
-        _enemyHP = MainGameManager.Instance.enemy.GetComponent<HPView>();
-        _playerAnim = MainGameManager.Instance.player.GetComponent<HeroAnimation>();   
-        _enemyAnim = MainGameManager.Instance.enemy.GetComponent<HeroAnimation>();
-        _playerSeries = MainGameManager.Instance.player.GetComponent<SeriesView>();   
-        _enemySeries = MainGameManager.Instance.enemy.GetComponent<SeriesView>();
+        _playerUI = _mainSceneManager.player.GetComponent<HeroUI>();            
+        _enemyUI = _mainSceneManager.enemy.GetComponent<HeroUI>();
+        _playerHP = _mainSceneManager.player.GetComponent<HPView>();            
+        _enemyHP = _mainSceneManager.enemy.GetComponent<HPView>();
+        _playerAnim = _mainSceneManager.player.GetComponent<HeroAnimation>();   
+        _enemyAnim = _mainSceneManager.enemy.GetComponent<HeroAnimation>();
+        _playerSeries = _mainSceneManager.player.GetComponent<SeriesView>();   
+        _enemySeries = _mainSceneManager.enemy.GetComponent<SeriesView>();
         
 
         _deathWait = new WaitForSeconds(DeathDelay);         
@@ -144,7 +149,7 @@ public class ViewModel
         {
             GameSave.LastLoadedSnapshot.tournamentsWon++;
             
-            yield return MainGameManager.Instance.StartCoroutine(_commonView.Salute());
+            yield return _mainSceneManager.StartCoroutine(_commonView.Salute());
         }
         yield return _endWait;
         

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// #pragma warning disable 0649    // убирает предупреждения компилятора о [SerializeField] private переменных, инициализируемых в редакторе   
-
 public enum WeaponSet : short { SwordShield, SwordSword, TwoHandedSword };                              // варианты сетов оружия у героя
 public enum Heroes : short { Player, Enemy, Nobody };                                                   // варианты победителей раундов и игры
 public enum Decision : short { No, Attack, ChangeSwordShield, ChangeSwordSword, ChangeTwoHandedSword }; // варианты действий героя
@@ -25,8 +23,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //if (!SceneManager.GetSceneByName("Start").isLoaded) SceneManager.LoadScene ("Start", LoadSceneMode.Additive);
-        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded) SceneManager.LoadScene (1, LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByBuildIndex(1).isLoaded)
+            SceneManager.LoadScene (1, LoadSceneMode.Additive);
     }
 
     public void StartGame(GameType type)
@@ -36,12 +34,11 @@ public class GameManager : MonoBehaviour
         {
             case GameType.Single:
                 Server = global::Server.Instance;
-                SceneManager.LoadScene (2, LoadSceneMode.Single); // LoadScene, в отличие от LoadSceneAcync, делает ее активной?
+                SceneManager.LoadScene (2, LoadSceneMode.Single);
                 break;
             case GameType.Server:
                 Server = global::Server.Instance;
                 //gameObject.AddComponent<ServerPhotonAdapter>();
-                //new ServerPhotonAdapter();
                 break;
             case GameType.Client:
                 global::Server.Instance.Disable();
@@ -50,6 +47,4 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    
-// Как клиент распознает, сетевой он или нет?? А никак. Не нужно ему это знать
 }

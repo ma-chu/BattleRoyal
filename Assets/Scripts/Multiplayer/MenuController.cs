@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor;
 #endif
 
-public class Menu : GlobalEventListener
+public class MenuController : GlobalEventListener
 {
     [SerializeField] private Button singlePlayerGameButton;
     [SerializeField] private Button multiPlayerGameButton;
