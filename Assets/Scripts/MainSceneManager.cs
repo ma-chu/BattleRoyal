@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 //  1. Не уверен, что класс ViewModel нужен. Перенести его логику сюда
 //  2. Из логики ViewModel убрать все GetComponent, заменить их на ссылки, хранящиеся в HeroViewManager
 //  3. Сделать player и enemy не GameObject, а класс HeroViewManager
+//  4. HeroViewManager должен слушать события от view, а не посылать их вьюхам 
 public class MainSceneManager : MonoBehaviour 
 {
     public GameObject player; 

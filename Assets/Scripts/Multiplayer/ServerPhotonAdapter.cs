@@ -1,25 +1,22 @@
-using System;
 using Photon.Bolt;
-using Photon.Bolt.Matchmaking;
 using UnityEngine;
 
-// Реализует перевод интерфейса IServer в события photon'а в и обратно.
+/// <summary>
+/// Реализует перевод интерфейса IServer в события photon'а в и обратно
+/// Не имплементирует интерфейс IServer, а вызывает его ф-ии 
+/// </summary>
 
 
 // Можно прикрепить к постоянному объекту на сцене
 // А можно указать такой атрибут, как ниже. Bolt породит инстанс скрипта самостоятельно без прикрепления к объекту сцены
 // (только на сервере и только для сцены Main)
 [BoltGlobalBehaviour(BoltNetworkModes.Server, "Main")]
-public class ServerPhotonAdapter : GlobalEventListener    // не реализует интерфейс IServer, а вызывает его ф-ии 
+public class ServerPhotonAdapter : GlobalEventListener
 {
-    private static ServerPhotonAdapter _instance;
-    public static ServerPhotonAdapter Instance => _instance;
-    
     private IServer _server;
     
     private void Awake()
     {
-        _instance = this;
         _server = Server.Instance;
         
         _server.SubscribeOnStartMatch(OnStartMatch);   
@@ -58,10 +55,12 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
     }
 
 
-    private void OnStartMatch(object o, StartMatchInfo startMatchInfo)
+    private void OnStartMatch(object _, StartMatchInfo startMatchInfo)
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(startMatchInfo.PlayerName);
-        if (playerObject == null) return; // этот клиент не сетевой
+        if (playerObject == null)           // этот клиент не сетевой
+            return;
+        
         var evnt = EFStartMatch.Create(playerObject.connection);
         evnt.EnemyName = startMatchInfo.EnemyName;
         if (startMatchInfo.PlayerInventoryItems != null)
@@ -83,10 +82,12 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
     }
 
     
-    private void OnStartRound(object o, StartRoundInfo startRoundInfo)
+    private void OnStartRound(object _, StartRoundInfo startRoundInfo)
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(startRoundInfo.PlayerName);
-        if (playerObject == null) return;                                            // этот клиент не сетевой
+        if (playerObject == null)
+            return;
+        
         var evnt = EFStartRound.Create(playerObject.connection);
         evnt.roundNumber = startRoundInfo.RoundNumber;
         evnt.PlayerStartHealth = startRoundInfo.PlayerStartHealth;
@@ -95,10 +96,12 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
     }
 
     
-    private void OnResultsReady(object o, TurnOutInfo results)
+    private void OnResultsReady(object _, TurnOutInfo results)
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(results.PlayerName);
-        if (playerObject == null) return;                                            // этот клиент не сетевой
+        if (playerObject == null)
+            return;
+        
         var evnt = EFResultsReady.Create(playerObject.connection);
         evnt.EnemyDecision = (int) results.EnemyDecision;
         evnt.PlayerExchangeResult1 = (int) results.PlayerExchangeResults[0];
@@ -121,10 +124,12 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
     }
 
 
-    private void OnEndRound(object o, EndRoundInfo endRoundInfo)
+    private void OnEndRound(object _, EndRoundInfo endRoundInfo)
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(endRoundInfo.PlayerName);
-        if (playerObject == null) return;                                            // этот клиент не сетевой
+        if (playerObject == null)
+            return;
+       
         var evnt = EFEndRound.Create(playerObject.connection);
         evnt.roundWinner = endRoundInfo.RoundWinner;
         evnt.prize = endRoundInfo.Prize;
@@ -132,10 +137,12 @@ public class ServerPhotonAdapter : GlobalEventListener    // не реализу
     }
 
 
-    private void OnEndMatch(object o, EndMatchInfo endMatchInfo)
+    private void OnEndMatch(object _, EndMatchInfo endMatchInfo)
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(endMatchInfo.PlayerName);
-        if (playerObject == null) return;                                            // этот клиент не сетевой
+        if (playerObject == null) 
+            return;
+        
         var evnt = EFEndMatch.Create(playerObject.connection);
         evnt.matchWinner = endMatchInfo.MatchWinner;
         evnt.Send(); 

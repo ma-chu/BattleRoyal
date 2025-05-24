@@ -98,7 +98,7 @@ public class MenuController : GlobalEventListener
 
     
     /// <summary>
-    /// Multiplayer Bolt Staff
+    /// Multiplayer Bolt Stuff
     /// </summary>
     
     private void StartServerButtonHandler() => StartServer();

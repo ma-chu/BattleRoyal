@@ -2,7 +2,14 @@ using System;
 using Photon.Bolt;
 using UnityEngine;
 
+/// <summary>
+/// Имплементирует интерфейс IServer на клиенте: вызывает в имплементациях методов photon-события
+/// </summary>
 
+
+// Можно прикрепить к постоянному объекту на сцене
+// А можно указать такой атрибут, как ниже. Bolt породит инстанс скрипта самостоятельно без прикрепления к объекту сцены
+// (только на клиенте)
 [BoltGlobalBehaviour(BoltNetworkModes.Client)]
 public class ClientPhotonAdapter : GlobalEventListener, IServer
 {
