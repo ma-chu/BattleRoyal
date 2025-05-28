@@ -6,11 +6,11 @@ using UnityEngine.UI;
 // общая View: общий текст, кнопки ввода, салют в конце
 public class CommonView : MonoBehaviour
 {
-    private Action<TurnInInfo> _turnDataReady;
+    public Action<TurnInInfo> TurnDataReady;
 
     public void SubscribeOnTurnInDataReady(Action<TurnInInfo> onTurnDataReady)    // возможно, не Action<TurnInInfo>, а EventHandler <TurnInInfo> c переописанием события
     {
-        _turnDataReady += onTurnDataReady;
+        TurnDataReady += onTurnDataReady;
     }
     
     [SerializeField] private Text resultText;                                     // текст для вывода "Игра окончена" и прочего
@@ -80,7 +80,8 @@ public class CommonView : MonoBehaviour
             PlayerDecision = _decision,
             PlayerDefencePart = _defencePart
         };
-        _turnDataReady?.Invoke(t);
+        
+        TurnDataReady?.Invoke(t);
     }
     
     public IEnumerator Salute()

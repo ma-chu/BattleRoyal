@@ -7,10 +7,9 @@
         heroType = Heroes.Player;
     }
 
-    protected override void OnEnable()                              // (back on again, следующий раунд)
+    protected override void OnEnable()
     {
-        inventory.CloseItemDescription();                           // скрыть описание инвентаря (если он был выигран в предыдущем раунде)
-
+        inventory.CloseItemDescription();
         base.OnEnable();                                            
     }
 }

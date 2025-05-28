@@ -2,15 +2,15 @@ using EF.Localization;
 
 public class PlayerClient : Client
 {
-    private ViewModel _viewModel;
+    //private ViewModel _viewModel;
 
     private readonly bool[] _playerSeriesSet = new bool[3];
     private readonly bool[] _enemySeriesSet = new bool[3];
     
     public override void Init(MainSceneManager mainSceneManager, string name)
     {
-        _viewModel = new ViewModel();
-        _viewModel.Init(this, mainSceneManager);
+        //_viewModel = new ViewModel();
+        //_viewModel.Init(this, mainSceneManager);
         
         base.Init(mainSceneManager, name);
     }
@@ -18,7 +18,7 @@ public class PlayerClient : Client
     protected override void OnJoined(object _, string clientName)
     {
         base.OnJoined(_, clientName);
-        _viewModel.ChangeResultText("waiting".Localize());
+        _mainSceneManager.ChangeResultText("waiting".Localize());
     }
     
     protected override void OnStartMatch(object _, StartMatchInfo startMatchInfo)
@@ -27,9 +27,9 @@ public class PlayerClient : Client
             return;
         
         base.OnStartMatch(_, startMatchInfo);
-        _viewModel.SetEnemyName(startMatchInfo.EnemyName);
-        _viewModel.SetPlayerName(startMatchInfo.PlayerName);
-        _mainSceneManager.StartCoroutine(_viewModel.GameStarting());
+        _mainSceneManager.SetEnemyName(startMatchInfo.EnemyName);
+        _mainSceneManager.SetPlayerName(startMatchInfo.PlayerName);
+        _mainSceneManager.StartCoroutine(_mainSceneManager.GameStarting());
     }
 
     protected override void OnStartRound(object _, StartRoundInfo startRoundInfo)
@@ -38,12 +38,12 @@ public class PlayerClient : Client
             return;
         
         base.OnStartRound(_, startRoundInfo);
-        _mainSceneManager.StartCoroutine(_viewModel.RoundStarting(_roundNumber, startRoundInfo.PlayerStartHealth, startRoundInfo.EnemyStartHealth));
+        _mainSceneManager.StartCoroutine(_mainSceneManager.RoundStarting(_roundNumber, startRoundInfo.PlayerStartHealth, startRoundInfo.EnemyStartHealth));
     }
     
     protected override void MakeTurn(int nicety)
     {
-        _mainSceneManager.StartCoroutine(_viewModel.RoundPlaying(_currentResults));
+        _mainSceneManager.StartCoroutine(_mainSceneManager.RoundPlaying(_currentResults));
     }
     
     protected override void CheckForSeries()
@@ -52,8 +52,8 @@ public class PlayerClient : Client
         HandleSeriesOfStrikes();
         HandleSeriesOfBlocks();  
         
-        _viewModel.SetPlayerSeries(_currentResults.PlayerSeries, _playerSeriesSet);
-        _viewModel.SetEnemySeries(_currentResults.EnemySeries, _enemySeriesSet);
+        _mainSceneManager.SetPlayerSeries(_currentResults.PlayerSeries, _playerSeriesSet);
+        _mainSceneManager.SetEnemySeries(_currentResults.EnemySeries, _enemySeriesSet);
     }
 
     private void HandleStrongSeries()
@@ -136,7 +136,7 @@ public class PlayerClient : Client
             return;
         
         base.OnEndRound(_, endRoundInfo);
-        _mainSceneManager.StartCoroutine(_viewModel.RoundEnding(_roundNumber, endRoundInfo.RoundWinner, endRoundInfo.Prize));
+        _mainSceneManager.StartCoroutine(_mainSceneManager.RoundEnding(_roundNumber, endRoundInfo.RoundWinner, endRoundInfo.Prize));
     }
     
     protected override void OnEndMatch(object o, EndMatchInfo endMatchInfo)
@@ -144,6 +144,6 @@ public class PlayerClient : Client
         if (!endMatchInfo.PlayerName.Equals(PlayerName)) 
             return;
         
-        _mainSceneManager.StartCoroutine(_viewModel.GameOver(endMatchInfo.MatchWinner));
+        _mainSceneManager.StartCoroutine(_mainSceneManager.GameOver(endMatchInfo.MatchWinner));
     }
 }

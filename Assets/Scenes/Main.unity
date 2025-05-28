@@ -7697,6 +7697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2120866709}
   enemy: {fileID: 1620955091}
+  commonView: {fileID: 1401016893}
 --- !u!1 &1404101178
 GameObject:
   m_ObjectHideFlags: 0

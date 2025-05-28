@@ -2,6 +2,7 @@
 using System;
 using System.Linq; 
 // Смена сетов оружия, инвенторий и изменение цвета/формы оружия
+// HERE!!! Почему все остальные ссылки в MainSceneManager View, а этот HeroViewManager???
 public class HeroViewManager : MonoBehaviour
 {
     [SerializeField] protected Inventory inventory;                            

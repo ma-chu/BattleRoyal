@@ -115,7 +115,7 @@ public class Server : MonoBehaviour, IServer
         
         Debug.Log("Локальный сервер: матч между " + player1MatchInfo.PlayerName +" и "+ player2MatchInfo.PlayerName +" начинается");
 
-        yield return new WaitForSeconds(ViewModel.StartDelay);
+        yield return new WaitForSeconds(MainSceneManager.StartDelay);
         StartNewRound();
     }
     
@@ -239,7 +239,7 @@ public class Server : MonoBehaviour, IServer
         };
         EndRoundAction?.Invoke(this, player2EndRoundInfo);
 
-        const float endDelay = ViewModel.DeathDelay + ViewModel.EndDelay + 0.5f;
+        const float endDelay = MainSceneManager.DeathDelay + MainSceneManager.EndDelay + 0.5f;
         
         if (match.matchWinner != null)
         {
