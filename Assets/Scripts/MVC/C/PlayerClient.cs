@@ -2,18 +2,8 @@ using EF.Localization;
 
 public class PlayerClient : Client
 {
-    //private ViewModel _viewModel;
-
     private readonly bool[] _playerSeriesSet = new bool[3];
     private readonly bool[] _enemySeriesSet = new bool[3];
-    
-    public override void Init(MainSceneManager mainSceneManager, string name)
-    {
-        //_viewModel = new ViewModel();
-        //_viewModel.Init(this, mainSceneManager);
-        
-        base.Init(mainSceneManager, name);
-    }
 
     protected override void OnJoined(object _, string clientName)
     {
