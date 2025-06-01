@@ -7,32 +7,30 @@ using System.Linq;
 /// Смена сетов оружия, инвенторий и изменение цвета/формы оружия и пр
 /// </summary>
 
-//HERE!!! Верхняя часть!!! До SetName
-//Запихнуть игроков в префабы!!!
-
 public class HeroViewManager : MonoBehaviour
 {
-    [SerializeField] private HeroUI heroUI;                         // тексты урона
+    [SerializeField] private HeroUI heroUI;
     [SerializeField] private HPView hpView;
     [SerializeField] private HeroAnimation heroAnimations;
     [SerializeField] private SeriesView seriesView;
     
-    [SerializeField] protected Inventory inventory; 
+    [SerializeField] protected Inventory inventory;
+    
+    [SerializeField] private GameObject heroSword;
+    [SerializeField] protected GameObject heroShield;
+    [SerializeField] private GameObject hero2HandedSword;
+    [SerializeField] private GameObject heroSword_2;
     
     private readonly GameObject[] _itemSlots = new GameObject[Inventory.numItemSlots]; 
 
-    public bool dead; 
-    public WeaponSet weaponSet = WeaponSet.SwordShield;
+    protected MeshFilter _shieldMeshFilter;
+    protected MeshFilter _twoHandedSwordMeshFilter;
+    protected MeshRenderer _swordMeshRenderer;
+    protected MeshRenderer _sword2MeshRenderer;
+    protected MeshRenderer _shieldMeshRenderer;
+    protected MeshRenderer _twoHandedSwordMeshRenderer;
 
-    public Heroes HeroType { get; protected set; }
-
-    // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений
     public event Action DeathEvent;                     
-    private void InvokeDeathEvent()                                
-    {
-        dead = true;
-        DeathEvent?.Invoke();
-    }
     public event Action AttackEvent;
     public event Action ChangeEvent;
     public event Action ToPositionEvent;
@@ -47,44 +45,28 @@ public class HeroViewManager : MonoBehaviour
     public event Action<int> EvadeEvent;                                              
     public event Action ExchangeEndedEvent;
     
-    // ссылки на объекты-оружие 
-    public GameObject heroSword;
-    public GameObject heroShield;
-    public GameObject hero2HandedSword;
-    public GameObject heroSword_2;
-    // их компоненты
-    protected MeshFilter shieldMeshFilter;
-    protected MeshFilter twoHandedSwordMeshFilter;
-    protected MeshRenderer swordMeshRenderer;
-    protected MeshRenderer sword2MeshRenderer;
-    protected MeshRenderer shieldMeshRenderer;
-    protected MeshRenderer twoHandedSwordMeshRenderer;
+    public bool Dead { get; set; } 
+    public WeaponSet WeaponSet { get; set; } = WeaponSet.SwordShield;
+    public Heroes HeroType { get; protected set; }
 
     protected virtual void Awake()                             
     {
-        // получаем ссылки на компоненты оружия
-        shieldMeshFilter = heroShield.GetComponent<MeshFilter>();
-        twoHandedSwordMeshFilter = hero2HandedSword.GetComponent<MeshFilter>();
-        swordMeshRenderer = heroSword.GetComponent<MeshRenderer>();
-        sword2MeshRenderer = heroSword_2.GetComponent<MeshRenderer>();
-        shieldMeshRenderer = heroShield.GetComponent<MeshRenderer>();
-        twoHandedSwordMeshRenderer = hero2HandedSword.GetComponent<MeshRenderer>();
+        _shieldMeshFilter = heroShield.GetComponent<MeshFilter>();
+        _twoHandedSwordMeshFilter = hero2HandedSword.GetComponent<MeshFilter>();
+        _swordMeshRenderer = heroSword.GetComponent<MeshRenderer>();
+        _sword2MeshRenderer = heroSword_2.GetComponent<MeshRenderer>();
+        _shieldMeshRenderer = heroShield.GetComponent<MeshRenderer>();
+        _twoHandedSwordMeshRenderer = hero2HandedSword.GetComponent<MeshRenderer>();
     }
 
-    protected virtual void OnEnable()                          // что мы делаем, когда герой снова жив (back on again, следующий раунд)
+    protected virtual void OnEnable()
     {
-        // определимся со ссылками на слоты инвентория
         var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
         for (int i = 0; i < Inventory.numItemSlots; i++)
             _itemSlots[i] = eventTriggers[i].gameObject;
         
-        // убираем лишние объекты-оружия, кроме начальных щит-меч
-        hero2HandedSword.SetActive(false);
-        heroSword_2.SetActive(false);
-        heroSword.SetActive(true);
-        heroShield.SetActive(true);
-
-        weaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
+        WeaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
+        SetSwordShield();
     }
 
     private void OnDisable()
@@ -94,8 +76,7 @@ public class HeroViewManager : MonoBehaviour
 
     public void Exchange(ExchangeResult[] exchangeResults, int[] gotDamages, Decision decision, int hp)
     {
-        // Функции-запускатель событий этого класса
-        if ((exchangeResults[0] == ExchangeResult.GetHit) || (exchangeResults[0] == ExchangeResult.BlockVs2Handed))
+        if (exchangeResults[0] == ExchangeResult.GetHit || exchangeResults[0] == ExchangeResult.BlockVs2Handed)
         {
             GetHitEvent?.Invoke(1, gotDamages[0]);
         }
@@ -107,40 +88,75 @@ public class HeroViewManager : MonoBehaviour
             if (exchangeResults[0] == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke(gotDamages[0]);
         }
 
-        if (exchangeResults[0] == ExchangeResult.Evade) EvadeEvent?.Invoke(1);
-
+        if (exchangeResults[0] == ExchangeResult.Evade) 
+            EvadeEvent?.Invoke(1);
         
-        
-        if (decision == Decision.Attack) AttackEvent?.Invoke();
+        if (decision == Decision.Attack) 
+            AttackEvent?.Invoke();
 
-        if ((exchangeResults[1] == ExchangeResult.GetHit) && !dead)   
+        if (exchangeResults[1] == ExchangeResult.GetHit && !Dead)   
         {
             GetHitEvent?.Invoke(2, gotDamages[1]);
         }
-        if (hp <= 0) InvokeDeathEvent(); 
+        
+        if (hp <= 0)
+        {
+            Dead = true;
+            DeathEvent?.Invoke();
+        }
 
-        if (((decision == Decision.ChangeSwordShield) || (decision == Decision.ChangeSwordSword) || (decision == Decision.ChangeTwoHandedSword))
-            && !dead) ChangeEvent?.Invoke();
+        if (decision is Decision.ChangeSwordShield or Decision.ChangeSwordSword or 
+                Decision.ChangeTwoHandedSword && !Dead)
+        {
+            ChangeEvent?.Invoke();
+        }
         else
         {        
             if (exchangeResults[1] == ExchangeResult.Parry) ParryEvent?.Invoke(2);
             if (exchangeResults[1] == ExchangeResult.Block) BlockEvent?.Invoke(2);
         }
 
-        if (exchangeResults[1] == ExchangeResult.Evade) EvadeEvent?.Invoke(2);
+        if (exchangeResults[1] == ExchangeResult.Evade) 
+            EvadeEvent?.Invoke(2);
     }
 
     public void ExchangeEnded() => ExchangeEndedEvent?.Invoke();
 
-    public Item AddPrize(string prizeName, bool showDesc = true) // все проверки выполнены на сервере
+    public void SetSwordShield()
     {
-        if (prizeName.Equals(string.Empty)) return null;
-        var item = inventory.AddItem(AllItems.Instance.items.First(i => i.Name == prizeName));
-        if (showDesc) inventory.ShowItemDescription(item);           
-        return inventory.items[item];
+        hero2HandedSword.SetActive(false);
+        heroSword_2.SetActive(false);
+        heroSword.SetActive(true);
+        heroShield.SetActive(true);
     }
     
+    public void SetSwordSword()
+    {
+        hero2HandedSword.SetActive(false);
+        heroSword_2.SetActive(true);
+        heroSword.SetActive(true);
+        heroShield.SetActive(false);
+    }
     
+    public void Set2HandedSword()
+    {
+        hero2HandedSword.SetActive(true);
+        heroSword_2.SetActive(false);
+        heroSword.SetActive(false);
+        heroShield.SetActive(false);
+    }
+
+    public Item AddPrize(string prizeName, bool showDesc = true) // все проверки выполнены на сервере
+    {
+        if (prizeName.Equals(string.Empty)) 
+            return null;
+        
+        var item = inventory.AddItem(AllItems.Instance.items.First(i => i.Name == prizeName));
+        if (showDesc) 
+            inventory.ShowItemDescription(item); 
+        
+        return inventory.items[item];
+    }
     
     public void SetName(string value) => heroUI.Name = value;
     
@@ -172,6 +188,4 @@ public class HeroViewManager : MonoBehaviour
     {
         hpView.SetHealth(health);
     }
-    
-    
 }

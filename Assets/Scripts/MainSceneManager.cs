@@ -52,8 +52,8 @@ public class MainSceneManager : MonoBehaviour
         
         commonView.WeaponSetButtonsObject.SetActive(false);
         commonView.PlayersControlsCanvas.enabled = false;
-        playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
-        enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
+        playerViewManager.WeaponSet = _playerClient.PlayerWeaponSet;    // пока не избавился от состояния WeaponSet в HeroManager'е
+        enemyViewManager.WeaponSet = _playerClient.EnemyWeaponSet;
         
         SetStartPositions();
     }
@@ -112,8 +112,8 @@ public class MainSceneManager : MonoBehaviour
         playerViewManager.enabled = true;
         enemyViewManager.enabled = true;
 
-        playerViewManager.dead = false;
-        enemyViewManager.dead = false;
+        playerViewManager.Dead = false;
+        enemyViewManager.Dead = false;
 
         ChangeResultText("round".Localize() + roundNumber);
 
@@ -191,9 +191,9 @@ public class MainSceneManager : MonoBehaviour
         ChangeResultText(string.Empty);
         
         {
-                // обновляем впоследствии покойный heroManager.weaponSet
-            playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;
-            enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
+                // обновляем впоследствии покойный heroManager.WeaponSet
+            playerViewManager.WeaponSet = _playerClient.PlayerWeaponSet;
+            enemyViewManager.WeaponSet = _playerClient.EnemyWeaponSet;
             
                 // основной запускатель анимаций и звуков
             playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _playerClient.Decision, currentResults.PlayerHP); 

@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using EF.Localization; 
 
-// Пока здесь только тексты для вывода урона
+/// <summary>
+/// Пока здесь только тексты для вывода урона
+/// </summary>
+
 public class HeroUI : MonoBehaviour
 {
     [SerializeField] private new Text name;     

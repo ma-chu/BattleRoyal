@@ -206,27 +206,18 @@ public class HeroAnimation : MonoBehaviour
                 m_change = false;                                                   // сбрасываем глобальный триггер 
                 _anim.SetBool("Change", false);                                    // и анимационный
 
-                switch (_heroViewManager.weaponSet)                   // Отображаем нужный набор оружия и включаем нужный анимационный контроллер 
+                switch (_heroViewManager.WeaponSet)                   // Отображаем нужный набор оружия и включаем нужный анимационный контроллер 
                 {
                     case WeaponSet.SwordShield:
-                        _heroViewManager.hero2HandedSword.SetActive(false);
-                        _heroViewManager.heroSword_2.SetActive(false);
-                        _heroViewManager.heroSword.SetActive(true);
-                        _heroViewManager.heroShield.SetActive(true);
+                        _heroViewManager.SetSwordShield();
                         _anim.runtimeAnimatorController = m_ACSwordShield;
                         break;
                     case WeaponSet.SwordSword:
-                        _heroViewManager.hero2HandedSword.SetActive(false);
-                        _heroViewManager.heroSword_2.SetActive(true);
-                        _heroViewManager.heroSword.SetActive(true);
-                        _heroViewManager.heroShield.SetActive(false);
+                        _heroViewManager.SetSwordSword();
                         _anim.runtimeAnimatorController = m_ACSwordSword;
                         break;
                     case WeaponSet.TwoHandedSword:
-                        _heroViewManager.hero2HandedSword.SetActive(true);
-                        _heroViewManager.heroSword_2.SetActive(false);
-                        _heroViewManager.heroSword.SetActive(false);
-                        _heroViewManager.heroShield.SetActive(false);
+                        _heroViewManager.Set2HandedSword();
                         _anim.runtimeAnimatorController = m_AC2HandedSword;
                         break;
                 }
@@ -239,7 +230,7 @@ public class HeroAnimation : MonoBehaviour
 
     private void Update()
     {
-        if (m_change && (!_heroViewManager.dead)) ChangeWeapon();
+        if (m_change && (!_heroViewManager.Dead)) ChangeWeapon();
 
         if (m_rotateToCenter) RotateToCenter();
 
