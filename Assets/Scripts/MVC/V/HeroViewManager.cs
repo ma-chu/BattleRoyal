@@ -1,16 +1,30 @@
 ﻿using UnityEngine;
 using System;
-using System.Linq; 
-// Смена сетов оружия, инвенторий и изменение цвета/формы оружия
-// HERE!!! Почему все остальные ссылки в MainSceneManager View, а этот HeroViewManager???
+using System.Linq;
+
+/// <summary>
+/// Управление визуалом героя: 
+/// Смена сетов оружия, инвенторий и изменение цвета/формы оружия и пр
+/// </summary>
+
+//HERE!!! Верхняя часть!!! До SetName
+//Запихнуть игроков в префабы!!!
+
 public class HeroViewManager : MonoBehaviour
 {
-    [SerializeField] protected Inventory inventory;                            
-    protected GameObject[] itemSlots = new GameObject[Inventory.numItemSlots]; 
+    [SerializeField] private HeroUI heroUI;                         // тексты урона
+    [SerializeField] private HPView hpView;
+    [SerializeField] private HeroAnimation heroAnimations;
+    [SerializeField] private SeriesView seriesView;
+    
+    [SerializeField] protected Inventory inventory; 
+    
+    private readonly GameObject[] _itemSlots = new GameObject[Inventory.numItemSlots]; 
 
-    public bool dead;                                                          
-    public WeaponSet weaponSet = WeaponSet.SwordShield;           
-    [HideInInspector] public Heroes heroType;
+    public bool dead; 
+    public WeaponSet weaponSet = WeaponSet.SwordShield;
+
+    public Heroes HeroType { get; protected set; }
 
     // СОБЫТИЯ - выставляются в основном по событию GameManager.ExchangeEvent с учетом значений
     public event Action DeathEvent;                     
@@ -62,7 +76,7 @@ public class HeroViewManager : MonoBehaviour
         // определимся со ссылками на слоты инвентория
         var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
         for (int i = 0; i < Inventory.numItemSlots; i++)
-            itemSlots[i] = eventTriggers[i].gameObject;
+            _itemSlots[i] = eventTriggers[i].gameObject;
         
         // убираем лишние объекты-оружия, кроме начальных щит-меч
         hero2HandedSword.SetActive(false);
@@ -72,7 +86,12 @@ public class HeroViewManager : MonoBehaviour
 
         weaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
     }
-    
+
+    private void OnDisable()
+    {
+        heroAnimations.enabled = false;       
+    }
+
     public void Exchange(ExchangeResult[] exchangeResults, int[] gotDamages, Decision decision, int hp)
     {
         // Функции-запускатель событий этого класса
@@ -120,4 +139,39 @@ public class HeroViewManager : MonoBehaviour
         if (showDesc) inventory.ShowItemDescription(item);           
         return inventory.items[item];
     }
+    
+    
+    
+    public void SetName(string value) => heroUI.Name = value;
+    
+    public string GetName() => heroUI.Name;
+
+    public void SetSeries(int[] nums, bool[] sets)
+    { 
+        seriesView.UpdateStrongSeries(nums[0], sets[0]);
+        seriesView.UpdateSeriesOfBlocks(nums[1], sets[1]);
+        seriesView.UpdateSeriesOfStrikes(nums[2], sets[2]);
+
+        heroUI.SetRegenValues(nums[1]);
+    }
+    
+    public void SetStartPosition()
+    {
+        if (!heroAnimations.enabled) 
+            heroAnimations.enabled = true; 
+        
+        heroAnimations.SetStartPosition();
+    }
+
+    public void SetStartHealth(float startHealth)
+    {
+        hpView.SetStartHealth(startHealth);
+    }
+    
+    public void SetHealth(float health)
+    {
+        hpView.SetHealth(health);
+    }
+    
+    
 }

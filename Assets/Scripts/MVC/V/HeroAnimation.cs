@@ -72,7 +72,7 @@ public class HeroAnimation : MonoBehaviour
     }
 
     // Установить начальное положение героя, задать исходное на ристалище 
-    public void SetStartPositions()  
+    public void SetStartPosition()  
     {
         transform.position = new Vector3(stockXposition, 0, zeroZposition);     // установить начальное положение
         transform.rotation = Quaternion.Euler(0f, startRotation, 0f);           // установить начальное вращение

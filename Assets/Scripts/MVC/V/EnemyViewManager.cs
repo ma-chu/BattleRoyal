@@ -21,7 +21,7 @@ public class EnemyViewManager : HeroViewManager
     {
         base.Awake();                                              
 
-        heroType = Heroes.Enemy; //- в конструкторе в идеале, но пока и здесь норм
+        HeroType = Heroes.Enemy; //- в конструкторе в идеале, но пока и здесь норм
     }
     
     public void ChangeWeaponsView(int winsZeroBased)

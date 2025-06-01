@@ -7695,9 +7695,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a487e85b9789c644cbc44f6d53805121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2120866709}
-  enemy: {fileID: 1620955091}
   commonView: {fileID: 1401016893}
+  playerViewManager: {fileID: 2120866711}
+  enemyViewManager: {fileID: 1620955093}
 --- !u!1 &1404101178
 GameObject:
   m_ObjectHideFlags: 0
@@ -8523,10 +8523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfdeea697d7fa4349b1cffe5fad66d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heroUI: {fileID: 1620955101}
+  hpView: {fileID: 1620955098}
+  heroAnimations: {fileID: 1620955100}
+  seriesView: {fileID: 1620955102}
   inventory: {fileID: 103960623}
   dead: 0
   weaponSet: 0
-  heroType: 0
   heroSword: {fileID: 1694805568}
   heroShield: {fileID: 1065900116}
   hero2HandedSword: {fileID: 421253545}
@@ -9248,7 +9251,7 @@ Light:
   m_BounceIntensity: 3
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: -1.9857429e+31}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -11032,10 +11035,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aae0f091d09c1b45a34cf8aae891ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heroUI: {fileID: 2120866719}
+  hpView: {fileID: 2120866716}
+  heroAnimations: {fileID: 2120866718}
+  seriesView: {fileID: 2120866720}
   inventory: {fileID: 458740784}
   dead: 0
   weaponSet: 0
-  heroType: 0
   heroSword: {fileID: 10300748}
   heroShield: {fileID: 1853256115}
   hero2HandedSword: {fileID: 940922056}

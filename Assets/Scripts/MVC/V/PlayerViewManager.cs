@@ -4,7 +4,7 @@
     {
         base.Awake();
 
-        heroType = Heroes.Player;
+        HeroType = Heroes.Player;
     }
 
     protected override void OnEnable()

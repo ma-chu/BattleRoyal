@@ -17,21 +17,10 @@ public class MainSceneManager : MonoBehaviour
     private const float AttackDelay = 3f;                      
     private const float ChangeDelay = 7.5f;
     
-    [SerializeField] public GameObject player; 
-    [SerializeField] public GameObject enemy;
-    
     [SerializeField] private CommonView commonView;   // общее: общий текст, кнопки ввода, салют в конце
     
-    private PlayerViewManager _playerViewManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
-    private EnemyViewManager _enemyViewManager;       // придумать другое название или вообще раскидать?
-    private HeroUI _playerUI;                         // тексты урона
-    private HeroUI _enemyUI;
-    private HPView _playerHP;
-    private HPView _enemyHP;
-    private HeroAnimation _playerAnimations;
-    private HeroAnimation _enemyAnimations;
-    private SeriesView _playerSeries;
-    private SeriesView _enemySeries; 
+    [SerializeField] private PlayerViewManager playerViewManager;     // Смена сетов оружия, инвенторий и изменение цвета/формы оружия 
+    [SerializeField] private EnemyViewManager enemyViewManager;       // придумать другое название или вообще раскидать?
     
     private WaitForSeconds _deathWait;                    
     private WaitForSeconds _startWait;                                   
@@ -44,17 +33,6 @@ public class MainSceneManager : MonoBehaviour
 
     private void Awake()
     {
-        _playerViewManager = player.GetComponent<PlayerViewManager>();
-        _enemyViewManager = enemy.GetComponent<EnemyViewManager>();
-        _playerUI = player.GetComponent<HeroUI>();            
-        _enemyUI = enemy.GetComponent<HeroUI>();
-        _playerHP = player.GetComponent<HPView>();            
-        _enemyHP = enemy.GetComponent<HPView>();
-        _playerAnimations = player.GetComponent<HeroAnimation>();   
-        _enemyAnimations = enemy.GetComponent<HeroAnimation>();
-        _playerSeries = player.GetComponent<SeriesView>();   
-        _enemySeries = enemy.GetComponent<SeriesView>();
-
         _deathWait = new WaitForSeconds(DeathDelay);         
         _startWait = new WaitForSeconds(StartDelay);
         _endWait = new WaitForSeconds(EndDelay);
@@ -74,8 +52,8 @@ public class MainSceneManager : MonoBehaviour
         
         commonView.WeaponSetButtonsObject.SetActive(false);
         commonView.PlayersControlsCanvas.enabled = false;
-        _playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
-        _enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
+        playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;    // пока не избавился от состояния weaponSet в HeroManager'е
+        enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
         
         SetStartPositions();
     }
@@ -106,25 +84,18 @@ public class MainSceneManager : MonoBehaviour
     
     public void ChangeResultText(string value) => commonView.ResultText = value;
     
-    public void SetPlayerName(string value) => _playerUI.Name = value;
+    public void SetPlayerName(string value) => playerViewManager.SetName(value);
     
-    public void SetEnemyName(string value) => _enemyUI.Name = value;
-    
+    public void SetEnemyName(string value) => enemyViewManager.SetName(value);
+
     public void SetPlayerSeries(int[] nums, bool[] sets)
     { 
-        _playerSeries.UpdateStrongSeries(nums[0], sets[0]);
-        _playerSeries.UpdateSeriesOfBlocks(nums[1], sets[1]);
-        _playerSeries.UpdateSeriesOfStrikes(nums[2], sets[2]);
-
-        _playerUI.SetRegenValues(nums[1]);
+        playerViewManager.SetSeries(nums, sets);
     }
+    
     public void SetEnemySeries(int[] nums, bool[] sets)
     { 
-        _enemySeries.UpdateStrongSeries(nums[0], sets[0]);
-        _enemySeries.UpdateSeriesOfBlocks(nums[1], sets[1]);
-        _enemySeries.UpdateSeriesOfStrikes(nums[2], sets[2]);
-        
-        _enemyUI.SetRegenValues(nums[1]);
+        enemyViewManager.SetSeries(nums, sets);
     }
     
     public IEnumerator GameStarting()
@@ -138,19 +109,19 @@ public class MainSceneManager : MonoBehaviour
         FitWeaponButtonsToWeaponSet();
         commonView.PlayersControlsCanvas.enabled = false;
         
-        _playerViewManager.enabled = true;
-        _enemyViewManager.enabled = true;
+        playerViewManager.enabled = true;
+        enemyViewManager.enabled = true;
 
-        _playerViewManager.dead = false;
-        _enemyViewManager.dead = false;
+        playerViewManager.dead = false;
+        enemyViewManager.dead = false;
 
         ChangeResultText("round".Localize() + roundNumber);
 
-        _playerHP.SetStartHealth(playerStartHealth);
-        _enemyHP.SetStartHealth(enemyStartHealth);
+        playerViewManager.SetStartHealth(playerStartHealth);
+        enemyViewManager.SetStartHealth(enemyStartHealth);
         
         if (_playerClient.RoundsWon > 0)
-            _enemyViewManager.ChangeWeaponsView(_playerClient.RoundsWon - 1);
+            enemyViewManager.ChangeWeaponsView(_playerClient.RoundsWon - 1);
         
         if (roundNumber != 1)
             SetStartPositions();
@@ -211,14 +182,8 @@ public class MainSceneManager : MonoBehaviour
 
     private void SetStartPositions()
     {
-        if (!_playerAnimations.enabled) 
-            _playerAnimations.enabled = true; 
-        
-        if (!_enemyAnimations.enabled) 
-            _enemyAnimations.enabled = true; 
-        
-        _playerAnimations.SetStartPositions();
-        _enemyAnimations.SetStartPositions();
+        playerViewManager.SetStartPosition();
+        enemyViewManager.SetStartPosition();
     }
     
     public IEnumerator RoundPlaying(TurnOutInfo currentResults)
@@ -227,15 +192,15 @@ public class MainSceneManager : MonoBehaviour
         
         {
                 // обновляем впоследствии покойный heroManager.weaponSet
-            _playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;
-            _enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
+            playerViewManager.weaponSet = _playerClient.PlayerWeaponSet;
+            enemyViewManager.weaponSet = _playerClient.EnemyWeaponSet;
             
                 // основной запускатель анимаций и звуков
-            _playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _playerClient.Decision, currentResults.PlayerHP); 
-            _enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
+            playerViewManager.Exchange(currentResults.PlayerExchangeResults, currentResults.PlayerDamages, _playerClient.Decision, currentResults.PlayerHP); 
+            enemyViewManager.Exchange(currentResults.EnemyExchangeResults, currentResults.EnemyDamages, currentResults.EnemyDecision, currentResults.EnemyHP); 
               
-            _playerHP.SetHealth(currentResults.PlayerHP);
-            _enemyHP.SetHealth(currentResults.EnemyHP);
+            playerViewManager.SetHealth(currentResults.PlayerHP);
+            enemyViewManager.SetHealth(currentResults.EnemyHP);
                
             commonView.PlayersControlsCanvas.enabled = false;
                
@@ -253,8 +218,8 @@ public class MainSceneManager : MonoBehaviour
             else 
                 yield return _changeWait; 
                 // основной запускатель - здесь только обнуляет тексты ?можно уже избавиться от _playerManager'ов?
-            _playerViewManager.ExchangeEnded();
-            _enemyViewManager.ExchangeEnded();
+            playerViewManager.ExchangeEnded();
+            enemyViewManager.ExchangeEnded();
 
             if (dead)
             {
@@ -270,10 +235,8 @@ public class MainSceneManager : MonoBehaviour
     
     public IEnumerator RoundEnding(int roundNumber, string winner, string prize)
     {
-        _playerViewManager.enabled = false;
-        _enemyViewManager.enabled = false;
-        _playerAnimations.enabled = false;       
-        _enemyAnimations.enabled = false;  
+        playerViewManager.enabled = false;
+        enemyViewManager.enabled = false;
 
         yield return _deathWait;
        
@@ -284,14 +247,16 @@ public class MainSceneManager : MonoBehaviour
         {
             yield return _deathWait;
             
-            var item = _playerViewManager.AddPrize(prize);
-            if (item != null) ChangeResultText ("you_got".Localize() + prize.Localize());
-            
-            if (_enemyUI.Name.Equals("bot") && _playerClient.RoundsWon == 3) 
-                _enemyViewManager.AddPrize("ring_of_cunning", false);
+            var item = playerViewManager.AddPrize(prize);
+            if (item != null) 
+                ChangeResultText ("you_got".Localize() + prize.Localize());
+
+            if ( /*_enemyUI.Name.Equals("bot")*/_aIClient != null && _playerClient.RoundsWon == 3) 
+                enemyViewManager.AddPrize("ring_of_cunning", false);
         }
       
-        if (winner == _enemyUI.Name) _enemyViewManager.AddPrize(prize, false);
+        if (winner == enemyViewManager.GetName()) 
+            enemyViewManager.AddPrize(prize, false);
 
         yield return _endWait;
     }

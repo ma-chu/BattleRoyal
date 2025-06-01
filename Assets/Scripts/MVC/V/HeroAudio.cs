@@ -63,13 +63,13 @@ public class HeroAudio : MonoBehaviour
         //m_WoundParticles.gameObject.SetActive(true);                          // активируем
         _woundParticles.Play();                                                // воспроизводим систему частиц
         
-        _woundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, _heroViewManager.heroType);
+        _woundAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Hurt, _heroViewManager.HeroType);
         _woundAudio.PlayDelayed(delay);                                       // воспроизводим аудио крика боли
 
     }
     private void OnDeath()
     {
-        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, _heroViewManager.heroType);
+        m_FirstStrikeHeroAudio.clip = SoundsContainer.GetAudioClip(SoundTypes.Death, _heroViewManager.HeroType);
         m_FirstStrikeHeroAudio.PlayDelayed(1.2f);
     }
     private void OnChange()         
