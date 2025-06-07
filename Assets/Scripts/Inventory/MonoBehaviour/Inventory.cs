@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour // Почему он занимается показом серий, а не seriesView???
 {
     public Image[] itemImages = new Image[numItemSlots];    
     public Item[] items = new Item[numItemSlots];           

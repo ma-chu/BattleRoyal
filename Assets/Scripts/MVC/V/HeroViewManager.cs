@@ -10,7 +10,7 @@ using System.Linq;
 public class HeroViewManager : MonoBehaviour
 {
     [SerializeField] private HeroUI heroUI;
-    [SerializeField] private HPView hpView;
+    [SerializeField] private HPView hpView; // Here!!
     [SerializeField] private HeroAnimation heroAnimations;
     [SerializeField] private SeriesView seriesView;
     
@@ -67,6 +67,8 @@ public class HeroViewManager : MonoBehaviour
         
         WeaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
         SetSwordShield();
+        
+        heroUI.Initialize(this);
     }
 
     private void OnDisable()
@@ -83,9 +85,14 @@ public class HeroViewManager : MonoBehaviour
 
         if (decision == Decision.Attack)
         {
-            if (exchangeResults[0] == ExchangeResult.Parry) ParryEvent?.Invoke(1);
-            if (exchangeResults[0] == ExchangeResult.Block) BlockEvent?.Invoke(1);
-            if (exchangeResults[0] == ExchangeResult.BlockVs2Handed) BlockVs2HandedEvent?.Invoke(gotDamages[0]);
+            if (exchangeResults[0] == ExchangeResult.Parry)
+                ParryEvent?.Invoke(1);
+            
+            if (exchangeResults[0] == ExchangeResult.Block) 
+                BlockEvent?.Invoke(1);
+            
+            if (exchangeResults[0] == ExchangeResult.BlockVs2Handed) 
+                BlockVs2HandedEvent?.Invoke(gotDamages[0]);
         }
 
         if (exchangeResults[0] == ExchangeResult.Evade) 

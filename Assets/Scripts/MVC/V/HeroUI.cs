@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using EF.Localization; 
+using EF.Localization;
 
 /// <summary>
 /// Пока здесь только тексты для вывода урона
@@ -9,67 +9,75 @@ using EF.Localization;
 
 public class HeroUI : MonoBehaviour
 {
-    [SerializeField] private new Text name;     
-    public string Name { get => name.text; set => name.text = value; }
-    
+    [SerializeField] private Text nameText;
     [SerializeField] private Text getHit1Text;
     [SerializeField] private Text getHit2Text;
-
-    private List<bool> isRegen = new List<bool>();
-    private List<float> regenValues = new List<float>();
-    public void SetRegenValues(int blocksNum)
-    {
-        isRegen.Clear();
-        regenValues.Clear();
-
-        var really = blocksNum - Series.SeriesBlockBeginning;
-        isRegen.Add(really > 0);
-        regenValues.Add(really * Series.SeriesBlockStepValue);
-
-        really--;
-        isRegen.Add(really > 0);
-        if (isRegen[1]) regenValues.Insert(0,really * Series.SeriesBlockStepValue);
-    }
     
     private HeroViewManager _heroViewManager;
+    private readonly List<bool> _isRegen = new List<bool>();
+    private readonly List<float> _regenValues = new List<float>();
+    private bool _isInitialized;
 
-    private void Awake()
+    public string Name
     {
-        _heroViewManager = GetComponent<HeroViewManager>() /*as HeroManager*/;
+        get => nameText.text;
+        set => nameText.text = value;
     }
 
-    private void OnEnable()
+    public void Initialize(HeroViewManager heroViewManager)
     {
-        if (_heroViewManager != null)
-        {
-            _heroViewManager.ExchangeEndedEvent += OnExchangeEnded;
-            _heroViewManager.GetHitEvent += OnHit;
-            _heroViewManager.ParryEvent += OnParry;
-            _heroViewManager.BlockVs2HandedEvent += OnBlockVs2Handed;
-            _heroViewManager.BlockEvent += OnBlock;
-            _heroViewManager.EvadeEvent += OnEvade;
-        }
+        _heroViewManager = heroViewManager;
+        SubscribeEvents();
+        ResetHitTexts();
+        _isInitialized = true;
+    }
+
+    private void OnDisable() => UnsubscribeEvents();
+    
+    private void SubscribeEvents()
+    {
+        _heroViewManager.ExchangeEndedEvent += OnExchangeEnded;
+        _heroViewManager.GetHitEvent += OnHit;
+        _heroViewManager.ParryEvent += OnParry;
+        _heroViewManager.BlockVs2HandedEvent += OnBlockVs2Handed;
+        _heroViewManager.BlockEvent += OnBlock;
+        _heroViewManager.EvadeEvent += OnEvade;
+    }
+    
+    private void UnsubscribeEvents()
+    {
+        if (!_isInitialized)
+            return;
+        
+        _heroViewManager.ExchangeEndedEvent -= OnExchangeEnded;
+        _heroViewManager.GetHitEvent -= OnHit;
+        _heroViewManager.ParryEvent -= OnParry;
+        _heroViewManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
+        _heroViewManager.BlockEvent -= OnBlock;
+        _heroViewManager.EvadeEvent -= OnEvade;
+    }
+    
+    public void SetRegenValues(int blocksNum)
+    {
+        _isRegen.Clear();
+        _regenValues.Clear();
+
+        var really = blocksNum - Series.SeriesBlockBeginning;
+        _isRegen.Add(really > 0);
+        _regenValues.Add(really * Series.SeriesBlockStepValue);
+
+        really--;
+        _isRegen.Add(really > 0);
+        if (_isRegen[1]) _regenValues.Insert(0,really * Series.SeriesBlockStepValue);
+    }
+
+    private void OnExchangeEnded() => ResetHitTexts();
+    
+    private void ResetHitTexts()
+    { 
         getHit1Text.text = string.Empty;
         getHit2Text.text = string.Empty;
-    }
-    private void OnDisable()
-    {
-        if (_heroViewManager != null)
-        {
-            _heroViewManager.ExchangeEndedEvent -= OnExchangeEnded;
-            _heroViewManager.GetHitEvent -= OnHit;
-            _heroViewManager.ParryEvent -= OnParry;
-            _heroViewManager.BlockVs2HandedEvent -= OnBlockVs2Handed;
-            _heroViewManager.BlockEvent -= OnBlock;
-            _heroViewManager.EvadeEvent -= OnEvade;
-        }
-    }
-
-    private void OnExchangeEnded()
-    {
-        getHit1Text.text = string.Empty;
-        getHit2Text.text = string.Empty;
-    }
+    } 
 
     private void OnHit(int strikeNumber, int gotDamage)
     {
@@ -90,14 +98,15 @@ public class HeroUI : MonoBehaviour
         {
             case 1:
                 getHit1Text.text = "parried".Localize();
-                if (isRegen[0]) getHit1Text.text = getHit1Text.text + " +" + regenValues[0];
+                if (_isRegen[0]) 
+                    getHit1Text.text = getHit1Text.text + " +" + _regenValues[0];
                 break;
             case 2:
                 getHit2Text.text = "parried".Localize();
-                if (isRegen[1])
+                if (_isRegen[1])
                 {
-                    getHit2Text.text = getHit2Text.text + " +" + regenValues[0];
-                    getHit1Text.text = "parried".Localize() + " +" + regenValues[1];
+                    getHit2Text.text = getHit2Text.text + " +" + _regenValues[0];
+                    getHit1Text.text = "parried".Localize() + " +" + _regenValues[1];
                 }
                 break;
         }
@@ -105,21 +114,20 @@ public class HeroUI : MonoBehaviour
 
     private void OnBlockVs2Handed(int gotDamage) => getHit1Text.text = "shield".Localize() + gotDamage;
     
-    
     private void OnBlock(int strikeNumber)
     {
         switch (strikeNumber)
         {
             case 1:
                 getHit1Text.text = "blocked".Localize();
-                if (isRegen[0]) getHit1Text.text = getHit1Text.text + " +" + regenValues[0];
+                if (_isRegen[0]) getHit1Text.text = getHit1Text.text + " +" + _regenValues[0];
                 break;
             case 2:
                 getHit2Text.text = "blocked".Localize();
-                if (isRegen[1])
+                if (_isRegen[1])
                 {
-                    getHit2Text.text = getHit2Text.text + " +" + regenValues[0];
-                    getHit1Text.text = "blocked".Localize() + " +" + regenValues[1];
+                    getHit2Text.text = getHit2Text.text + " +" + _regenValues[0];
+                    getHit1Text.text = "blocked".Localize() + " +" + _regenValues[1];
                 }
                 break;
         }

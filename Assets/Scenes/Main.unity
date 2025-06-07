@@ -7803,6 +7803,11 @@ PrefabInstance:
       objectReference: {fileID: 221482035}
     - target: {fileID: 210160308176549598, guid: c921e4365b7e7b3479790f935651e8f9,
         type: 3}
+      propertyPath: nameText
+      value: 
+      objectReference: {fileID: 221482035}
+    - target: {fileID: 210160308176549598, guid: c921e4365b7e7b3479790f935651e8f9,
+        type: 3}
       propertyPath: getHit1Text
       value: 
       objectReference: {fileID: 2050560245}
@@ -7932,6 +7937,11 @@ PrefabInstance:
     - target: {fileID: 1499000004914253791, guid: e0e143c6b6474f64e9734c7c8f052116,
         type: 3}
       propertyPath: name
+      value: 
+      objectReference: {fileID: 234527708}
+    - target: {fileID: 1499000004914253791, guid: e0e143c6b6474f64e9734c7c8f052116,
+        type: 3}
+      propertyPath: nameText
       value: 
       objectReference: {fileID: 234527708}
     - target: {fileID: 1499000004914253791, guid: e0e143c6b6474f64e9734c7c8f052116,
