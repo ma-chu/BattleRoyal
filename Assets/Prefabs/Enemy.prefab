@@ -694,8 +694,6 @@ MonoBehaviour:
   heroAnimations: {fileID: 419612272286534473}
   seriesView: {fileID: 7521293129124060358}
   inventory: {fileID: 0}
-  dead: 0
-  weaponSet: 0
   heroSword: {fileID: 3123837911682816067}
   heroShield: {fileID: 4283112002068195686}
   hero2HandedSword: {fileID: 1722438720347579672}
@@ -1019,10 +1017,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f2f0d0b7b27c514e886796d4b731b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Slider: {fileID: 8889708494726185350}
-  m_FillImage: {fileID: 8889612474845257730}
-  m_FullHealthColor: {r: 0, g: 1, b: 0, a: 1}
-  m_ZeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
+  slider: {fileID: 8889708494726185350}
+  fillImage: {fileID: 8889612474845257730}
+  fullHealthColor: {r: 0, g: 1, b: 0, a: 1}
+  zeroHealthColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &3542803789487098459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5318274713882ff4994c2f8c7a4b49ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 0}
+  nameText: {fileID: 0}
   getHit1Text: {fileID: 0}
   getHit2Text: {fileID: 0}
 --- !u!114 &7521293129124060358

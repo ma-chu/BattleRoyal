@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cceda0cfcbb8594285f40b3da48a50c, type: 3}
   m_Name: Gloves of Skill
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: cf06f33de792f664faa7f53b915dcf6c, type: 3}
+  sprite: {fileID: 21300000, guid: 847d0fc71e8559a46b0fd81c258ea8b7, type: 3}
   name: gloves_of_skill
   description: gloves_of_skill_desc
   damageModifierAdd: 0

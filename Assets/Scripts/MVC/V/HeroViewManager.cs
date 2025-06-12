@@ -10,8 +10,8 @@ using System.Linq;
 public class HeroViewManager : MonoBehaviour
 {
     [SerializeField] private HeroUI heroUI;
-    [SerializeField] private HPView hpView; // Here!!
-    [SerializeField] private HeroAnimation heroAnimations;
+    [SerializeField] private HPView hpView;
+    [SerializeField] private HeroAnimation heroAnimations; // Here!!
     [SerializeField] private SeriesView seriesView;
     
     [SerializeField] protected Inventory inventory;

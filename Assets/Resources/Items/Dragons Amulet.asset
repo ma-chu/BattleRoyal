@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cceda0cfcbb8594285f40b3da48a50c, type: 3}
   m_Name: Dragons Amulet
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 8613ee85ee9916d4da120b44714cd059, type: 3}
+  sprite: {fileID: 21300000, guid: 56ba83f2e09ee4f42be1ce0c464db625, type: 3}
   name: dragons_amulet
   description: dragons_amulet_desc
   damageModifierAdd: 0

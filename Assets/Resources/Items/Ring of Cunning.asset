@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cceda0cfcbb8594285f40b3da48a50c, type: 3}
   m_Name: Ring of Cunning
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: f07878047b2e6a44b86b499ecc44c8ed, type: 3}
+  sprite: {fileID: 21300000, guid: bbdd05c5af68e384f8d0e963ce7259b7, type: 3}
   name: ring_of_cunning
   description: ring_of_cunning_desc
   damageModifierAdd: 0

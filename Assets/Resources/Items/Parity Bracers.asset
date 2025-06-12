@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cceda0cfcbb8594285f40b3da48a50c, type: 3}
   m_Name: Parity Bracers
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: b1eeeb2699d93f548ae2931cba1ed14c, type: 3}
+  sprite: {fileID: 21300000, guid: 7b03e12a91596754e9395e589c5681f0, type: 3}
   name: parity_bracers
   description: parity_bracers_desc
   damageModifierAdd: 0

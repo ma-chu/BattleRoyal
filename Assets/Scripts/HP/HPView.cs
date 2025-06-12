@@ -1,33 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-//  ЗДОРОВЬЕ ГЕРОЯ: Отображение
+
 public class HPView : MonoBehaviour
 {
-    [SerializeField] private Slider m_Slider;                             // ссылка на слайдер здоровья                
-    [SerializeField] private Image m_FillImage;                           // будем контролировать перемещение именно fillImage  (относительно фона)            
-    [SerializeField] private Color m_FullHealthColor = Color.green;       // цвет для 100% здоровья
-    [SerializeField] private Color m_ZeroHealthColor = Color.red;         // цвет для 0% здоровья
+    [SerializeField] private Slider slider;               
+    [SerializeField] private Image fillImage;            
+    [SerializeField] private Color fullHealthColor = Color.green;
+    [SerializeField] private Color zeroHealthColor = Color.red;
     
-    private float _startHealth;                                           // начальное количество здоровья  
-    private float _health;                                                // текущее количество здоровья  
+    private float _startHealth;
+    private float _health;
 
-
-    public void SetStartHealth(float startHealth)      // Установить начальное здоровье - нужна ли?
+    public void SetStartHealth(float startHealth)
     {
         _startHealth = startHealth;
         SetHealth(startHealth);
     }
 
-    public void SetHealth(float health)                // Установить текущее здоровье
+    public void SetHealth(float health)
     {
         _health = health;
         SetHealthUI();                                   
     }
 
-    private void SetHealthUI()                          // двигаем слайдер (и корректируем его цвет)
+    private void SetHealthUI()
     {
-        m_Slider.value = _health;                           
-        m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, _health / _startHealth);   // плавно меняем цвет верхней (зеленой при 100% жизни) картинки слайдера на красную при 0%
+        slider.value = _health;                           
+        fillImage.color = Color.Lerp(zeroHealthColor, fullHealthColor, _health / _startHealth);
     }
 }
-
