@@ -402,12 +402,13 @@ MonoBehaviour:
   zeroYrotation: 0
   stockXposition: 2.2
   startRotation: 270
-  m_change: 0
-  m_toPosition: 0
-  m_rotateToCenter: 0
-  m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
-  m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
-  m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
+  animator: {fileID: 724192291188014792}
+  animatorControllerSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a,
+    type: 2}
+  animatorController2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b,
+    type: 2}
+  animatorControllerSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93,
+    type: 2}
   lineSpeed: 1.2
   angleSpeed: 180
 --- !u!114 &210160308176549598
@@ -537,6 +538,12 @@ PrefabInstance:
       addedObject: {fileID: 2629867671021663076}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c20397bf1592dc040b827e8716b0bd41, type: 3}
+--- !u!95 &724192291188014792 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95922273507661854, guid: c20397bf1592dc040b827e8716b0bd41,
+    type: 3}
+  m_PrefabInstance: {fileID: 817422856872699606}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &812911425743943136 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4533714234921782, guid: c20397bf1592dc040b827e8716b0bd41,

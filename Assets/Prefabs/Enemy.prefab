@@ -1053,12 +1053,13 @@ MonoBehaviour:
   zeroYrotation: -180
   stockXposition: -2.2
   startRotation: 90
-  m_change: 0
-  m_toPosition: 0
-  m_rotateToCenter: 0
-  m_ACSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a, type: 2}
-  m_AC2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b, type: 2}
-  m_ACSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93, type: 2}
+  animator: {fileID: 466047208533242488}
+  animatorControllerSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a,
+    type: 2}
+  animatorController2HandedSword: {fileID: 22100000, guid: 2e823fee5f555f741b43dda00e0c311b,
+    type: 2}
+  animatorControllerSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93,
+    type: 2}
   lineSpeed: 1.2
   angleSpeed: 180
 --- !u!114 &1499000004914253791

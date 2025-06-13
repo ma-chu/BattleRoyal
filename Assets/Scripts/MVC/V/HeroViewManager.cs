@@ -69,6 +69,9 @@ public class HeroViewManager : MonoBehaviour
         SetSwordShield();
         
         heroUI.Initialize(this);
+        heroAnimations.Initialize(this);
+        
+        ToPositionEvent?.Invoke();
     }
 
     private void OnDisable()

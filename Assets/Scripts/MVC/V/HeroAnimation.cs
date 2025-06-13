@@ -1,143 +1,214 @@
 ﻿using UnityEngine;
-//  ДВИЖЕНИЕ И АНИМАЦИЯ ГЕРОЯ
+
+/// <summary>
+/// Движение и анимации героя
+/// </summary>
+ 
 public class HeroAnimation : MonoBehaviour
 {
-    [SerializeField] private float zeroZposition = 1.35f;      // позиция героя на ристалище - в HEROManager (readonly var)!!! 
+    [SerializeField] private float zeroZposition = 1.35f;      // позиция героя на ристалище 
     [SerializeField] private float zeroYrotation = -180f;      // вращение героя на ристалище  
     [SerializeField] private float stockXposition = -2.2f;     // начальное вращение героя 
     [SerializeField] private float startRotation = 90f;        // начальная позиция героя (позиция склада)
+    [SerializeField] private float lineSpeed = 1.2f;
+    [SerializeField] private float angleSpeed = 180f;
+    
+    [SerializeField] private Animator animator;                            
+    [SerializeField] private RuntimeAnimatorController animatorControllerSwordShield;
+    [SerializeField] private AnimatorOverrideController animatorController2HandedSword;
+    [SerializeField] private AnimatorOverrideController animatorControllerSwordSword;
+    
+    private static readonly int GetHitParameter = Animator.StringToHash("GetHit");
+    private static readonly int DieParameter = Animator.StringToHash("Die");
+    private static readonly int AttackParameter = Animator.StringToHash("Attack");
+    private static readonly int ChangeParameter = Animator.StringToHash("Change");
     
     private HeroViewManager _heroViewManager;
+    private bool _isInitialized;
 
     // СОСТОЯНИЯ
-    [SerializeField]
-    private bool m_change;
-    [SerializeField]
-    private bool m_toPosition;                           // Выход на ристалище - в начале боя и после смены оружия
-    [SerializeField]
-    private bool m_rotateToCenter;                       // Разворот после смены оружия
+    private bool _change;                               // Смена оружия до разворота
+    private bool _toPosition;                           // Выход на ристалище - в начале боя и после смены оружия
+    private bool _rotateToCenter;                       // Разворот после смены оружия
 
-    //private float zeroZposition;                         // координата Z позиции на ристалище 
-    //private float zeroYrotation;                         // вращение позиции на ристалище
-    //private float stockXposition;                        // координата X позиции склада оружия
-
-    private Animator _anim;                             // ссылка на компонент-аниматор этого героя
-    [SerializeField]
-    private RuntimeAnimatorController m_ACSwordShield;   // ссылки на контроллеры анимации
-    [SerializeField]
-    private AnimatorOverrideController m_AC2HandedSword;
-    [SerializeField]
-    private AnimatorOverrideController m_ACSwordSword;
-
-
-    private void Awake()
+    public void Initialize(HeroViewManager heroViewManager)
     {
-        _heroViewManager = GetComponent<HeroViewManager>() /*as HeroManager*/;
-        _anim = GetComponentInChildren<Animator>() /*as Animator*/; 
-    }
-
-    private void OnEnable()    
-    {
-        if (_heroViewManager != null)
-        {
-            _heroViewManager.GetHitEvent += OnHit;
-            _heroViewManager.DeathEvent += OnDeath;
-            _heroViewManager.AttackEvent += OnAttack;
-            _heroViewManager.ChangeEvent += OnChange;
-            _heroViewManager.ToPositionEvent += OnToPosition;
-        }
-
-        _anim.runtimeAnimatorController = m_ACSwordShield; // установим АС по умолчанию - щит-меч
-        _anim.Rebind();                                    // перезапустить АС, чтоб перешел в исходное состояние
-
-        _heroViewManager.InvokeToPositionEvent();                // надеюсь, HeroAudio успел подписаться на это событие...
+        _heroViewManager = heroViewManager;
+        SubscribeEvents();
+        animator.runtimeAnimatorController = animatorControllerSwordShield;
+        animator.Rebind();
+        _isInitialized = true;
     }
 
     // чтобы HeroAudio точно успел во время первого запуска, ибо не факт, что OnEnable HeroAnimator-а запустится раньше оного HeroAudio
-    public void Start()
+    // Удалить. Инициализировать HeroAudio из HeroViewManager
+    public void Start() => _heroViewManager.InvokeToPositionEvent();
+    
+    private void OnDisable() => UnsubscribeEvents();
+    
+    private void Update()
     {
-        _heroViewManager.InvokeToPositionEvent();
+        if (_change && !_heroViewManager.Dead)
+            ChangeWeapon();
+
+        if (_rotateToCenter)
+            RotateToCenter();
+
+        if (_toPosition)
+            ToPosition();
+    }
+    
+    private void SubscribeEvents()
+    {
+        _heroViewManager.GetHitEvent += OnHit;
+        _heroViewManager.DeathEvent += OnDeath;
+        _heroViewManager.AttackEvent += OnAttack;
+        _heroViewManager.ChangeEvent += OnChange;
+        _heroViewManager.ToPositionEvent += OnToPosition;
     }
 
-    private void OnDisable()  
+    private void UnsubscribeEvents()
     {
-        if (_heroViewManager != null)
-        {
-            _heroViewManager.GetHitEvent -= OnHit;
-            _heroViewManager.DeathEvent -= OnDeath;
-            _heroViewManager.AttackEvent -= OnAttack;
-            _heroViewManager.ChangeEvent -= OnChange;
-            _heroViewManager.ToPositionEvent -= OnToPosition;
-        }
+        if (!_isInitialized)
+            return;
+        
+        _heroViewManager.GetHitEvent -= OnHit;
+        _heroViewManager.DeathEvent -= OnDeath;
+        _heroViewManager.AttackEvent -= OnAttack;
+        _heroViewManager.ChangeEvent -= OnChange;
+        _heroViewManager.ToPositionEvent -= OnToPosition;
     }
 
-    // Установить начальное положение героя, задать исходное на ристалище 
     public void SetStartPosition()  
     {
-        transform.position = new Vector3(stockXposition, 0, zeroZposition);     // установить начальное положение
-        transform.rotation = Quaternion.Euler(0f, startRotation, 0f);           // установить начальное вращение
+        transform.position = new Vector3(stockXposition, 0, zeroZposition);
+        transform.rotation = Quaternion.Euler(0f, startRotation, 0f);
     }
 
-    private void OnHit(int strikeNumber = 0, int gotDamage = 0)        // всё равно, какой удар и на сколько
+    private void OnHit(int strikeNumber = 0, int gotDamage = 0)
     {
-        _anim.SetBool("GetHit", true);                            
+        animator.SetBool(GetHitParameter, true);   
     }
     private void OnDeath()
     {
-        _anim.SetBool("Die", true);
-        m_change = false;
+        animator.SetBool(DieParameter, true);
+        _change = false;
     }
     private void OnChange()
     {
-        m_change = true;
+        _change = true;
     }
+    
     private void OnAttack()
     {
-        _anim.SetBool("Attack", true);                      
+        animator.SetBool(AttackParameter, true);                      
     }
+    
     private void OnToPosition()
     {
-        m_toPosition = true;
+        _toPosition = true;
     }
-
-    // Функция плавного поворота до newY [0-360) градусов вокруг оси Y. Возвращает true, если поворот достигнут.
-    // Если надо прокрутиться через 0, использовать 2 раза: до 359 и далее... 
-    /* 
-    Вариант со штатным демпфером - наверное, он хорош, когда мы не знаем угла (и скорости) поворота заранее, а сейчас слишком сложен 
-    private float RotationVelocity;                                             //переменная, нужная Mathf.SmoothDampAngle. Задать глобально
-    float yAngel = Mathf.SmoothDampAngle(0f, 90f, ref RotationVelocity, 0.3f);  // Рассчитать угол, на который надо повернуться за такт, чтоб на 90 градусов повернуться за 0.3 сек
-    Quaternion rotationToStore = Quaternion.Euler(0f, yAngel, 0f);              // Выдать вращение, равное этому углу, относительно оси Y в кватернионе
-    transform.rotation *= rotationToStore;                                      // Применить его к текущему вращению
-    */
-    public bool SmoothRotation(float newY)
+    
+    /// <summary>
+    /// Смена оружия
+    /// </summary>
+    private void ChangeWeapon()
     {
-        float newYPE = newY + zeroYrotation;                                              // заданное вращение, противоположное для игрока и врага
-        float currentY = _heroViewManager.transform.rotation.eulerAngles.y;                    // текущее вращение [0-360 градусов)
-        if (currentY == newYPE) return true;                                              // поворот выполнен
-        Quaternion newRotation = Quaternion.Euler(0f, angleSpeed * Time.deltaTime, 0f);
-        if (currentY + newRotation.eulerAngles.y >= 360f)                                 // на этом шаге перешагнем через 0... Все остальное вращение произойдет мигом
+        if (!SmoothRotation(90f))
+            return;
+        
+        if (!animator.GetBool(ChangeParameter))
+            animator.SetBool(ChangeParameter, true);
+
+        if (!SmoothMotion(stockXposition)) 
+            return;
+        
+        _change = false;
+        animator.SetBool(ChangeParameter, false);
+
+        switch (_heroViewManager.WeaponSet)
         {
-            currentY = newYPE;
+            case WeaponSet.SwordShield:
+                _heroViewManager.SetSwordShield();
+                animator.runtimeAnimatorController = animatorControllerSwordShield;
+                break;
+            case WeaponSet.SwordSword:
+                _heroViewManager.SetSwordSword();
+                animator.runtimeAnimatorController = animatorControllerSwordSword;
+                break;
+            case WeaponSet.TwoHandedSword:
+                _heroViewManager.Set2HandedSword();
+                animator.runtimeAnimatorController = animatorController2HandedSword;
+                break;
         }
-        _heroViewManager.transform.rotation *= newRotation;                                    // крутимся по часовой
-        //transform.rotation *= Quaternion.Inverse(newRotation);                          // так было бы против часовой...
-        if (currentY >= newYPE)                                                           // докрутились ли?
+
+        _rotateToCenter = true;
+    }
+    
+    /// <summary>
+    /// Разворот после смены оружия
+    /// </summary>
+    private void RotateToCenter()
+    {
+        if (SmoothRotation(270f))
         {
-            _heroViewManager.transform.rotation = Quaternion.Euler(0f, newYPE + 0.1f, 0f);     // подравнять вращение
-            return true;
+            _rotateToCenter = false;
+            _heroViewManager.InvokeToPositionEvent();
         }
-        else return false;
     }
 
-/// <summary>
-/// Функция плавного перемещения вдоль оси X. Возвращает true, если нужная позиция достигнута
-///Вариант со штатным демпфером. Наверное, он хорош, когда мы не знаем вектора (и скорости) заранее, а сейчас слишком сложен
-///private Vector3 Velocity = Vector3.zero;                             // эту переменную надо задать глобально
-///Vector3 Destination = new Vector3(2.5f, 0, -1.5f);                   // вектор края ристалища (туда бежим на смену оружия)
-///transform.position = Vector3.SmoothDamp(transform.position, Destination, ref Velocity, 0.6f);
-/// </summary>
-/// <param name="x"></param>
-/// <returns></returns>
+    /// <summary>
+    /// Выход на центр ристалища
+    /// </summary>
+    private void ToPosition()
+    {
+        if (!SmoothMotion(0f))
+            return;
+        
+        if (SmoothRotation(359.9f))
+            _toPosition = false;     // сбрасываем глобальный триггер, когда стоим лицом к врагу                                                      
+    }
+
+    /// <summary>
+    /// Функция плавного поворота до newY [0-360) градусов вокруг оси Y. Возвращает true, если поворот достигнут.
+    // Если надо прокрутиться через 0, использовать 2 раза: до 359 и далее...
+    // Вариант со штатным демпфером - наверное, он хорош, когда мы не знаем угла (и скорости) поворота заранее, а сейчас слишком сложен
+    // private float RotationVelocity;                                             // переменная, нужная Mathf.SmoothDampAngle. Задать глобально
+    // float yAngel = Mathf.SmoothDampAngle(0f, 90f, ref RotationVelocity, 0.3f);  // Рассчитать угол, на который надо повернуться за такт, чтоб на 90 градусов повернуться за 0.3 сек
+    // Quaternion rotationToStore = Quaternion.Euler(0f, yAngel, 0f);              // Выдать вращение, равное этому углу, относительно оси Y в кватернионе
+    // transform.rotation *= rotationToStore;                                      // Применить его к текущему вращению
+    /// </summary>
+    /// <param name="newYRotation"></param>
+    /// <returns></returns>
+    private bool SmoothRotation(float newYRotation)
+    {
+        var newAbsYRotation = newYRotation + zeroYrotation;
+        var currentYRotation = _heroViewManager.transform.rotation.eulerAngles.y;
+        if (currentYRotation.Equals(newAbsYRotation))
+            return true;
+
+        Quaternion deltaRotation = Quaternion.Euler(0f, angleSpeed * Time.deltaTime, 0f);
+        if (currentYRotation + deltaRotation.eulerAngles.y >= 360f)               // на этом шаге перешагнем через 0... Все остальное вращение произойдет мигом
+            currentYRotation = newAbsYRotation;
+        
+        _heroViewManager.transform.rotation *= deltaRotation;                     // крутимся по часовой
+        //transform.rotation *= Quaternion.Inverse(newRotation);                  // так было бы против часовой...
+        if (!(currentYRotation >= newAbsYRotation)) 
+            return false;
+        
+        _heroViewManager.transform.rotation = Quaternion.Euler(0f, newAbsYRotation + 0.1f, 0f);     // подравнять вращение
+        return true;
+    }
+
+    /// <summary>
+    /// Функция плавного перемещения вдоль оси X. Возвращает true, если нужная позиция достигнута
+    ///Вариант со штатным демпфером. Наверное, он хорош, когда мы не знаем вектора (и скорости) заранее, а сейчас слишком сложен
+    ///private Vector3 Velocity = Vector3.zero;                             // эту переменную надо задать глобально
+    ///Vector3 Destination = new Vector3(2.5f, 0, -1.5f);                   // вектор края ристалища (туда бежим на смену оружия)
+    ///transform.position = Vector3.SmoothDamp(transform.position, Destination, ref Velocity, 0.6f);
+    /// </summary>
+    /// <param name="x"></param>
+    /// <returns></returns>
     
     private bool SmoothMotion(float x)
     {
@@ -169,72 +240,4 @@ public class HeroAnimation : MonoBehaviour
             return false;
         }
     }
-
-    /// <summary>
-    /// Разворот после смены оружия
-    /// </summary>
-    private void RotateToCenter()
-    {
-        if (SmoothRotation(270f))
-        {
-            m_rotateToCenter = false;                       // сбросим триггер - вращение на центр
-            _heroViewManager.InvokeToPositionEvent();
-        }
-    }
-
-    /// <summary>
-    /// Выход на центр ристалища
-    /// </summary>
-    private void ToPosition()
-    {
-        if (SmoothMotion(0f))
-        {
-            if (SmoothRotation(359.9f)) m_toPosition = false;     // сбрасываем глобальный триггер, когда стоим лицом к врагу                                                      
-        }
-    }
-
-    // СМЕНА ОРУЖИЯ
-    [SerializeField] private float lineSpeed = 1.2f;                               // линейная скорость бега героя
-    [SerializeField] float angleSpeed = 180f;                              // угловая скорость поворота героя
-    private void ChangeWeapon()
-    {
-        if (SmoothRotation(90f))                                               // вращение на 90 градусов
-        {
-            if (!_anim.GetBool("Change")) _anim.SetBool("Change", true);
-            if (SmoothMotion(stockXposition))                                       // Перемещение к краю ристалища
-            {
-                m_change = false;                                                   // сбрасываем глобальный триггер 
-                _anim.SetBool("Change", false);                                    // и анимационный
-
-                switch (_heroViewManager.WeaponSet)                   // Отображаем нужный набор оружия и включаем нужный анимационный контроллер 
-                {
-                    case WeaponSet.SwordShield:
-                        _heroViewManager.SetSwordShield();
-                        _anim.runtimeAnimatorController = m_ACSwordShield;
-                        break;
-                    case WeaponSet.SwordSword:
-                        _heroViewManager.SetSwordSword();
-                        _anim.runtimeAnimatorController = m_ACSwordSword;
-                        break;
-                    case WeaponSet.TwoHandedSword:
-                        _heroViewManager.Set2HandedSword();
-                        _anim.runtimeAnimatorController = m_AC2HandedSword;
-                        break;
-                }
-
-                m_rotateToCenter = true;                                     // Взвести триггер - вращение на центр
-
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if (m_change && (!_heroViewManager.Dead)) ChangeWeapon();
-
-        if (m_rotateToCenter) RotateToCenter();
-
-        if (m_toPosition) ToPosition();
-    }
-
 }
