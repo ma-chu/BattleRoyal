@@ -4,11 +4,10 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour // Почему он занимается показом серий, а не seriesView???
 {
-    public Image[] itemImages = new Image[numItemSlots];    
-    public Item[] items = new Item[numItemSlots];           
+    public const int NumItemSlots = 3;
 
-    public const int numItemSlots = 3;                       // количество слотов
-
+    [SerializeField] private Image[] itemImages = new Image[NumItemSlots];    
+    [SerializeField] private Item[] items = new Item[NumItemSlots];           
     // Где выводится информация о предмете при клике на него
     [SerializeField] private GameObject itemDescriptionObject;// объект-родитель (холст), содержащий все эти поля (для вкл/выкл информации)
     [SerializeField] private Image itemImage;                 // картинка для вывода изо предмета инвентаря
@@ -17,6 +16,8 @@ public class Inventory : MonoBehaviour // Почему он занимается
     private Canvas itemCanvas;
     
     [SerializeField] private Sprite seriesStar;               // спрайт для серий
+
+    public Item[] Items => items;
     
     public void Awake()
     {

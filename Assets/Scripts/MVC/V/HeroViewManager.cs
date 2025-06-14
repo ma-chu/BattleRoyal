@@ -22,7 +22,7 @@ public class HeroViewManager : MonoBehaviour
     [SerializeField] private GameObject hero2HandedSword;
     [SerializeField] private GameObject heroSword_2;
     
-    private readonly GameObject[] _itemSlots = new GameObject[Inventory.numItemSlots]; 
+    //private readonly GameObject[] _itemSlots = new GameObject[Inventory.numItemSlots]; 
 
     protected MeshFilter _shieldMeshFilter;
     protected MeshFilter _twoHandedSwordMeshFilter;
@@ -62,9 +62,9 @@ public class HeroViewManager : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
-        for (int i = 0; i < Inventory.numItemSlots; i++)
-            _itemSlots[i] = eventTriggers[i].gameObject;
+        // var eventTriggers = inventory.GetComponentsInChildren<UnityEngine.EventSystems.EventTrigger>();
+        // for (int i = 0; i < Inventory.numItemSlots; i++)
+        //     _itemSlots[i] = eventTriggers[i].gameObject;
         
         WeaponSet = WeaponSet.SwordShield;                              // (пока не избавился) Для анимации: набор оружия по умолчанию - щит-меч
         SetSwordShield();
@@ -167,7 +167,7 @@ public class HeroViewManager : MonoBehaviour
         if (showDesc) 
             inventory.ShowItemDescription(item); 
         
-        return inventory.items[item];
+        return inventory.Items[item];
     }
     
     public void SetName(string value) => heroUI.Name = value;
