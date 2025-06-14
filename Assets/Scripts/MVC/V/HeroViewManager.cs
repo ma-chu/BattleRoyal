@@ -11,8 +11,9 @@ public class HeroViewManager : MonoBehaviour
 {
     [SerializeField] private HeroUI heroUI;
     [SerializeField] private HPView hpView;
-    [SerializeField] private HeroAnimation heroAnimations; // Here!!
-    [SerializeField] private SeriesView seriesView;
+    [SerializeField] private HeroAnimation heroAnimations;
+    [SerializeField] private HeroAudio heroAudio;
+    [SerializeField] private SeriesView seriesView; // Here!!
     
     [SerializeField] protected Inventory inventory;
     
@@ -70,7 +71,8 @@ public class HeroViewManager : MonoBehaviour
         
         heroUI.Initialize(this);
         heroAnimations.Initialize(this);
-        
+        heroAudio.Initialize(this);
+
         ToPositionEvent?.Invoke();
     }
 

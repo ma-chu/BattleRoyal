@@ -692,6 +692,7 @@ MonoBehaviour:
   heroUI: {fileID: 1499000004914253791}
   hpView: {fileID: 6973857521817572918}
   heroAnimations: {fileID: 419612272286534473}
+  heroAudio: {fileID: 3542803789487098459}
   seriesView: {fileID: 7521293129124060358}
   inventory: {fileID: 0}
   heroSword: {fileID: 3123837911682816067}
@@ -1033,9 +1034,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24101403c6be98a45b8de4e912c3a850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstStrikeHeroAudio: {fileID: 7223707365638388057}
-  m_MovementHeroAudio: {fileID: 3214628225276986805}
-  m_GetWoundPrefab: {fileID: 1238016692753150, guid: fb7bd0f6c9d97ad409dfa8975fdba505,
+  battleHeroAudio: {fileID: 7223707365638388057}
+  movementHeroAudio: {fileID: 3214628225276986805}
+  getWoundPrefab: {fileID: 1238016692753150, guid: fb7bd0f6c9d97ad409dfa8975fdba505,
     type: 3}
 --- !u!114 &419612272286534473
 MonoBehaviour:
@@ -1053,6 +1054,8 @@ MonoBehaviour:
   zeroYrotation: -180
   stockXposition: -2.2
   startRotation: 90
+  lineSpeed: 1.2
+  angleSpeed: 180
   animator: {fileID: 466047208533242488}
   animatorControllerSwordShield: {fileID: 9100000, guid: a7ead87d8f3ee9d4da4a2b180e438e4a,
     type: 2}
@@ -1060,8 +1063,6 @@ MonoBehaviour:
     type: 2}
   animatorControllerSwordSword: {fileID: 22100000, guid: 944c07df2bed246438cccc1ff9a38b93,
     type: 2}
-  lineSpeed: 1.2
-  angleSpeed: 180
 --- !u!114 &1499000004914253791
 MonoBehaviour:
   m_ObjectHideFlags: 0

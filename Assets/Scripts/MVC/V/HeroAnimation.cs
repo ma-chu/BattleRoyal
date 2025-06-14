@@ -39,10 +39,6 @@ public class HeroAnimation : MonoBehaviour
         animator.Rebind();
         _isInitialized = true;
     }
-
-    // чтобы HeroAudio точно успел во время первого запуска, ибо не факт, что OnEnable HeroAnimator-а запустится раньше оного HeroAudio
-    // Удалить. Инициализировать HeroAudio из HeroViewManager
-    public void Start() => _heroViewManager.InvokeToPositionEvent();
     
     private void OnDisable() => UnsubscribeEvents();
     
@@ -89,11 +85,13 @@ public class HeroAnimation : MonoBehaviour
     {
         animator.SetBool(GetHitParameter, true);   
     }
+    
     private void OnDeath()
     {
         animator.SetBool(DieParameter, true);
         _change = false;
     }
+    
     private void OnChange()
     {
         _change = true;
@@ -166,7 +164,7 @@ public class HeroAnimation : MonoBehaviour
             return;
         
         if (SmoothRotation(359.9f))
-            _toPosition = false;     // сбрасываем глобальный триггер, когда стоим лицом к врагу                                                      
+            _toPosition = false;                                                     
     }
 
     /// <summary>

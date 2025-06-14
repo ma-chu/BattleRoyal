@@ -51,11 +51,13 @@ namespace EF.Sounds
         
         private static SoundsContainer _instance;
         
-        public static SoundsContainer Instance
+        private static SoundsContainer Instance
         {
             get
             {
-                if (_instance != null) return _instance;
+                if (_instance != null) 
+                    return _instance;
+                
                 _instance = Resources.Load<SoundsContainer>("SoundsContainer");
                 return _instance;
             }
