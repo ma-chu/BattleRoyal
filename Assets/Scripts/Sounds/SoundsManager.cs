@@ -3,7 +3,10 @@ using UnityEngine;
 using EF.UI;
 using UnityEngine.Audio;
 
-// только для общих звуков
+/// <summary>
+/// Менеджер общих звуков
+/// </summary>
+
 namespace EF.Sounds
 {
     public class SoundsManager : MonoBehaviour

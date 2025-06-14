@@ -652,7 +652,6 @@ GameObject:
   - component: {fileID: 3542803789487098459}
   - component: {fileID: 419612272286534473}
   - component: {fileID: 1499000004914253791}
-  - component: {fileID: 7521293129124060358}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -693,7 +692,7 @@ MonoBehaviour:
   hpView: {fileID: 6973857521817572918}
   heroAnimations: {fileID: 419612272286534473}
   heroAudio: {fileID: 3542803789487098459}
-  seriesView: {fileID: 7521293129124060358}
+  seriesView: {fileID: 0}
   inventory: {fileID: 0}
   heroSword: {fileID: 3123837911682816067}
   heroShield: {fileID: 4283112002068195686}
@@ -1078,25 +1077,6 @@ MonoBehaviour:
   nameText: {fileID: 0}
   getHit1Text: {fileID: 0}
   getHit2Text: {fileID: 0}
---- !u!114 &7521293129124060358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2489049252011981167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16aa10538c615be4e98ae42859e90174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_StrengthStrikesStarSlider: {fileID: 0}
-  m_StrengthStrikesStarFillImage: {fileID: 0}
-  m_SeriesOfBlocksStarSlider: {fileID: 0}
-  m_SeriesOfBlocksStarFillImage: {fileID: 0}
-  m_SeriesOfStrikesStarSlider: {fileID: 0}
-  m_SeriesOfStrikesStarFillImage: {fileID: 0}
-  heroType: 1
 --- !u!1 &2520969528752666998
 GameObject:
   m_ObjectHideFlags: 0

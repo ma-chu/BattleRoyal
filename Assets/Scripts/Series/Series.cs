@@ -1,11 +1,11 @@
 /// <summary>
 /// Настройки серий
 /// </summary>
+
 public class Series
 {
     private PlayerObject _player;
     
-    // TODO: could de made different for each player
     private static readonly float StrongStrikeMin = 14;                // минимальный урон для определения сильных ударов
     public static readonly int StrongStrikeSeriesBeginning = 2;        // после какого удара начинаются бонусы за сильные удары    
     public static readonly int SeriesStrikeBeginning = 3;              // после какого удара начинаются бонусы за серию ударов    
