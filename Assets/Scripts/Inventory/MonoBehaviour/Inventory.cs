@@ -1,11 +1,12 @@
 ﻿using EF.Localization;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour // Here!!! Почему он занимается показом серий, а не seriesView???
+public class Inventory : MonoBehaviour
 {
     public const int NumItemSlots = 3;
-
+    
     [SerializeField] private Image[] itemImages = new Image[NumItemSlots];    
     [SerializeField] private Item[] items = new Item[NumItemSlots];           
     [Header("Description canvas")] 
@@ -51,6 +52,7 @@ public class Inventory : MonoBehaviour // Here!!! Почему он занима
         }
     }
 
+    [UsedImplicitly]
     public void ShowItemDescription (int index)
     {
         if (items[index] == null)
@@ -64,12 +66,14 @@ public class Inventory : MonoBehaviour // Here!!! Почему он занима
         itemDescriptionImage.sprite = items[index].Sprite;
         itemDescriptionCanvas.enabled = true; // так производительнее чем itemDescriptionCanvas.gameObject.SetActive(true), не будет перебатчен родительский холст
     }
-
+    
     public void CloseItemDescription()
     {
         itemDescriptionCanvas.enabled = false;
     }
     
+    //ToDo: Убрать звезды серий из этого скрипта, создать менеджер описания предметов?
+    [UsedImplicitly]
     public void ShowSeriesDescription (int index)
     {
         switch (index)
@@ -88,6 +92,6 @@ public class Inventory : MonoBehaviour // Here!!! Почему он занима
                 break;
         }
         itemDescriptionImage.sprite = seriesStar;
-        itemDescriptionCanvas.enabled = true; // так производительнее
+        itemDescriptionCanvas.enabled = true;
     }
 }

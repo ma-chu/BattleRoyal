@@ -5,15 +5,15 @@ using UnityEditor;
 public class InventoryEditor : Editor       
 {
     private bool[] showItemSlots = new bool[Inventory.NumItemSlots];    // показывать ли слоты Item-ов расширенно
-
-    private SerializedProperty _itemImagesProperty;     // свойство, которое будет описывать массив компонентов-Image для показа пунктов инвентаря
-    private SerializedProperty _itemsProperty;          // свойство, которое будет описывать сам массив пунктов инвентаря
-    [Header("Description canvas")] 
+    
+    private SerializedProperty _itemImagesProperty;
+    private SerializedProperty _itemsProperty;
+    
     private SerializedProperty _itemDescriptionNameProperty;
     private SerializedProperty _itemDescriptionImageProperty;
     private SerializedProperty _itemDescriptionTextProperty;
     private SerializedProperty _itemDescriptionCanvasProperty;
-    [Space] 
+    
     private SerializedProperty _seriesStarProperty;
 
     // Соглашение об именах подобных констант: Inventory - класс , ItemImages - свойство, на кот. ссылаемся, Name - тип свойства = строка

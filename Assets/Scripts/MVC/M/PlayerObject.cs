@@ -9,7 +9,7 @@ public struct PreCoeffs
 }
 
 [System.Serializable]
-public class PlayerObject
+public class PlayerObject //HERE!!!
 { 
     public readonly string Name;
     public readonly Item[] InventoryItems = new Item[3];
