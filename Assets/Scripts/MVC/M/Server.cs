@@ -58,9 +58,9 @@ public class Server : MonoBehaviour, IServer
 
     private void Awake() => _instance ??= this;
     
-    public void Join(string name, EventHandler<string> onJoined)
+    public void Join(string name, EventHandler<string> onJoined, bool isBot)
     {
-        players.Add(new PlayerObject(name));
+        players.Add(new PlayerObject(name, isBot));
         Debug.Log("Локальный сервер: клиент "+ name +" подключился к турниру");
         
         JoinedAction += onJoined;

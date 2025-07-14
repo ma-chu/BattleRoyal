@@ -43,7 +43,7 @@ public class ServerPhotonAdapter : GlobalEventListener
     {
         var playerObject = PhotonPlayerObjectRegisty.GetPlayer(evnt.RaisedBy);
         playerObject.SetName(evnt.clientName);
-        _server.Join(evnt.clientName, OnJoined);
+        _server.Join(evnt.clientName, OnJoined, false);
         Debug.Log(GetType() + ": Client joined to tournament");
     }
     private void OnJoined(object o, string playerName)

@@ -25,7 +25,7 @@ public class ClientPhotonAdapter : GlobalEventListener, IServer
     
     
     // Каждый метод IServer реализуется двумя подобными методами (+событие) здесь и двумя в ServerPhotonAdapter (и двумя событиями фотона)
-    public void Join(string name, EventHandler<string> onJoined)
+    public void Join(string name, EventHandler<string> onJoined, bool isBot)
     {
         _name = name;
 

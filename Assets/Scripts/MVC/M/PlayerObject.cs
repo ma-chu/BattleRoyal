@@ -14,6 +14,7 @@ public struct PreCoeffs
 [System.Serializable]
 public class PlayerObject
 { 
+    [SerializeField, ReadOnly] private bool isBot;
     public readonly string Name;
     public readonly Item[] InventoryItems = new Item[3];
 
@@ -39,11 +40,12 @@ public class PlayerObject
     public WeaponSet WeaponSet => weaponSet;
     public PreCoeffs[] PreCoeffs => preCoeffs;
     
-    public PlayerObject(string name)
+    public PlayerObject(string name, bool isBot)
     {
         Name = name;
         Hp = new HP();
         Series = new Series(this);
+        this.isBot = isBot;
     }
 
     public void Reset()
@@ -51,7 +53,7 @@ public class PlayerObject
         decision = Decision.No;
         weaponSet = WeaponSet.SwordShield;
         Tweakers = new Tweakers();
-        if (Name.Equals("bot"))
+        if (isBot)
             Tweakers.AddLevelTweakers(roundsLost);
         
         Tweakers.AddInventoryTweakers(InventoryItems);

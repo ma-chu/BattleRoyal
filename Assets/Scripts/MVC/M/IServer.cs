@@ -20,7 +20,7 @@ using System;
 
 public interface IServer
 {
-    void Join(string name, EventHandler<string> onTournamentJoined);
+    void Join(string name, EventHandler<string> onTournamentJoined, bool isBot);
     void SubscribeOnStartMatch(EventHandler<StartMatchInfo> onStartMatch);
     void TakeDecision(string playerName,TurnInInfo turnInInfo);
     void SubscribeOnResultsReady(EventHandler<TurnOutInfo> onResultsReady);

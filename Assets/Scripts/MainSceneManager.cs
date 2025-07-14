@@ -73,13 +73,13 @@ public class MainSceneManager : MonoBehaviour
     private void StartAIClient()
     {
         _aIClient = new AIClient();
-        _aIClient.Init(this, "bot");
+        _aIClient.Init(this, "bot", true);
     }
     
     private void StartPlayerClient()
     {
         _playerClient = new PlayerClient();
-        _playerClient.Init(this,PlayerPrefs.GetString("username"));
+        _playerClient.Init(this,PlayerPrefs.GetString("username"), false);
     }
     
     public void ChangeResultText(string value) => commonView.ResultText = value;

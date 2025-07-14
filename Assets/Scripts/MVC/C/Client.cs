@@ -23,17 +23,17 @@ public abstract class Client
     public int RoundsWon { get; private set; }
     public string PlayerName { get; private set; }
     
-    public virtual void Init(MainSceneManager mainSceneManager, string name)
+    public virtual void Init(MainSceneManager mainSceneManager, string name, bool isBot)
     {
         _mainSceneManager = mainSceneManager;
         PlayerName = name;
-        Join(GameManager.Server);
+        Join(GameManager.Server, isBot);
     }
 
-    private void Join(IServer server)                    
+    private void Join(IServer server, bool isBot)                    
     {
         _server = server;
-        _server.Join(PlayerName, OnJoined);
+        _server.Join(PlayerName, OnJoined, isBot);
     }
     
     protected virtual void OnJoined(object _, string clientName)
