@@ -294,14 +294,14 @@ public class Server : MonoBehaviour, IServer
         
         player1.CalculatePreCoeffs();
         player2.CalculatePreCoeffs();
-        player1.preCoeffs[0].blockVs2Handed = player1.weaponSet == WeaponSet.SwordShield
-                                                    && player1.preCoeffs[0].block
+        player1.PreCoeffs[0].blockVs2Handed = player1.WeaponSet == WeaponSet.SwordShield
+                                                    && player1.PreCoeffs[0].block
                                                     && player2.decision == Decision.Attack
-                                                    && player2.weaponSet == WeaponSet.TwoHandedSword;
-        player2.preCoeffs[0].blockVs2Handed = player2.weaponSet == WeaponSet.SwordShield
-                                                    && player2.preCoeffs[0].block
+                                                    && player2.WeaponSet == WeaponSet.TwoHandedSword;
+        player2.PreCoeffs[0].blockVs2Handed = player2.WeaponSet == WeaponSet.SwordShield
+                                                    && player2.PreCoeffs[0].block
                                                     && player1.decision == Decision.Attack 
-                                                    && player1.weaponSet == WeaponSet.TwoHandedSword;
+                                                    && player1.WeaponSet == WeaponSet.TwoHandedSword;
     }
 
     private void CalculateExchangeResultAndPossibleDamage()
@@ -312,14 +312,14 @@ public class Server : MonoBehaviour, IServer
         HandleFirstStrike(player1, player2);
         HandleFirstStrike(player2, player1);
         
-        player1.preCoeffs[0].damage = Mathf.Round(player1.preCoeffs[0].damage * (1 - player1.defencePart));
-        player2.preCoeffs[0].damage = Mathf.Round(player2.preCoeffs[0].damage * (1 - player2.defencePart));
+        player1.PreCoeffs[0].damage = Mathf.Round(player1.PreCoeffs[0].damage * (1 - player1.defencePart));
+        player2.PreCoeffs[0].damage = Mathf.Round(player2.PreCoeffs[0].damage * (1 - player2.defencePart));
         
         HandleSecondStrike(player1, player2);
         HandleSecondStrike(player2, player1);
         
-        player1.preCoeffs[1].damage = Mathf.Round(player1.preCoeffs[1].damage - (1 - player1.defencePart));
-        player2.preCoeffs[1].damage = Mathf.Round(player2.preCoeffs[1].damage - (1 - player2.defencePart));
+        player1.PreCoeffs[1].damage = Mathf.Round(player1.PreCoeffs[1].damage - (1 - player1.defencePart));
+        player2.PreCoeffs[1].damage = Mathf.Round(player2.PreCoeffs[1].damage - (1 - player2.defencePart));
         
         void HandleFirstStrike(PlayerObject player, PlayerObject enemy)
         {
@@ -327,12 +327,12 @@ public class Server : MonoBehaviour, IServer
                 ? player.CalculateExchangeResult(1)
                 : ExchangeResult.No;
             if (player.exchangeResults[0] == ExchangeResult.BlockVs2Handed)
-                enemy.preCoeffs[0].damage *= enemy.Tweakers.Part2HandedThroughShield;
+                enemy.PreCoeffs[0].damage *= enemy.Tweakers.Part2HandedThroughShield;
         }
 
         void HandleSecondStrike(PlayerObject player, PlayerObject enemy)
         {
-            player.exchangeResults[1] = enemy.decision == Decision.Attack && enemy.preCoeffs[1].damage != 0f
+            player.exchangeResults[1] = enemy.decision == Decision.Attack && enemy.PreCoeffs[1].damage != 0f
                 ? player.CalculateExchangeResult(2)
                 : ExchangeResult.No;
         }
@@ -355,7 +355,7 @@ public class Server : MonoBehaviour, IServer
                 player.exchangeResults[strike - 1] != ExchangeResult.BlockVs2Handed) 
                 return;
             
-            player.gotDamages[strike - 1] = (int) enemy.preCoeffs[strike - 1].damage;
+            player.gotDamages[strike - 1] = (int) enemy.PreCoeffs[strike - 1].damage;
             player.isDead = player.Hp.TakeDamage(player.gotDamages[strike - 1]);
         }
     }

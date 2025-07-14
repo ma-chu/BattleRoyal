@@ -1,3 +1,6 @@
+using Unity.Collections;
+using UnityEngine;
+
 [System.Serializable]
 public struct PreCoeffs
 {
@@ -9,29 +12,33 @@ public struct PreCoeffs
 }
 
 [System.Serializable]
-public class PlayerObject //HERE!!!
+public class PlayerObject
 { 
     public readonly string Name;
     public readonly Item[] InventoryItems = new Item[3];
-    public Tweakers Tweakers { get; private set; }
+
     public int roundsWon; 
     public int roundsLost;
-    
-    /// Outputs
-    public WeaponSet weaponSet;
-    public float defencePart;                                        // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
-    public Decision decision;
-    /// Inputs
-    public PreCoeffs[] preCoeffs = new PreCoeffs[2];                 
-    public ExchangeResult[] exchangeResults = new ExchangeResult[2]; 
-    public int[] gotDamages = new int[2];                            
-
     public bool isDead;
     public bool dataTaken;
+    
+    [Header("Outputs")]
+    [SerializeField, ReadOnly] private WeaponSet weaponSet;
+    public Decision decision;
+    public float defencePart;   // Тактика боя - ориентированность на защиту: от 0 до 33% урона меняется на возможность парирования (шаги на сегодня: 0%, 33%)
+    
+    [Header("Inputs")]
+    [SerializeField, ReadOnly] private PreCoeffs[] preCoeffs = new PreCoeffs[2];                 
+    public ExchangeResult[] exchangeResults = new ExchangeResult[2];
+    public int[] gotDamages = new int[2];                            
 
+    public Tweakers Tweakers { get; private set; }
     public HP Hp { get; private set; }
-    public Series Series { get; private set; }    
+    public Series Series { get; private set; }
 
+    public WeaponSet WeaponSet => weaponSet;
+    public PreCoeffs[] PreCoeffs => preCoeffs;
+    
     public PlayerObject(string name)
     {
         Name = name;
@@ -55,30 +62,30 @@ public class PlayerObject //HERE!!!
     
     public void CalculatePreCoeffs()
     {
-        preCoeffs[0].parry = UnityEngine.Random.value <= defencePart;
-        preCoeffs[1].parry = UnityEngine.Random.value <= defencePart;
+        preCoeffs[0].parry = Random.value <= defencePart;
+        preCoeffs[1].parry = Random.value <= defencePart;
 
         // Предварительные коэффициенты на основе текущего набора оружия
         switch (weaponSet)
         {
             case WeaponSet.SwordShield:
-                preCoeffs[0].damage = UnityEngine.Random.Range(Tweakers.DamageBaseMin, Tweakers.DamageBaseMax + 1);
+                preCoeffs[0].damage = Random.Range(Tweakers.DamageBaseMin, Tweakers.DamageBaseMax + 1);
                 preCoeffs[0].damage += Series.AddSeriesDamage();
                 preCoeffs[1].damage = 0f;
-                preCoeffs[0].block = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.BlockChance);
-                preCoeffs[1].block = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.BlockChance);
+                preCoeffs[0].block = Random.Range(0f, 1f) <= Tweakers.BlockChance;
+                preCoeffs[1].block = Random.Range(0f, 1f) <= Tweakers.BlockChance;
                 break;
             case WeaponSet.SwordSword:
-                preCoeffs[0].damage = UnityEngine.Random.Range(Tweakers.DamageBaseMin, Tweakers.DamageBaseMax + 1);
+                preCoeffs[0].damage = Random.Range(Tweakers.DamageBaseMin, Tweakers.DamageBaseMax + 1);
                 preCoeffs[0].damage += Series.AddSeriesDamage();
-                preCoeffs[1].damage = UnityEngine.Random.Range(Tweakers.DamageBaseMin * Tweakers.CoefSecondSword, Tweakers.DamageBaseMax * Tweakers.CoefSecondSword);
+                preCoeffs[1].damage = Random.Range(Tweakers.DamageBaseMin * Tweakers.CoefSecondSword, Tweakers.DamageBaseMax * Tweakers.CoefSecondSword);
                 preCoeffs[1].damage += Series.AddSeriesDamage();
                 preCoeffs[0].block = false;
                 preCoeffs[1].block = false;
                 preCoeffs[0].blockVs2Handed = false;
                 break;
             case WeaponSet.TwoHandedSword:
-                preCoeffs[0].damage = UnityEngine.Random.Range(Tweakers.DamageBaseMin * Tweakers.Coef2HandedSword, Tweakers.DamageBaseMax * Tweakers.Coef2HandedSword);
+                preCoeffs[0].damage = Random.Range(Tweakers.DamageBaseMin * Tweakers.Coef2HandedSword, Tweakers.DamageBaseMax * Tweakers.Coef2HandedSword);
                 preCoeffs[0].damage += Series.AddSeriesDamage();
                 preCoeffs[1].damage = 0f;
                 preCoeffs[0].block = false;
@@ -94,8 +101,8 @@ public class PlayerObject //HERE!!!
                 preCoeffs[1].evade = false;
                 break;
             default:                                                    
-                preCoeffs[0].evade = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance);
-                preCoeffs[1].evade = (UnityEngine.Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance);
+                preCoeffs[0].evade = Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance;
+                preCoeffs[1].evade = Random.Range(0f, 1f) <= Tweakers.EvadeOnChangeChance;
                 preCoeffs[0].block = false;
                 preCoeffs[1].block = false;
                 preCoeffs[0].blockVs2Handed = false;

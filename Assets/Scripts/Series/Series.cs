@@ -4,7 +4,7 @@
 
 public class Series
 {
-    private PlayerObject _player;
+    private readonly PlayerObject _player;
     
     private static readonly float StrongStrikeMin = 14;                // минимальный урон для определения сильных ударов
     public static readonly int StrongStrikeSeriesBeginning = 2;        // после какого удара начинаются бонусы за сильные удары    
@@ -26,7 +26,7 @@ public class Series
 
     public void TryToAddStrongSeries(int strikeNumber)
     {
-        if (_player.preCoeffs[strikeNumber - 1].damage >= StrongStrikeMin)
+        if (_player.PreCoeffs[strikeNumber - 1].damage >= StrongStrikeMin)
             StrongStrikesNum++;
     }
 
