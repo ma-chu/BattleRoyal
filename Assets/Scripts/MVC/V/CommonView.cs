@@ -3,7 +3,11 @@ using System.Collections;
 using EF.Sounds;
 using UnityEngine;
 using UnityEngine.UI;
-// общая View: общий текст, кнопки ввода, салют в конце
+
+/// <summary>
+/// Общий текст, кнопки ввода, салют в конце
+/// </summary>
+
 public class CommonView : MonoBehaviour
 {
     public Action<TurnInInfo> TurnDataReady;

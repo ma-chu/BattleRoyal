@@ -33,10 +33,7 @@ public class HeroViewManager : MonoBehaviour
     public event Action AttackEvent;
     public event Action ChangeEvent;
     public event Action ToPositionEvent;
-    public void InvokeToPositionEvent()                     // костылик, чтобы вызвать событие из другого класса - HeroAnimation
-    {
-        ToPositionEvent?.Invoke();
-    }
+    public void InvokeToPositionEvent() => ToPositionEvent?.Invoke();
     public event Action<int, int> GetHitEvent;
     public event Action<int> ParryEvent;
     public event Action<int> BlockVs2HandedEvent;

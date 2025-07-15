@@ -12,14 +12,22 @@ namespace EF.UI
 {
     public class EFButton : EFBaseUI
     {
-        public static event Action<SoundTypes> ClickSound;
-
         [SerializeField] private Button _button;
         [SerializeField] private Image _image;
         [SerializeField] private TextMeshProUGUI _TMPtext;
         [SerializeField] private Text _text;
         [SerializeField] private string _localizationToken;
         [SerializeField] private SoundTypes _soundType;
+
+        private const float TwinScaleDuration = 0.5f;
+        private const float TwinPositionDuration = 0.5f;
+        private const float TwinRotationDuration = 0.25f;
+        private const float TwinScaleFactor = 1.3f;
+        private const float TwinRotationFactor = 1.5f;
+        
+        private Vector2 _twinPositionOffset;
+        
+        public static event Action<SoundTypes> ClickSound;
 
         protected virtual string Text
         {
@@ -44,19 +52,29 @@ namespace EF.UI
         {
             VerifyLocalizationToken();
 
-            if (_image == null) _image = GetComponent<Image>();
-            if (_button == null) _button = GetComponent<Button>();
-            if (_text == null) _text = GetComponentInChildren<Text>();
-            if (_TMPtext == null) _TMPtext = GetComponentInChildren<TextMeshProUGUI>();
+            if (!_image)
+                _image = GetComponent<Image>();
+            
+            if (!_button)
+                _button = GetComponent<Button>();
+            
+            if (!_text)
+                _text = GetComponentInChildren<Text>();
+            
+            if (!_TMPtext)
+                _TMPtext = GetComponentInChildren<TextMeshProUGUI>();
+
+            _twinPositionOffset = new Vector2(15f, 0f);
+            DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
         }
 
         protected void OnEnable()
         {
-            if (!_button.IsNull())
-            {
-                _button.onClick.RemoveAllListeners();
-                _button.onClick.AddListener(OnClick);
-            }
+            if (_button.IsNull()) 
+                return;
+            
+            _button.onClick.RemoveAllListeners();
+            _button.onClick.AddListener(OnClick);
         }
 
         protected virtual void OnClick()
@@ -65,11 +83,9 @@ namespace EF.UI
                 return;
 
             ClickSound?.Invoke(_soundType);
-            DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
-            AnimateScale(1.3f, 0.5f);
-            AnimateRotation(1.5f, .25f);
-            AnimatePosition(RectTrans.anchoredPosition + new Vector2(15, 0), 0.5f,
-                () => { ; });
+            AnimateScale(TwinScaleFactor, TwinScaleDuration);
+            AnimateRotation(TwinRotationFactor, TwinRotationDuration);
+            AnimatePosition(RectTrans.anchoredPosition + _twinPositionOffset, TwinPositionDuration);
         }
 
         private void VerifyLocalizationToken()
