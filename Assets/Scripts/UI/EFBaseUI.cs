@@ -22,7 +22,7 @@ namespace EF.UI
         
         protected void AnimateScale(float value, float duration)
         {
-            if (_isScaleTweenInitialized && _scaleTween.IsActive())
+            if (_isScaleTweenInitialized && _scaleTween.IsPlaying())
             {
                 _scaleTween.Restart();
             }
@@ -35,7 +35,7 @@ namespace EF.UI
 
         protected void AnimatePosition(Vector2 targetPos, float duration, Action onComplete = null)
         {
-            if (_isPositionTweenInitialized && _positionTween.IsActive())
+            if (_isPositionTweenInitialized && _positionTween.IsPlaying())
             { 
                 _positionTween.Restart();
             }
@@ -53,7 +53,7 @@ namespace EF.UI
 
         protected void AnimateRotation(float value, float duration)
         {
-            if (_isRotationTweenInitialized && _rotationTween.IsActive())
+            if (_isRotationTweenInitialized && _rotationTween.IsPlaying())
             {
                 _rotationTween.Restart();
             }

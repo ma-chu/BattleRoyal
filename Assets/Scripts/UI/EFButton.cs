@@ -73,8 +73,15 @@ namespace EF.UI
             if (_button.IsNull()) 
                 return;
             
-            _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnClick);
+        }
+
+        private void OnDisable()
+        {
+            if (_button.IsNull()) 
+                return;
+            
+            _button.onClick.RemoveListener(OnClick);
         }
 
         protected virtual void OnClick()
@@ -104,8 +111,8 @@ namespace EF.UI
 
         public void UpdateLocalization()
         {
-            if (_localizationToken.IsNullOrEmpty()) return;
-            Text = _localizationToken.Localize();
+            if (!_localizationToken.IsNullOrEmpty())
+                Text = _localizationToken.Localize();
         }
     }
 }
