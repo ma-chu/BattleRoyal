@@ -10,72 +10,89 @@ using UnityEngine.UI;
 
 public class CommonView : MonoBehaviour
 {
-    public Action<TurnInInfo> TurnDataReady;
-
-    public void SubscribeOnTurnInDataReady(Action<TurnInInfo> onTurnDataReady)    // возможно, не Action<TurnInInfo>, а EventHandler <TurnInInfo> c переописанием события
-    {
-        TurnDataReady += onTurnDataReady;
-    }
+    [SerializeField] private Canvas playersControlsCanvas; // отключаем именно компонент холста Canvas, чтобы не помечать сам объект-подканвас (элемент родительского канваса) как dirty с перестройкой род. канваса
     
-    [SerializeField] private Text resultText;                                     // текст для вывода "Игра окончена" и прочего
-    public string ResultText { /*get => resultText.text; */set => resultText.text = value; }
-
-    [SerializeField] private Button restartButton;
-    public Button RestartButton => restartButton;                                 
-    [SerializeField] private GameObject restartButtonGameObject;
-    public GameObject RestartButtonGameObject => restartButtonGameObject;
-    
-    // Кнопки управления
+    [Header("Control Buttons")]
     [SerializeField] private GameObject weaponSetButtonsObject;
-    public GameObject WeaponSetButtonsObject => weaponSetButtonsObject;
+    [SerializeField] private Button changeWeaponButton;
     [SerializeField] private Button swordSwordButton;
-    public Button SwordSwordButton => swordSwordButton;
     [SerializeField] private Button swordShieldButton;
-    public Button SwordShieldButton => swordShieldButton;
     [SerializeField] private Button twoHandedSwordButton;
-    public Button TwoHandedSwordButton => twoHandedSwordButton;
-    [SerializeField] private Slider tacticSlider;                                  // слайдер тактики 
-    public Slider TacticSlider => tacticSlider;
-    [SerializeField] private Canvas playersControlsCanvas;                 // компонент Canvas холста, содержащего в себе кнопки управления игрока
-    // отключаем именно компонент холста Canvas, чтобы не помечать сам объект-подканвас (элемент родительского канваса) как dirty с перестройкой род. канваса
-    public Canvas PlayersControlsCanvas => playersControlsCanvas;
+    [SerializeField] private Button attackButton;
 
-    // Стафф конца игры
+    [SerializeField] private Slider tacticSlider;
+    [SerializeField] private Text resultText;                              // текст для вывода "Игра окончена" и прочего
+    [SerializeField] private Button restartButton;
+    [SerializeField] private GameObject restartButtonGameObject;
+    
+    [Header("EndGameStuff")]
     [SerializeField] private Animator gameOverAnimator;
-    public Animator GameOverAnimator => gameOverAnimator;
-    [SerializeField] private GameObject fireExplodePrefab;                 // ссылка на объект-салют (префаб, состоящий из particle system (уже без звука)
-    [SerializeField] private float explodesInterval = 1f;                  // задержка меж выстрелами в секундах
-
+    [SerializeField] private GameObject fireExplodePrefab;
+    [SerializeField] private float explodesInterval = 1f;
+    
     private Decision _decision;
     private float _defencePart;
     
-    public void SetDefencePart() => _defencePart = tacticSlider.value;        
-
-    public void ChangeWeaponPressed() => weaponSetButtonsObject.SetActive(true);
+    public Action<TurnInInfo> TurnDataReady;
     
-    public void AttackPressed()                      
+    public Canvas PlayersControlsCanvas => playersControlsCanvas;
+    public GameObject WeaponSetButtonsObject => weaponSetButtonsObject;
+    public Button SwordSwordButton => swordSwordButton;
+    public Button SwordShieldButton => swordShieldButton;
+    public Button TwoHandedSwordButton => twoHandedSwordButton;
+    public Button RestartButton => restartButton;                                 
+    public GameObject RestartButtonGameObject => restartButtonGameObject;
+    public Animator GameOverAnimator => gameOverAnimator;
+
+    public string ResultText { set => resultText.text = value; }
+    
+    private void OnEnable()
+    {
+        changeWeaponButton.onClick.AddListener(ChangeWeaponPressedHandler);
+        attackButton.onClick.AddListener(AttackPressedHandler);
+        swordSwordButton.onClick.AddListener(SetSwordSword);
+        swordShieldButton.onClick.AddListener(SetSwordShield);
+        twoHandedSwordButton.onClick.AddListener(SetTwoHandedSword);
+        tacticSlider.onValueChanged.AddListener(SetDefencePart);
+    }
+    
+    private void OnDisable()
+    {
+        changeWeaponButton.onClick.RemoveListener(ChangeWeaponPressedHandler);
+        attackButton.onClick.RemoveListener(AttackPressedHandler);
+        swordSwordButton.onClick.RemoveListener(SetSwordSword);
+        swordShieldButton.onClick.RemoveListener(SetSwordShield);
+        twoHandedSwordButton.onClick.RemoveListener(SetTwoHandedSword);
+        tacticSlider.onValueChanged.RemoveListener(SetDefencePart);
+    }
+    
+    private void ChangeWeaponPressedHandler() => weaponSetButtonsObject.SetActive(true);
+    
+    private void AttackPressedHandler()                      
     {
         _decision = Decision.Attack;
         SendDataToViewModel();
     }
 
-    public void SetSwordSword()
+    private void SetSwordSword()
     {
         _decision = Decision.ChangeSwordSword;
         SendDataToViewModel();
     }
 
-    public void SetSwordShield()
+    private void SetSwordShield()
     {
         _decision = Decision.ChangeSwordShield;
         SendDataToViewModel();
     }
 
-    public void SetTwoHandedSword()
+    private void SetTwoHandedSword()
     {
         _decision = Decision.ChangeTwoHandedSword;
         SendDataToViewModel();
     }
+    
+    private void SetDefencePart(float value) => _defencePart = value;        
     
     private void SendDataToViewModel()
     {
@@ -94,21 +111,17 @@ public class CommonView : MonoBehaviour
         var fireExplodeParticles = Instantiate(fireExplodePrefab).GetComponent<ParticleSystem>();
         var grenadeSound = SoundsContainer.GetAudioClip(SoundTypes.Grenade);
         
-        // первый выстрел
-        fireExplodeParticles.transform.position = new Vector3(-1f, 2f, 2.35f);
-        fireExplodeParticles.Play();
-        SoundsManager.Instance.PlaySound(grenadeSound);
+        SaluteShot(new Vector3(-1f, 2f, 2.35f));
         yield return explodesWait; 
-        
-        // второй выстрел
-        fireExplodeParticles.transform.position = new Vector3(-3f, 2.5f, 2.55f);
-        fireExplodeParticles.Play(); 
-        SoundsManager.Instance.PlaySound(grenadeSound);
+        SaluteShot(new Vector3(-3f, 2.5f, 2.55f));
         yield return explodesWait;
+        SaluteShot(new Vector3(1f, 2.2f, 2.15f));
         
-        // третий выстрел
-        fireExplodeParticles.transform.position = new Vector3(1f, 2.2f, 2.15f);
-        fireExplodeParticles.Play();
-        SoundsManager.Instance.PlaySound(grenadeSound);
+        void SaluteShot(Vector3 position)
+        {
+            fireExplodeParticles.transform.position = position;
+            fireExplodeParticles.Play();
+            SoundsManager.Instance.PlaySound(grenadeSound);
+        }
     }
 }
